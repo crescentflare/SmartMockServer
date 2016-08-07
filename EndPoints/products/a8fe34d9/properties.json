@@ -1,0 +1,7 @@
+{
+  "name": "Product details (#a8fe34d9)",
+  "description": "Get detailed information about a product",
+  "category": "Products",
+  "method": "GET",
+  "responseCode": 200
+}

@@ -1,0 +1,7 @@
+{
+  "name": "List products",
+  "description": "Get the available products for the logged in user",
+  "category": "Products",
+  "method": "GET",
+  "responseCode": 200
+}

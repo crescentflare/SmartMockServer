@@ -1,2 +1,15 @@
 # SmartMockServer
-Easily set up a mock server which is able to serve JSON responses or use one of the more advanced features like alternative responses on a single endpoint
+
+Easily set up a mock server using NodeJS which is able to serve JSON (and several other) responses. Also contains a set of additional features to make the mock server more flexible, like multiple responses on a single endpoint by filtering parameters.
+
+
+### Features
+
+* Easy to set up, install NodeJS and start the module with only a few lines of code
+* Fully data-driven, endpoints can be created easily by creating folders and placing response JSON (or other formats like HTML) files
+* Create alternative responses on a single endpoint using get parameter or post body filters (with wildcard support)
+
+
+### Status
+
+The project is new and the module is not published on npm yet. Additionally it's missing a feature to show all available endpoints on an index page. These updates will be added later. However, it may be of use in its basic form.

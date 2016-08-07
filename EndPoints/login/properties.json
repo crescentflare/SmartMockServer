@@ -1,0 +1,22 @@
+{
+  "name": "Log in",
+  "description": "Create a session by logging in",
+  "category": "Authentication",
+  "method": "POST",
+  "postParameters": {
+    "username": "example",
+    "password": "pass"
+  },
+  "responseCode": 200,
+  "delay": 1000,
+  "alternatives": [
+    {
+      "name": "Error",
+      "postParameters": {
+        "username": "error",
+        "password": "*"
+      },
+      "responseCode": 401
+    }
+  ]
+}

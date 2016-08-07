@@ -1,0 +1,24 @@
+{
+  "name": "smart-mock-server",
+  "version": "0.1.0",
+  "description": "Easily set up a mock server using NodeJS which is able to serve JSON (and several other) responses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crescentflare/SmartMockServer.git",
+    "web": "https://github.com/crescentflare/SmartMockServer"
+  },
+  "keywords": [
+    "mock",
+    "api",
+    "simple"
+  ],
+  "author": "Crescent Flare Apps",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crescentflare/SmartMockServer/issues"
+  }
+}

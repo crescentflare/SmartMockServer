@@ -1,0 +1,7 @@
+{
+  "name": "List services",
+  "description": "Get the available services for the logged in user",
+  "category": "Services",
+  "method": "GET",
+  "responseCode": 200
+}

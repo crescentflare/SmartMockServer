@@ -1,0 +1,7 @@
+{
+  "name": "Service details",
+  "description": "Get detailed information about a service",
+  "category": "Services",
+  "method": "GET",
+  "responseCode": 200
+}

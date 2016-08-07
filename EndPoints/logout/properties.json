@@ -1,0 +1,8 @@
+{
+  "name": "Log out",
+  "description": "Clears the session",
+  "category": "Authentication",
+  "method": "POST",
+  "responseCode": 200,
+  "delay": 100
+}

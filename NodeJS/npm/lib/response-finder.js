@@ -9,6 +9,7 @@ var fs = require('fs');
 
 //Other requires
 var ParamMatcher = require('./param-matcher');
+var ResponseGenerators = require('./response-generators');
 
 
 //////////////////////////////////////////////////
@@ -184,6 +185,11 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         }
     };
     var continueWithResponse = function(files, headers) {
+        // Check for response generators
+        if (ResponseGenerators.generatesPage(req, res, filePath, properties.generates)) {
+            return;
+        }
+        
         // Check for executable javascript
         var foundJavascriptFile = arrayContains(files, properties.responsePath + "Body.js", properties.responsePath + ".js", "responseBody.js", "response.js");
         if (foundJavascriptFile) {

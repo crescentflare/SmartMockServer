@@ -12,14 +12,14 @@ var fs = require('fs');
 // Simple text component
 //////////////////////////////////////////////////
 
-function HtmlSimpleText(text) {
+function HtmlLink(text) {
     this.text = text;
 }
 
-HtmlSimpleText.prototype.render = function() {
+HtmlLink.prototype.render = function() {
     var renderText = "";
     renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:4px; padding-bottom:4px">';
-    renderText += this.text;
+    renderText += '<a href="' + this.text + '">' + this.text + '</a>';
     renderText += '</div>';
     return renderText;
 }
@@ -67,8 +67,8 @@ HtmlSubHeading.prototype.render = function() {
 function HtmlGenerator() {
 }
 
-HtmlGenerator.createSimpleText = function(text) {
-    return new HtmlSimpleText(text);
+HtmlGenerator.createLink = function(text) {
+    return new HtmlLink(text);
 }
 
 HtmlGenerator.createHeading = function(text) {

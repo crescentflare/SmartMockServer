@@ -111,11 +111,14 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
 }
 
 // Convert all found properties into HTML
-ResponseGenerators.indexPageToHtml = function(foundProperties) {
+ResponseGenerators.indexPageToHtml = function(categories) {
     var components = [];
     components.push(HtmlGenerator.createHeading("Found end points"));
-    for (var i = 0; i < foundProperties.length; i++) {
-        components.push(HtmlGenerator.createSimpleText(foundProperties[i].path));
+    for (var i = 0; i < categories.length; i++) {
+        components.push(HtmlGenerator.createSubHeading(categories[i].name));
+        for (var j = 0; j < categories[i].properties.length; j++) {
+            components.push(HtmlGenerator.createSimpleText(categories[i].properties[j].path));
+        }
     }
     return HtmlGenerator.formatAsHtml(components);
 }
@@ -128,7 +131,7 @@ ResponseGenerators.indexPage = function(req, res, filePath) {
             ResponseGenerators.indexPageRecursiveReadProperties(filePath, files, dirs, 0, [], function(foundProperties) {
                 if (foundProperties.length > 0) {
                     res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-                    res.end(ResponseGenerators.indexPageToHtml(foundProperties));
+                    res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties)));
                 } else {
                     res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
                     res.end("No index to generate, no valid endpoints at: " + filePath);

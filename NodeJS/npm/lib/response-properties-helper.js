@@ -18,7 +18,7 @@ function ResponsePropertiesHelper() {
 
 
 //////////////////////////////////////////////////
-// Search request properties
+// Helper functions
 //////////////////////////////////////////////////
 
 // Read the properties file based on the file path, fall back to defaults if not found
@@ -42,6 +42,26 @@ ResponsePropertiesHelper.readFile = function(requestPath, filePath, callback) {
             callback(properties, error);
         }
     );
+}
+
+// Read the properties file based on the file path, fall back to defaults if not found
+ResponsePropertiesHelper.groupedCategories = function(propertiesList) {
+    var categories = [];
+    for (var i = 0; i < propertiesList.length; i++) {
+        var foundCategory = null;
+        for (var j = 0; j < categories.length; j++) {
+            if (propertiesList[i].category == categories[j]["name"]) {
+                foundCategory = categories[j];
+                break;
+            }
+        }
+        if (!foundCategory) {
+            foundCategory = { "name": propertiesList[i].category, "properties": [] };
+            categories.push(foundCategory);
+        }
+        foundCategory["properties"].push(propertiesList[i]);
+    }
+    return categories;
 }
 
 // Export

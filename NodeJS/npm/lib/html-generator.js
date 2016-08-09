@@ -18,7 +18,7 @@ function HtmlSimpleText(text) {
 
 HtmlSimpleText.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="background:#F4F4F4; padding-left:10px; padding-top:2px; padding-bottom:2px">';
+    renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:4px; padding-bottom:4px">';
     renderText += this.text;
     renderText += '</div>';
     return renderText;
@@ -35,8 +35,25 @@ function HtmlHeading(text) {
 
 HtmlHeading.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="font-size:1.5em; font-weight:bold; padding-left:10px; padding-top:4px; padding-bottom:4px">';
+    renderText += '<div style="font-size:1.5em; font-weight:bold; padding-left:12px; padding-top:8px; padding-bottom:8px">';
     renderText += this.text;
+    renderText += '</div>';
+    return renderText;
+}
+
+
+//////////////////////////////////////////////////
+// Subheading component
+//////////////////////////////////////////////////
+
+function HtmlSubHeading(text) {
+    this.text = text;
+}
+
+HtmlSubHeading.prototype.render = function() {
+    var renderText = "";
+    renderText += '<div style="background:#F4F4F4; font-size:1.8em; font-weight:bold; padding-left:12px; padding-top:20px; padding-bottom:12px">';
+    renderText += "> " + this.text;
     renderText += '</div>';
     return renderText;
 }
@@ -56,6 +73,10 @@ HtmlGenerator.createSimpleText = function(text) {
 
 HtmlGenerator.createHeading = function(text) {
     return new HtmlHeading(text);
+}
+
+HtmlGenerator.createSubHeading = function(text) {
+    return new HtmlSubHeading(text);
 }
 
 

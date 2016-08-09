@@ -10,6 +10,7 @@ var fs = require('fs');
 //Other requires
 var ParamMatcher = require('./param-matcher');
 var ResponseGenerators = require('./response-generators');
+var ResponsePropertiesHelper = require('./response-properties-helper');
 
 
 //////////////////////////////////////////////////
@@ -64,27 +65,6 @@ ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseC
 //////////////////////////////////////////////////
 // Search request properties
 //////////////////////////////////////////////////
-
-// Read the properties file based on the file path, fall back to defaults if not found
-ResponseFinder.obtainProperties = function(requestPath, filePath, callback) {
-    fs.readFile(
-        filePath + '/' + 'properties.json',
-        function(error, data) {
-            var properties = null;
-            if (!error && data) {
-                try {
-                    properties = JSON.parse(data);
-                } catch (ignored) { }
-            }
-            properties = properties || {};
-            properties.name = properties.name || requestPath;
-            properties.category = properties.category || "Uncategorized";
-            properties.responseCode = properties.responseCode || 200;
-            properties.responsePath = properties.responsePath || "response";
-            callback(properties);
-        }
-    );
-}
 
 // Try to find an alternative match within the properties (or fall back to the main properties)
 ResponseFinder.matchAlternativeProperties = function(properties, method, getParameters, rawBody, callback) {
@@ -272,7 +252,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
     req.method = req.method.toUpperCase();
     
     // Obtain properties and continue
-    ResponseFinder.obtainProperties(requestPath, filePath, function(properties) {
+    ResponsePropertiesHelper.readFile(requestPath, filePath, function(properties) {
         ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, function(useProperties) {
             if (useProperties.method && req.method != useProperties.method.toUpperCase()) {
                 res.writeHead(409, ResponseFinder.compileHeaders("text/plain", {}));

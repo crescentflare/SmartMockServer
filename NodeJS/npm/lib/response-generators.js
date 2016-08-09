@@ -8,6 +8,10 @@
 // NodeJS requires
 var fs = require('fs');
 
+//Other requires
+var ResponsePropertiesHelper = require('./response-properties-helper');
+var HtmlGenerator = require('./html-generator');
+
 
 //////////////////////////////////////////////////
 // Initialization
@@ -85,14 +89,10 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
         }
     };
     if (index < dirs.length) {
-        fs.readFile(rootPath + '/' + dirs[index] + '/' + 'properties.json', function(error, data) {
-            if (!error && data) {
-                var checkProperties = {};
-                try {
-                    checkProperties = JSON.parse(data);
-                } catch (ignored){ }
-                checkProperties.path = dirs[index];
-                foundProperties.push(checkProperties);
+        ResponsePropertiesHelper.readFile(dirs[index], rootPath + '/' + dirs[index], function(properties, error) {
+            if (!error) {
+                properties.path = dirs[index];
+                foundProperties.push(properties);
                 ResponseGenerators.indexPageRecursiveReadProperties(rootPath, files, dirs, index + 1, foundProperties, callback);
                 return;
             }
@@ -110,6 +110,16 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
     callback(foundProperties);
 }
 
+// Convert all found properties into HTML
+ResponseGenerators.indexPageToHtml = function(foundProperties) {
+    var components = [];
+    components.push(HtmlGenerator.createHeading("Found end points"));
+    for (var i = 0; i < foundProperties.length; i++) {
+        components.push(HtmlGenerator.createSimpleText(foundProperties[i].path));
+    }
+    return HtmlGenerator.formatAsHtml(components);
+}
+
 // Generates an html index page of all endpoints
 ResponseGenerators.indexPage = function(req, res, filePath) {
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
@@ -117,12 +127,8 @@ ResponseGenerators.indexPage = function(req, res, filePath) {
             dirs.sort();
             ResponseGenerators.indexPageRecursiveReadProperties(filePath, files, dirs, 0, [], function(foundProperties) {
                 if (foundProperties.length > 0) {
-                    var resultText = "Found end points:\n---";
-                    for (var i = 0; i < foundProperties.length; i++) {
-                        resultText += "\n" + foundProperties[i].path;
-                    }
-                    res.writeHead(200, { "ContentType": "text/plain; charset=utf-8" });
-                    res.end(resultText);
+                    res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
+                    res.end(ResponseGenerators.indexPageToHtml(foundProperties));
                 } else {
                     res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
                     res.end("No index to generate, no valid endpoints at: " + filePath);

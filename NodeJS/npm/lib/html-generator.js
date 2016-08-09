@@ -17,7 +17,11 @@ function HtmlSimpleText(text) {
 }
 
 HtmlSimpleText.prototype.render = function() {
-    return this.text + "<br/>";
+    var renderText = "";
+    renderText += '<div style="background:#F4F4F4; padding-left:10px; padding-top:2px; padding-bottom:2px">';
+    renderText += this.text;
+    renderText += '</div>';
+    return renderText;
 }
 
 
@@ -30,7 +34,11 @@ function HtmlHeading(text) {
 }
 
 HtmlHeading.prototype.render = function() {
-    return this.text + "<br/><hr>";
+    var renderText = "";
+    renderText += '<div style="font-size:1.5em; font-weight:bold; padding-left:10px; padding-top:4px; padding-bottom:4px">';
+    renderText += this.text;
+    renderText += '</div>';
+    return renderText;
 }
 
 
@@ -57,10 +65,11 @@ HtmlGenerator.createHeading = function(text) {
 
 // Read through a directory recursively
 HtmlGenerator.formatAsHtml = function(components) {
-    var htmlText = "<html><body>";
+    var htmlText = '<html><body leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 leftPadding=0 rightPadding=0 topPadding=0 bottomPadding=0 bgColor="#E8E8E8">';
     for (var i = 0; i < components.length; i++) {
         var component = components[i];
         htmlText += components[i].render();
+        htmlText += '<div style="background:#BBBBBB; height:1px"></div>';
     }
     htmlText += "</body></html>";
     return htmlText;

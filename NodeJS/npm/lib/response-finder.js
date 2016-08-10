@@ -73,7 +73,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
             // First pass: match method
             var alternative = properties.alternatives[i];
             alternative.method = alternative.method || properties.method;
-            if (alternative.method && alternative.method != method) {
+            if (alternative.method && alternative.method.toUpperCase() != method) {
                 continue;
             }
             

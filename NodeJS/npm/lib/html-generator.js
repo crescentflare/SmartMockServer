@@ -33,7 +33,7 @@ function HtmlRequestBlock(properties) {
         }
     }
     var link = properties.path;
-    if (properties.method && properties.method != "GET") {
+    if (properties.method && properties.method.toUpperCase() != "GET") {
         link = this.concatLink(link, "methodOverride=" + properties.method);
     }
     if (properties.getParameters) {
@@ -87,7 +87,7 @@ function HtmlParamBlock(properties, isAlternative) {
         if (properties.name) {
             name += ": " + properties.name;
         }
-        if (properties.method && properties.method != "GET") {
+        if (properties.method && properties.method.toUpperCase() != "GET") {
             link = this.concatLink(link, "methodOverride=" + properties.method);
         }
         if (!properties.getParameters && properties.postParameters) {

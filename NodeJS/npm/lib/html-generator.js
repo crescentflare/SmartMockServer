@@ -20,15 +20,37 @@ function HtmlRequestBlock(properties) {
     if (properties.description) {
         this.subComponents.push(new HtmlText(properties.description));
     }
-    this.subComponents.push(new HtmlLink(properties.method, this.constructLink(properties.method, properties.path), properties.path));
+    if (properties.postJson || properties.postParameters) {
+        this.subComponents.push(new HtmlParamBlock(properties, false));
+    }
+    if (properties.alternatives) {
+        for (var i = 0; i < properties.alternatives.length; i++) {
+            var alternative = properties.alternatives[i];
+            alternative.path = alternative.path || properties.path;
+            alternative.method = alternative.method || properties.method;
+            alternative.getParameters = alternative.getParameters || properties.getParameters;
+            this.subComponents.push(new HtmlParamBlock(alternative, true));
+        }
+    }
+    var link = properties.path;
+    if (properties.method && properties.method != "GET") {
+        link = this.concatLink(link, "methodOverride=" + properties.method);
+    }
+    if (properties.getParameters) {
+        for (var key in properties.getParameters) {
+            link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+        }
+    }
+    this.subComponents.push(new HtmlLink(properties.method, link, properties.path));
 }
 
-HtmlRequestBlock.prototype.constructLink = function(method, path) {
-    var link = path;
-    if (method && method != "GET") {
-        link += "?methodOverride=" + method;
+HtmlRequestBlock.prototype.concatLink = function(link, param) {
+    if (link.indexOf('?') >= 0) {
+        link += "&";
+    } else {
+        link += "?";
     }
-    return link;
+    return link + param;
 }
 
 HtmlRequestBlock.prototype.render = function() {
@@ -36,11 +58,85 @@ HtmlRequestBlock.prototype.render = function() {
     var prevObj = null;
     renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:10px; padding-bottom:10px">';
     for (var i = 0; i < this.subComponents.length; i++) {
-        if (prevObj instanceof HtmlText && this.subComponents[i] instanceof HtmlLink) {
-            renderText += '<div style="height:18px"></div>';
+        var curObj = this.subComponents[i];
+        if (prevObj instanceof HtmlText && curObj instanceof HtmlLink) {
+            renderText += '<div style="height:20px"></div>';
         }
+        if ((!(prevObj instanceof HtmlParamBlock) && curObj instanceof HtmlParamBlock) || (prevObj instanceof HtmlParamBlock && !(curObj instanceof HtmlParamBlock))) {
+            renderText += '<div style="height:20px"></div>';
+        } else if (prevObj instanceof HtmlParamBlock && curObj instanceof HtmlParamBlock) {
+            renderText += '<div style="height:16px"></div>';
+        }
+        renderText += curObj.render();
+        prevObj = curObj;
+    }
+    renderText += '</div>';
+    return renderText;
+}
+
+
+//////////////////////////////////////////////////
+// Parameter block component
+//////////////////////////////////////////////////
+
+function HtmlParamBlock(properties, isAlternative) {
+    this.subComponents = [];
+    if (isAlternative) {
+        var name = "Alternative";
+        var link = properties.path;
+        if (properties.name) {
+            name += ": " + properties.name;
+        }
+        if (properties.method && properties.method != "GET") {
+            link = this.concatLink(link, "methodOverride=" + properties.method);
+        }
+        if (!properties.getParameters && properties.postParameters) {
+            link = this.concatLink(link, "getAsPostParameters=1");
+            for (var key in properties.postParameters) {
+                link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.postParameters[key]));
+            }
+        } else if (properties.postParameters) {
+            var postList = "";
+            for (var key in properties.postParameters) {
+                if (postList.length > 0) {
+                    postList += "&";
+                }
+                postList += encodeURIComponent(key) + "=" + encodeURIComponent(properties.postParameters[key]);
+            }
+            link = this.concatLink(link, "postBodyOverride=" + encodeURIComponent(postList));
+        } else if (properties.postJson) {
+            link = this.concatLink(link, "postBodyOverride=" + encodeURIComponent(JSON.stringify(properties.postJson)));
+        }
+        if (properties.getParameters) {
+            for (var key in properties.getParameters) {
+                link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+            }
+        }
+        this.subComponents.push(new HtmlLink(null, link, name));
+    }
+    if (properties.postParameters) {
+        for (var key in properties.postParameters) {
+            this.subComponents.push(new HtmlText(key + '=' + properties.postParameters[key]));
+        }
+    } else if (properties.postJson) {
+        this.subComponents.push(new HtmlText(JSON.stringify(properties.postJson, null, 2)));
+    }
+}
+
+HtmlParamBlock.prototype.concatLink = function(link, param) {
+    if (link.indexOf('?') >= 0) {
+        link += "&";
+    } else {
+        link += "?";
+    }
+    return link + param;
+}
+
+HtmlParamBlock.prototype.render = function() {
+    var renderText = "";
+    renderText += '<div style="padding-left:12px; white-space: pre; font-family: monospace">';
+    for (var i = 0; i < this.subComponents.length; i++) {
         renderText += this.subComponents[i].render();
-        prevObj = this.subComponents[i];
     }
     renderText += '</div>';
     return renderText;

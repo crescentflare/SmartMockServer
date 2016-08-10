@@ -9,17 +9,39 @@ var fs = require('fs');
 
 
 //////////////////////////////////////////////////
-// Simple text component
+// Request block component
 //////////////////////////////////////////////////
 
-function HtmlLink(text) {
-    this.text = text;
+function HtmlRequestBlock(properties) {
+    this.subComponents = [];
+    if (properties.name) {
+        this.subComponents.push(new HtmlText(properties.name, 1.5, true));
+    }
+    if (properties.description) {
+        this.subComponents.push(new HtmlText(properties.description));
+    }
+    this.subComponents.push(new HtmlLink(properties.method, this.constructLink(properties.method, properties.path), properties.path));
 }
 
-HtmlLink.prototype.render = function() {
+HtmlRequestBlock.prototype.constructLink = function(method, path) {
+    var link = path;
+    if (method && method != "GET") {
+        link += "?methodOverride=" + method;
+    }
+    return link;
+}
+
+HtmlRequestBlock.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:4px; padding-bottom:4px">';
-    renderText += '<a href="' + this.text + '">' + this.text + '</a>';
+    var prevObj = null;
+    renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:10px; padding-bottom:10px">';
+    for (var i = 0; i < this.subComponents.length; i++) {
+        if (prevObj instanceof HtmlText && this.subComponents[i] instanceof HtmlLink) {
+            renderText += '<div style="height:18px"></div>';
+        }
+        renderText += this.subComponents[i].render();
+        prevObj = this.subComponents[i];
+    }
     renderText += '</div>';
     return renderText;
 }
@@ -60,6 +82,70 @@ HtmlSubHeading.prototype.render = function() {
 
 
 //////////////////////////////////////////////////
+// Link component
+//////////////////////////////////////////////////
+
+function HtmlLink(method, link, text) {
+    this.method = method;
+    this.link = link;
+    this.text = text;
+}
+
+HtmlLink.prototype.render = function() {
+    var renderText = "";
+    renderText += '<div>';
+    if (this.method) {
+        renderText += this.method + " ";
+    }
+    renderText += '<a href="' + this.link + '">' + this.text + '</a>';
+    renderText += '</div>';
+    return renderText;
+}
+
+
+//////////////////////////////////////////////////
+// Text component
+//////////////////////////////////////////////////
+
+function HtmlText(text, relativeSize, bold) {
+    this.text = text;
+    this.relativeSize = relativeSize || 1;
+    this.bold = bold || false;
+}
+
+HtmlText.prototype.addStyle = function(style, add) {
+    if (style.length == 0) {
+        style += ' style="';
+    } else {
+        style += '; ';
+    }
+    style += add;
+    return style;
+}
+
+HtmlText.prototype.render = function() {
+    var renderText = "";
+    var style = "";
+    if (this.relativeSize != 1) {
+        style = this.addStyle(style, 'font-size:' + this.relativeSize + 'em');
+    }
+    if (this.bold) {
+        style = this.addStyle(style, 'font-weight:bold');
+    }
+    if (style.length > 0) {
+        style += '"';
+    }
+    renderText += '<div' + style + '>';
+    if (this.method) {
+        renderText += this.method + " ";
+    }
+    renderText += this.text;
+    renderText += '</div>';
+    return renderText;
+}
+
+
+//////////////////////////////////////////////////
 // Initialization and factory methods
 //////////////////////////////////////////////////
 
@@ -67,8 +153,8 @@ HtmlSubHeading.prototype.render = function() {
 function HtmlGenerator() {
 }
 
-HtmlGenerator.createLink = function(text) {
-    return new HtmlLink(text);
+HtmlGenerator.createRequestBlock = function(properties) {
+    return new HtmlRequestBlock(properties);
 }
 
 HtmlGenerator.createHeading = function(text) {
@@ -92,6 +178,7 @@ HtmlGenerator.formatAsHtml = function(components) {
         htmlText += components[i].render();
         htmlText += '<div style="background:#BBBBBB; height:1px"></div>';
     }
+    htmlText += '<div style="height:18px"></div>';
     htmlText += "</body></html>";
     return htmlText;
 }

@@ -117,11 +117,7 @@ ResponseGenerators.indexPageToHtml = function(categories) {
     for (var i = 0; i < categories.length; i++) {
         components.push(HtmlGenerator.createSubHeading(categories[i].name));
         for (var j = 0; j < categories[i].properties.length; j++) {
-            var link = categories[i].properties[j].path;
-            if (categories[i].properties[j].method && categories[i].properties[j].method != "GET") {
-                link += "?methodOverride=" + categories[i].properties[j].method;
-            }
-            components.push(HtmlGenerator.createLink(link));
+            components.push(HtmlGenerator.createRequestBlock(categories[i].properties[j]));
         }
     }
     return HtmlGenerator.formatAsHtml(components);

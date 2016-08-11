@@ -12,4 +12,4 @@ Easily set up a mock server using NodeJS which is able to serve JSON (and severa
 
 ### Status
 
-The project is new and it's missing a feature to show all available endpoints on an index page. This update will be added later. However, it may be of use in its basic form.
+The project is new, but it should be useful in its current form. The example shows how to set up different kind of responses, alternative responses and how to make an overview index page.

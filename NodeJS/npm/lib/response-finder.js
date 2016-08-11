@@ -259,7 +259,12 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
                 res.end("Requested method of " + req.method + " doesn't match required " + useProperties.method.toUpperCase());
                 return;
             }
-            ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
+            setTimeout(
+                function() {
+                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
+                },
+                useProperties.delay || 0
+            );
         });
     });
 }

@@ -101,7 +101,7 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
                 foundItem = arrayContains(files, dirs[index] + '/' + 'response.json', dirs[index] + '/' + 'response.html', dirs[index] + '/' + 'response.txt', dirs[index] + '/' + 'response.js');
             }
             if (foundItem) {
-                foundProperties.push({ path: dirs[index] });
+                foundProperties.push({ "path": dirs[index], "category": "Undocumented" });
             }
             ResponseGenerators.indexPageRecursiveReadProperties(rootPath, files, dirs, index + 1, foundProperties, callback);
         });

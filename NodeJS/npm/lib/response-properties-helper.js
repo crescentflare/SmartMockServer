@@ -63,7 +63,6 @@ ResponsePropertiesHelper.readFile = function(requestPath, filePath, callback) {
                 }
             }
             properties = properties || {};
-            properties.name = properties.name || requestPath;
             properties.category = properties.category || "Uncategorized";
             properties.responseCode = properties.responseCode || 200;
             properties.responsePath = properties.responsePath || "response";

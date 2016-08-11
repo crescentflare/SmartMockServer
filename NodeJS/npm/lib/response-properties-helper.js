@@ -27,7 +27,7 @@ ResponsePropertiesHelper.getSortingResultForCategories = function(c1, c2) {
     for (var i = 0; i < 2; i++) {
         if (sortValues[i] == "Uncategorized") {
             sortValues[i] = "zz" + sortValues[i];
-        } else if (sortValues[i].indexOf("(undocumented)") >= 0) {
+        } else if (sortValues[i] && sortValues[i].indexOf("(undocumented)") >= 0) {
             sortValues[i] = "zzz" + sortValues[i];
         } else if (sortValues[i] == "Undocumented") {
             sortValues[i] = "zzzz" + sortValues[i];

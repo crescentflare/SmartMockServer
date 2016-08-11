@@ -103,7 +103,7 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
             if (foundItem) {
                 foundProperties.push({ path: dirs[index] });
             }
-            recursiveCheck(rootPath, files, dirs, index + 1, foundProperties, callback);
+            ResponseGenerators.indexPageRecursiveReadProperties(rootPath, files, dirs, index + 1, foundProperties, callback);
         });
         return;
     }

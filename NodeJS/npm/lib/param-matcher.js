@@ -104,11 +104,11 @@ ParamMatcher.deepEquals = function(o1, o2) {
         var key = wantKeys[index];
         if (!o1[key]) {
             return false;
-        } else if (typeof o1[key] == typeof o2[key] == "object") {
-            if (!ParamMatcher.DeepEquals(o1[key], o2[key])) {
+        } else if (typeof o1[key] == typeof o2[key] && typeof o1[key] == "object") {
+            if (!ParamMatcher.deepEquals(o1[key], o2[key])) {
                 return false;
             }
-        } else if (!ParamMatcher.paramEquals(o2[key], o1[key])) {
+        } else if (!ParamMatcher.paramEquals("" + o2[key], "" + o1[key])) {
             return false;
         }
     }

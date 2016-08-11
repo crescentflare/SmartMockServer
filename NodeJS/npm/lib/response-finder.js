@@ -9,6 +9,8 @@ var fs = require('fs');
 
 //Other requires
 var ParamMatcher = require('./param-matcher');
+var ResponseGenerators = require('./response-generators');
+var ResponsePropertiesHelper = require('./response-properties-helper');
 
 
 //////////////////////////////////////////////////
@@ -64,27 +66,6 @@ ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseC
 // Search request properties
 //////////////////////////////////////////////////
 
-// Read the properties file based on the file path, fall back to defaults if not found
-ResponseFinder.obtainProperties = function(requestPath, filePath, callback) {
-    fs.readFile(
-        filePath + '/' + 'properties.json',
-        function(error, data) {
-            var properties = null;
-            if (!error && data) {
-                try {
-                    properties = JSON.parse(data);
-                } catch (ignored) { }
-            }
-            properties = properties || {};
-            properties.name = properties.name || requestPath;
-            properties.category = properties.category || "Uncategorized";
-            properties.responseCode = properties.responseCode || 200;
-            properties.responsePath = properties.responsePath || "response";
-            callback(properties);
-        }
-    );
-}
-
 // Try to find an alternative match within the properties (or fall back to the main properties)
 ResponseFinder.matchAlternativeProperties = function(properties, method, getParameters, rawBody, callback) {
     if (properties.alternatives) {
@@ -92,7 +73,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
             // First pass: match method
             var alternative = properties.alternatives[i];
             alternative.method = alternative.method || properties.method;
-            if (alternative.method && alternative.method != method) {
+            if (alternative.method && alternative.method.toUpperCase() != method) {
                 continue;
             }
             
@@ -115,8 +96,8 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                 var body = rawBody.toString();
                 var postParameters = {};
                 var bodySplit = body.split("&");
-                for (var i = 0; i < bodySplit.length; i++) {
-                    var bodyParamSplit = bodySplit[i].split("=");
+                for (var j = 0; j < bodySplit.length; j++) {
+                    var bodyParamSplit = bodySplit[j].split("=");
                     if (bodyParamSplit.length == 2) {
                         postParameters[decodeURIComponent(bodyParamSplit[0].trim())] = decodeURIComponent(bodyParamSplit[1].trim());
                     }
@@ -184,6 +165,11 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         }
     };
     var continueWithResponse = function(files, headers) {
+        // Check for response generators
+        if (ResponseGenerators.generatesPage(req, res, filePath, properties.generates)) {
+            return;
+        }
+        
         // Check for executable javascript
         var foundJavascriptFile = arrayContains(files, properties.responsePath + "Body.js", properties.responsePath + ".js", "responseBody.js", "response.js");
         if (foundJavascriptFile) {
@@ -266,14 +252,19 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
     req.method = req.method.toUpperCase();
     
     // Obtain properties and continue
-    ResponseFinder.obtainProperties(requestPath, filePath, function(properties) {
+    ResponsePropertiesHelper.readFile(requestPath, filePath, function(properties) {
         ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, function(useProperties) {
             if (useProperties.method && req.method != useProperties.method.toUpperCase()) {
                 res.writeHead(409, ResponseFinder.compileHeaders("text/plain", {}));
                 res.end("Requested method of " + req.method + " doesn't match required " + useProperties.method.toUpperCase());
                 return;
             }
-            ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
+            setTimeout(
+                function() {
+                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
+                },
+                useProperties.delay || 0
+            );
         });
     });
 }

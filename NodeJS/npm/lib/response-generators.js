@@ -36,7 +36,7 @@ ResponseGenerators.readDirRecursive = function(startDir, dir, callback) {
         }
         var pending = list.length;
         if (!pending) {
-            callback(null, results);
+            callback(null, files, dirs);
         }
         list.forEach(function(file) {
             file = dir + '/' + file;

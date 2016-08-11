@@ -26,10 +26,12 @@ function HtmlRequestBlock(properties) {
     if (properties.alternatives) {
         for (var i = 0; i < properties.alternatives.length; i++) {
             var alternative = properties.alternatives[i];
-            alternative.path = alternative.path || properties.path;
-            alternative.method = alternative.method || properties.method;
-            alternative.getParameters = alternative.getParameters || properties.getParameters;
-            this.subComponents.push(new HtmlParamBlock(alternative, true));
+            if (!alternative.hidden) {
+                alternative.path = alternative.path || properties.path;
+                alternative.method = alternative.method || properties.method;
+                alternative.getParameters = alternative.getParameters || properties.getParameters;
+                this.subComponents.push(new HtmlParamBlock(alternative, true));
+            }
         }
     }
     var link = properties.path;

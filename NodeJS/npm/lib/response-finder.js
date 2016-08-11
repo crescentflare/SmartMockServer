@@ -96,8 +96,8 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                 var body = rawBody.toString();
                 var postParameters = {};
                 var bodySplit = body.split("&");
-                for (var i = 0; i < bodySplit.length; i++) {
-                    var bodyParamSplit = bodySplit[i].split("=");
+                for (var j = 0; j < bodySplit.length; j++) {
+                    var bodyParamSplit = bodySplit[j].split("=");
                     if (bodyParamSplit.length == 2) {
                         postParameters[decodeURIComponent(bodyParamSplit[0].trim())] = decodeURIComponent(bodyParamSplit[1].trim());
                     }

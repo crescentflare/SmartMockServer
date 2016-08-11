@@ -21,6 +21,34 @@ function ResponsePropertiesHelper() {
 // Helper functions
 //////////////////////////////////////////////////
 
+//Sorting function for categories
+ResponsePropertiesHelper.getSortingResultForCategories = function(c1, c2) {
+    var sortValues = [ c1, c2 ];
+    for (var i = 0; i < 2; i++) {
+        if (sortValues[i] == "Uncategorized") {
+            sortValues[i] = "zz" + sortValues[i];
+        } else if (sortValues[i].indexOf("(undocumented)") >= 0) {
+            sortValues[i] = "zzz" + sortValues[i];
+        } else if (sortValues[i] == "Undocumented") {
+            sortValues[i] = "zzzz" + sortValues[i];
+        } else if (sortValues[i] == "Deprecated") {
+            sortValues[i] = "zzzzz" + sortValues[i];
+        }
+    }
+    if (sortValues[0] < sortValues[1]) {
+        return -1;
+    }
+    if (sortValues[0] > sortValues[1]) {
+        return 1;
+    }
+    return 0;
+}
+
+
+//////////////////////////////////////////////////
+// Property utilities
+//////////////////////////////////////////////////
+
 // Read the properties file based on the file path, fall back to defaults if not found
 ResponsePropertiesHelper.readFile = function(requestPath, filePath, callback) {
     fs.readFile(
@@ -61,6 +89,9 @@ ResponsePropertiesHelper.groupedCategories = function(propertiesList) {
         }
         foundCategory["properties"].push(propertiesList[i]);
     }
+    categories.sort(function(a, b) {
+        return ResponsePropertiesHelper.getSortingResultForCategories(a.name, b.name);
+    });
     return categories;
 }
 

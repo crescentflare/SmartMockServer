@@ -107,6 +107,17 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
         });
         return;
     }
+    foundProperties.sort(function(a, b) {
+        var nameA = a.name || "zzz";
+        var nameB = b.name || "zzz";
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
     callback(foundProperties);
 }
 

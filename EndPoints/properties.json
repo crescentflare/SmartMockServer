@@ -1,6 +1,6 @@
 {
-  "name": "Main index page",
-  "description": "Example mock server",
+  "name": "Example mock server",
+  "description": "Main index page",
   "method": "GET",
   "responseCode": 200,
   "generates": "indexPage"

@@ -269,8 +269,12 @@ HtmlGenerator.createSubHeading = function(text) {
 //////////////////////////////////////////////////
 
 // Read through a directory recursively
-HtmlGenerator.formatAsHtml = function(components) {
-    var htmlText = '<html><body leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 leftPadding=0 rightPadding=0 topPadding=0 bottomPadding=0 bgColor="#E8E8E8">';
+HtmlGenerator.formatAsHtml = function(components, properties) {
+    var htmlText = '<html>';
+    if (properties.name) {
+        htmlText += '<head><title>' + properties.name + '</title></head>';
+    }
+    htmlText += '<body leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 leftPadding=0 rightPadding=0 topPadding=0 bottomPadding=0 bgColor="#E8E8E8">';
     for (var i = 0; i < components.length; i++) {
         var component = components[i];
         htmlText += components[i].render();

@@ -122,27 +122,27 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
 }
 
 // Convert all found properties into HTML
-ResponseGenerators.indexPageToHtml = function(categories) {
+ResponseGenerators.indexPageToHtml = function(categories, properties) {
     var components = [];
-    components.push(HtmlGenerator.createHeading("Found end points"));
+    components.push(HtmlGenerator.createHeading(properties.name || "Found end points"));
     for (var i = 0; i < categories.length; i++) {
         components.push(HtmlGenerator.createSubHeading(categories[i].name));
         for (var j = 0; j < categories[i].properties.length; j++) {
             components.push(HtmlGenerator.createRequestBlock(categories[i].properties[j]));
         }
     }
-    return HtmlGenerator.formatAsHtml(components);
+    return HtmlGenerator.formatAsHtml(components, properties);
 }
 
 // Generates an html index page of all endpoints
-ResponseGenerators.indexPage = function(req, res, filePath) {
+ResponseGenerators.indexPage = function(req, res, filePath, properties) {
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         if (dirs) {
             dirs.sort();
             ResponseGenerators.indexPageRecursiveReadProperties(filePath, files, dirs, 0, [], function(foundProperties) {
                 if (foundProperties.length > 0) {
                     res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-                    res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties)));
+                    res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties));
                 } else {
                     res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
                     res.end("No index to generate, no valid endpoints at: " + filePath);
@@ -161,9 +161,9 @@ ResponseGenerators.indexPage = function(req, res, filePath) {
 //////////////////////////////////////////////////
 
 // Generates a custom page based on the supported generators
-ResponseGenerators.generatesPage = function(req, res, filePath, generator) {
+ResponseGenerators.generatesPage = function(req, res, filePath, generator, properties) {
     if (generator == "indexPage") {
-        ResponseGenerators.indexPage(req, res, filePath);
+        ResponseGenerators.indexPage(req, res, filePath, properties);
         return true;
     }
     return false;

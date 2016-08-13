@@ -12,7 +12,8 @@ var fs = require('fs');
 // Request block component
 //////////////////////////////////////////////////
 
-function HtmlRequestBlock(properties) {
+function HtmlRequestBlock(properties, identifier) {
+    this.identifier = identifier;
     this.subComponents = [];
     if (properties.name) {
         this.subComponents.push(new HtmlText(properties.name, 1.5, true));
@@ -58,7 +59,11 @@ HtmlRequestBlock.prototype.concatLink = function(link, param) {
 HtmlRequestBlock.prototype.render = function() {
     var renderText = "";
     var prevObj = null;
-    renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:10px; padding-bottom:10px">';
+    var idString = '';
+    if (this.identifier) {
+        idString = 'id="' + this.identifier + '" ';
+    }
+    renderText += '<div ' + idString + 'style="background:#FFFFFF; padding-left:12px; padding-top:10px; padding-bottom:10px">';
     for (var i = 0; i < this.subComponents.length; i++) {
         var curObj = this.subComponents[i];
         if (prevObj instanceof HtmlText && curObj instanceof HtmlLink) {
@@ -136,7 +141,7 @@ HtmlParamBlock.prototype.concatLink = function(link, param) {
 
 HtmlParamBlock.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="padding-left:12px; white-space: pre; font-family: monospace">';
+    renderText += '<div style="padding-left:12px; white-space: font-family: monospace; font-size:0.9em">';
     for (var i = 0; i < this.subComponents.length; i++) {
         renderText += this.subComponents[i].render();
     }
@@ -166,13 +171,20 @@ HtmlHeading.prototype.render = function() {
 // Subheading component
 //////////////////////////////////////////////////
 
-function HtmlSubHeading(text) {
+function HtmlSubHeading(text, identifier) {
+    this.identifier = identifier;
     this.text = text;
 }
 
 HtmlSubHeading.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="background:#F4F4F4; font-size:1.8em; font-weight:bold; padding-left:12px; padding-top:20px; padding-bottom:12px">';
+    var clickFuncString = '';
+    var cursorString = '';
+    if (this.identifier) {
+        clickFuncString = 'onClick=toggleExpand("' + this.identifier + '") ';
+        cursorString = '; cursor:pointer';
+    }
+    renderText += '<div ' + clickFuncString + 'style="background:#F4F4F4; font-size:1.8em; font-weight:bold; padding-left:12px; padding-top:20px; padding-bottom:12px' + cursorString + '">';
     renderText += "> " + this.text;
     renderText += '</div>';
     return renderText;
@@ -244,6 +256,68 @@ HtmlText.prototype.render = function() {
 
 
 //////////////////////////////////////////////////
+// Expandable sub heading javascript component
+//////////////////////////////////////////////////
+
+function HtmlExpandableSubHeadingScript() {
+}
+
+HtmlExpandableSubHeadingScript.prototype.render = function() {
+    var renderText = "";
+    renderText += '<script type="text/javascript">';
+    renderText += 'function toggleExpand(categoryId, autoStart) {';
+    renderText += 'if (categoryId == "") { return }';
+    renderText += 'var divs = document.getElementsByTagName("div");';
+    renderText += 'var contractedCategories = extractContractedCategories();';
+    renderText += 'var isHidden = false;';
+    renderText += 'if (!autoStart) {';
+    renderText += 'for (var i = 0; i < contractedCategories.length; i++) {';
+    renderText += 'if (contractedCategories[i] == categoryId) {';
+    renderText += 'isHidden = true;';
+    renderText += 'contractedCategories.splice(i, 1);';
+    renderText += 'break;';
+    renderText += '}';
+    renderText += '}';
+    renderText += '}';
+    renderText += 'for (var i = 0; i < divs.length; i++) {';
+    renderText += 'var div = divs[i];';
+    renderText += 'if (div.id && div.id.indexOf(categoryId) == 0) { div.hidden = !isHidden; }';
+    renderText += '}';
+    renderText += 'if (!autoStart) {';
+    renderText += 'if (!isHidden) { contractedCategories.push(categoryId); }';
+    renderText += 'storeContractedCategories(contractedCategories);';
+    renderText += '}';
+    renderText += '}';
+    
+    renderText += 'function extractContractedCategories() {';
+    renderText += 'if (typeof(Storage) !== "undefined") {';
+    renderText += 'var contractedCategoriesString = sessionStorage.contractedCategories || "";';
+    renderText += 'return contractedCategoriesString.split("|");';
+    renderText += '}';
+    renderText += 'return [];';
+    renderText += '}';
+    
+    renderText += 'function storeContractedCategories(contractedCategories) {';
+    renderText += 'contractedCategories = contractedCategories || [];';
+    renderText += 'if (typeof(Storage) !== "undefined") {';
+    renderText += 'var contractedCategoriesString = contractedCategories.join("|");';
+    renderText += 'sessionStorage.contractedCategories = contractedCategoriesString;';
+    renderText += '}';
+    renderText += 'return [];';
+    renderText += '}';
+    
+    renderText += 'window.onload = function() {';
+    renderText += 'if (typeof(Storage) !== "undefined") {';
+    renderText += 'var contractedCategories = extractContractedCategories();';
+    renderText += 'for (var i = 0; i < contractedCategories.length; i++) { toggleExpand(contractedCategories[i], true); }';
+    renderText += '}';
+    renderText += '}';
+    renderText += '</script>';
+    return renderText;
+}
+
+
+//////////////////////////////////////////////////
 // Initialization and factory methods
 //////////////////////////////////////////////////
 
@@ -251,16 +325,16 @@ HtmlText.prototype.render = function() {
 function HtmlGenerator() {
 }
 
-HtmlGenerator.createRequestBlock = function(properties) {
-    return new HtmlRequestBlock(properties);
+HtmlGenerator.createRequestBlock = function(properties, identifier) {
+    return new HtmlRequestBlock(properties, identifier);
 }
 
 HtmlGenerator.createHeading = function(text) {
     return new HtmlHeading(text);
 }
 
-HtmlGenerator.createSubHeading = function(text) {
-    return new HtmlSubHeading(text);
+HtmlGenerator.createSubHeading = function(text, identifier) {
+    return new HtmlSubHeading(text, identifier);
 }
 
 
@@ -272,13 +346,20 @@ HtmlGenerator.createSubHeading = function(text) {
 HtmlGenerator.formatAsHtml = function(components, properties) {
     var htmlText = '<html>';
     if (properties.name) {
-        htmlText += '<head><title>' + properties.name + '</title></head>';
+        htmlText += '<head>';
+        htmlText += '<title>' + properties.name + '</title>';
+        htmlText += new HtmlExpandableSubHeadingScript().render();
+        htmlText += '</head>';
     }
     htmlText += '<body leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 leftPadding=0 rightPadding=0 topPadding=0 bottomPadding=0 bgColor="#E8E8E8">';
     for (var i = 0; i < components.length; i++) {
         var component = components[i];
+        var idString = '';
+        if (component instanceof HtmlRequestBlock && component.identifier) {
+            idString = 'id="' + component.identifier + 'line" ';
+        }
         htmlText += components[i].render();
-        htmlText += '<div style="background:#BBBBBB; height:1px"></div>';
+        htmlText += '<div ' + idString + 'style="background:#BBBBBB; height:1px"></div>';
     }
     htmlText += '<div style="height:18px"></div>';
     htmlText += "</body></html>";

@@ -1,0 +1,8 @@
+{
+  "name": "Images list",
+  "description": "A list of images referenced by the end points",
+  "category": "Support",
+  "method": "GET",
+  "responseCode": 200,
+  "generates": "fileList"
+}

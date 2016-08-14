@@ -49,7 +49,7 @@ function SmartMockServer(serverDir, ip, port) {
             }
         });
         req.on('end', function() {
-            EndPointFinder.findLocation(serverDir, serverConfig.endPoints, requestPath, function(path) {
+            EndPointFinder.findLocation(serverDir, serverConfig.endPoints || "", requestPath, function(path) {
                 if (path) {
                     ResponseFinder.generateResponse(req, res, requestPath, path, parameters, rawBody);
                 } else {

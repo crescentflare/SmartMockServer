@@ -32,7 +32,7 @@ ResponseGenerators.readDirRecursive = function(startDir, dir, callback) {
     var dirs = [];
     fs.readdir(dir, function(error, list) {
         if (error) {
-            callback(error, null);
+            callback(error, null, null);
         }
         var pending = list.length;
         if (!pending) {
@@ -51,6 +51,40 @@ ResponseGenerators.readDirRecursive = function(startDir, dir, callback) {
                                 callback(null, files, dirs);
                             }
                         });
+                    } else {
+                        files.push(file.replace(startDir + "/", ""));
+                        if (!--pending) {
+                            callback(null, files, dirs);
+                        }
+                    }
+                } else {
+                    if (!--pending) {
+                        callback(null, files, dirs);
+                    }
+                }
+            });
+        });
+    });
+}
+
+// Read through a directory (but not within subdirectories)
+ResponseGenerators.readDir = function(startDir, dir, callback) {
+    var files = [];
+    var dirs = [];
+    fs.readdir(dir, function(error, list) {
+        if (error) {
+            callback(error, null, null);
+        }
+        var pending = list.length;
+        if (!pending) {
+            callback(null, files, dirs);
+        }
+        list.forEach(function(file) {
+            file = dir + '/' + file;
+            fs.stat(file, function(error, stat) {
+                if (stat) {
+                    if (stat.isDirectory()) {
+                        dirs.push(file.replace(startDir + "/", ""));
                     } else {
                         files.push(file.replace(startDir + "/", ""));
                         if (!--pending) {
@@ -122,28 +156,28 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
 }
 
 // Convert all found properties into HTML
-ResponseGenerators.indexPageToHtml = function(categories, properties) {
+ResponseGenerators.indexPageToHtml = function(categories, properties, insertPathExtra) {
     var components = [];
     components.push(HtmlGenerator.createHeading(properties.name || "Found end points"));
     for (var i = 0; i < categories.length; i++) {
         var identifier = categories[i].name.toLowerCase();
         components.push(HtmlGenerator.createSubHeading(categories[i].name, identifier));
         for (var j = 0; j < categories[i].properties.length; j++) {
-            components.push(HtmlGenerator.createRequestBlock(categories[i].properties[j], identifier + (j + 1)));
+            components.push(HtmlGenerator.createRequestBlock(categories[i].properties[j], identifier + (j + 1), insertPathExtra));
         }
     }
     return HtmlGenerator.formatAsHtml(components, properties);
 }
 
 // Generates an html index page of all endpoints
-ResponseGenerators.indexPage = function(req, res, filePath, properties) {
+ResponseGenerators.indexPage = function(req, res, filePath, properties, insertPathExtra) {
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         if (dirs) {
             dirs.sort();
             ResponseGenerators.indexPageRecursiveReadProperties(filePath, files, dirs, 0, [], function(foundProperties) {
                 if (foundProperties.length > 0) {
                     res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-                    res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties));
+                    res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties, insertPathExtra));
                 } else {
                     res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
                     res.end("No index to generate, no valid endpoints at: " + filePath);
@@ -158,13 +192,49 @@ ResponseGenerators.indexPage = function(req, res, filePath, properties) {
 
 
 //////////////////////////////////////////////////
+// Response generator: file list
+//////////////////////////////////////////////////
+
+// Convert all found files into HTML
+ResponseGenerators.fileListToHtml = function(files, properties, insertPathExtra) {
+    var components = [];
+    components.push(HtmlGenerator.createHeading(properties.name || "Found files"));
+    components.push(HtmlGenerator.createFilesBlock(files, insertPathExtra));
+    return HtmlGenerator.formatAsHtml(components, properties);
+}
+
+// Generates an html index page of all files found within the folder
+ResponseGenerators.fileList = function(req, res, filePath, properties, insertPathExtra) {
+    ResponseGenerators.readDir(filePath, filePath, function(error, files, dirs) {
+        if (files && files.length > 0) {
+            files.sort();
+            res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
+            res.end(ResponseGenerators.fileListToHtml(files, properties, insertPathExtra));
+        } else {
+            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+            res.end("No index to generate, no files at: " + filePath);
+        }
+    });
+}
+
+
+//////////////////////////////////////////////////
 // Check for supported response generators
 //////////////////////////////////////////////////
 
 // Generates a custom page based on the supported generators
-ResponseGenerators.generatesPage = function(req, res, filePath, generator, properties) {
+ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, generator, properties) {
+    var lastSlashIndex = requestPath.lastIndexOf('/');
+    var insertPathExtra = "";
+    if (lastSlashIndex >= 0 && lastSlashIndex < requestPath.length - 1 && requestPath.length > 1) {
+        insertPathExtra = requestPath.substring(lastSlashIndex + 1) + "/";
+    }
     if (generator == "indexPage") {
-        ResponseGenerators.indexPage(req, res, filePath, properties);
+        ResponseGenerators.indexPage(req, res, filePath, properties, insertPathExtra);
+        return true;
+    }
+    if (generator == "fileList") {
+        ResponseGenerators.fileList(req, res, filePath, properties, insertPathExtra);
         return true;
     }
     return false;

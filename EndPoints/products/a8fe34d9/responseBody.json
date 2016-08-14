@@ -2,5 +2,6 @@
   "id": "a8fe34d9",
   "name": "Android simulator",
   "description": "Can simulate an Android device for development",
+  "image": "/images/android-simulator.png",
   "price": 0.00
 }

@@ -12,7 +12,7 @@ var fs = require('fs');
 // Request block component
 //////////////////////////////////////////////////
 
-function HtmlRequestBlock(properties, identifier) {
+function HtmlRequestBlock(properties, identifier, insertPathExtra) {
     this.identifier = identifier;
     this.subComponents = [];
     if (properties.name) {
@@ -22,7 +22,7 @@ function HtmlRequestBlock(properties, identifier) {
         this.subComponents.push(new HtmlText(properties.description));
     }
     if (properties.postJson || properties.postParameters) {
-        this.subComponents.push(new HtmlParamBlock(properties, false));
+        this.subComponents.push(new HtmlParamBlock(properties, false, insertPathExtra));
     }
     if (properties.alternatives) {
         for (var i = 0; i < properties.alternatives.length; i++) {
@@ -31,7 +31,7 @@ function HtmlRequestBlock(properties, identifier) {
                 alternative.path = alternative.path || properties.path;
                 alternative.method = alternative.method || properties.method;
                 alternative.getParameters = alternative.getParameters || properties.getParameters;
-                this.subComponents.push(new HtmlParamBlock(alternative, true));
+                this.subComponents.push(new HtmlParamBlock(alternative, true, insertPathExtra));
             }
         }
     }
@@ -44,7 +44,7 @@ function HtmlRequestBlock(properties, identifier) {
             link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
         }
     }
-    this.subComponents.push(new HtmlLink(properties.method, link, properties.path));
+    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, properties.path));
 }
 
 HtmlRequestBlock.prototype.concatLink = function(link, param) {
@@ -86,7 +86,7 @@ HtmlRequestBlock.prototype.render = function() {
 // Parameter block component
 //////////////////////////////////////////////////
 
-function HtmlParamBlock(properties, isAlternative) {
+function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
     this.subComponents = [];
     if (isAlternative) {
         var name = "Alternative";
@@ -119,7 +119,7 @@ function HtmlParamBlock(properties, isAlternative) {
                 link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
             }
         }
-        this.subComponents.push(new HtmlLink(null, link, name));
+        this.subComponents.push(new HtmlLink(null, insertPathExtra + link, name));
     }
     if (properties.postParameters) {
         for (var key in properties.postParameters) {
@@ -142,6 +142,31 @@ HtmlParamBlock.prototype.concatLink = function(link, param) {
 HtmlParamBlock.prototype.render = function() {
     var renderText = "";
     renderText += '<div style="padding-left:12px; white-space: font-family: monospace; font-size:0.9em">';
+    for (var i = 0; i < this.subComponents.length; i++) {
+        renderText += this.subComponents[i].render();
+    }
+    renderText += '</div>';
+    return renderText;
+}
+
+
+//////////////////////////////////////////////////
+// Files block component
+//////////////////////////////////////////////////
+
+function HtmlFilesBlock(files, insertPathExtra) {
+    this.subComponents = [];
+    for (var i = 0; i < files.length; i++) {
+        if (files[i].indexOf(".") == 0 || files[i] == "properties.json") {
+            continue;
+        }
+        this.subComponents.push(new HtmlLink(null, insertPathExtra + files[i], files[i]));
+    }
+}
+
+HtmlFilesBlock.prototype.render = function() {
+    var renderText = "";
+    renderText += '<div style="background:#FFFFFF; padding-left:12px; padding-top:10px; padding-bottom:10px">';
     for (var i = 0; i < this.subComponents.length; i++) {
         renderText += this.subComponents[i].render();
     }
@@ -325,8 +350,12 @@ HtmlExpandableSubHeadingScript.prototype.render = function() {
 function HtmlGenerator() {
 }
 
-HtmlGenerator.createRequestBlock = function(properties, identifier) {
-    return new HtmlRequestBlock(properties, identifier);
+HtmlGenerator.createRequestBlock = function(properties, identifier, insertPathExtra) {
+    return new HtmlRequestBlock(properties, identifier, insertPathExtra);
+}
+
+HtmlGenerator.createFilesBlock = function(files, insertPathExtra) {
+    return new HtmlFilesBlock(files, insertPathExtra);
 }
 
 HtmlGenerator.createHeading = function(text) {

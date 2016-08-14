@@ -30,7 +30,13 @@ EndPointFinder.recursiveCheckPath = function(checkPath, checkPathComponents, com
             if (componentIndex + 1 < checkPathComponents.length) {
                 EndPointFinder.recursiveCheckPath(nextPath, checkPathComponents, componentIndex + 1, callback);
             } else {
-                callback(nextPath);
+                fs.stat(nextPath, function(error, stat) {
+                    if (stat && !stat.isDirectory()) {
+                        callback(checkPath);
+                    } else {
+                        callback(nextPath);
+                    }
+                });
             }
         } else {
             fs.exists(anyPath, function(exists) {

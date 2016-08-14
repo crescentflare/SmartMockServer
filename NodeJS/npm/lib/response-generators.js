@@ -170,7 +170,7 @@ ResponseGenerators.indexPageToHtml = function(categories, properties, insertPath
 }
 
 // Generates an html index page of all endpoints
-ResponseGenerators.indexPage = function(req, res, filePath, properties, insertPathExtra) {
+ResponseGenerators.indexPage = function(req, res, requestPath, filePath, properties, insertPathExtra) {
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         if (dirs) {
             dirs.sort();
@@ -203,8 +203,59 @@ ResponseGenerators.fileListToHtml = function(files, properties, insertPathExtra)
     return HtmlGenerator.formatAsHtml(components, properties);
 }
 
+// Find the MIME-type for the given extension
+ResponseGenerators.fileListGetMimeType = function(filename) {
+    var extension = "";
+    if (filename) {
+        var dotPos = filename.lastIndexOf(".");
+        if (dotPos >= 0) {
+            extension = filename.substring(dotPos + 1);
+        }
+    }
+    if (extension == "png") {
+        return "image/png";
+    } else if (extension == "gif") {
+        return "image/gif";
+    } else if (extension == "jpg" || extension == "jpeg") {
+        return "image/jpg";
+    } else if (extension == "htm" || extension == "html") {
+        return "text/html";
+    } else if (extension == "zip") {
+        return "application/zip";
+    }
+    return "text/plain";
+}
+
 // Generates an html index page of all files found within the folder
-ResponseGenerators.fileList = function(req, res, filePath, properties, insertPathExtra) {
+ResponseGenerators.fileList = function(req, res, requestPath, filePath, properties, insertPathExtra) {
+    var lastRequestSlashIndex = requestPath.lastIndexOf('/');
+    var lastPathSlashIndex = filePath.lastIndexOf('/');
+    var requestEndPart = "";
+    var fileEndPart = "";
+    if (lastRequestSlashIndex >= 0) {
+        requestEndPart = requestPath.substring(lastRequestSlashIndex + 1);
+    }
+    if (lastPathSlashIndex >= 0) {
+        fileEndPart = filePath.substring(lastPathSlashIndex + 1);
+    }
+    if (requestEndPart != "" && requestEndPart != fileEndPart) {
+        var serveFile = filePath + "/" + requestEndPart;
+        fs.readFile(serveFile, function(error, data) {
+            var response = null;
+            if (data) {
+                response = data;
+            } else {
+                res.writeHead(500, { "ContentType": "text/plain; charset=utf-8" });
+                res.end("Unable to read file: " + requestEndPart);
+                return;
+            }
+            setTimeout(function() {
+                res.writeHead(properties.responseCode, { "ContentType": ResponseGenerators.fileListGetMimeType(serveFile) + "; charset=utf-8" });
+                res.end(response);
+            }, properties["delay"] || 0);
+        });
+        return;
+    }
     ResponseGenerators.readDir(filePath, filePath, function(error, files, dirs) {
         if (files && files.length > 0) {
             files.sort();
@@ -230,11 +281,11 @@ ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, gen
         insertPathExtra = requestPath.substring(lastSlashIndex + 1) + "/";
     }
     if (generator == "indexPage") {
-        ResponseGenerators.indexPage(req, res, filePath, properties, insertPathExtra);
+        ResponseGenerators.indexPage(req, res, requestPath, filePath, properties, insertPathExtra);
         return true;
     }
     if (generator == "fileList") {
-        ResponseGenerators.fileList(req, res, filePath, properties, insertPathExtra);
+        ResponseGenerators.fileList(req, res, requestPath, filePath, properties, insertPathExtra);
         return true;
     }
     return false;

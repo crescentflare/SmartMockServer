@@ -73,6 +73,7 @@ Each object can have the following properties:
 - **getParameters:** a dictionary or GET parameters, like "key": "value". If all given parameters have a match, then the alternative is called. The value also supports wildcards (* and ?). Advanced tip: a value or wildcard requires the parameter to be sent, leave the parameter out of the list if it's optional.
 - **postParameters:** same as getParameters, but then used to match the request body 
 - **postJson:** a JSON body to send with the alternative request, if JSONs match, the alternative is called. These JSON objects can be nested
+- **checkHeaders:** a dictionary of header key/value combinations. Works like matching GET parameters
 - **method:** a different method for the alternative (for example, needed for using DELETE and POST on the same endpoint)
 - **delay:** a different delay for the alternative response
 

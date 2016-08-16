@@ -114,6 +114,9 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
         } else if (properties.postJson) {
             link = this.concatLink(link, "postBodyOverride=" + encodeURIComponent(JSON.stringify(properties.postJson)));
         }
+        if (properties.checkHeaders) {
+            link = this.concatLink(link, "headerOverride=" + encodeURIComponent(JSON.stringify(properties.checkHeaders)));
+        }
         if (properties.getParameters) {
             for (var key in properties.getParameters) {
                 link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
@@ -127,6 +130,11 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
         }
     } else if (properties.postJson) {
         this.subComponents.push(new HtmlText(JSON.stringify(properties.postJson, null, 2)));
+    }
+    if (properties.checkHeaders) {
+        for (var key in properties.checkHeaders) {
+            this.subComponents.push(new HtmlText(key + ': ' + properties.checkHeaders[key] + " (header)"));
+        }
     }
 }
 

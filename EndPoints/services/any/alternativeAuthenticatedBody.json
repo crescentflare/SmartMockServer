@@ -1,0 +1,6 @@
+{
+  "id": "__any__",
+  "name": "Service name",
+  "description": "A generic page about service details without having to implement all the responses",
+  "price": 4.95
+}

@@ -221,7 +221,7 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         var foundFile = arrayContains(files, properties.responsePath + "Headers.json", "responseHeaders.json");
         if (foundFile) {
             fs.readFile(
-                foundFile,
+                filePath + "/" + foundFile,
                 function(error, data) {
                     var headers = null;
                     if (!error && data) {

@@ -8,7 +8,7 @@
     {
       "name": "Authenticated",
       "checkHeaders": {
-        "Cookie": "sessionToken=*"
+        "cookie": "sessionToken=*"
       },
       "responseCode": 200
     }

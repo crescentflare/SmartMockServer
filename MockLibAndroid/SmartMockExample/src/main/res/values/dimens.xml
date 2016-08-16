@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="heading_margin">12dp</dimen>
+    <dimen name="heading_spacing_top">16dp</dimen>
+    <dimen name="heading_spacing_bottom">8dp</dimen>
+    <dimen name="text_spacing">6dp</dimen>
+    <dimen name="link_spacing">4dp</dimen>
+</resources>

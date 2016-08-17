@@ -1,23 +1,18 @@
 package com.crescentflare.smartmockexample.network;
 
+import com.crescentflare.smartmock.SmartMockResponse;
 import com.crescentflare.smartmock.SmartMockServer;
 import com.crescentflare.smartmockexample.ExampleApplication;
-import com.crescentflare.smartmockexample.data.ApiError;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.Buffer;
 
 /**
  * Network interceptor: hooks the mock library into okhttp as an interceptor
@@ -42,12 +37,22 @@ public class MockInterceptor implements Interceptor
     @Override
     public Response intercept(Chain chain) throws IOException
     {
+        // Obtain path and body
         String path = chain.request().url().toString().replace(fromUrl, "");
-        String responseBody = SmartMockServer.obtainResponse(ExampleApplication.context, toMockUrl, path);
-        if (responseBody != null)
+        String body = null;
+        if (chain.request().body() != null)
         {
-            return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("application/json"), responseBody)).code(200).build();
+            Buffer buffer = new Buffer();
+            chain.request().body().writeTo(buffer);
+            body = buffer.readString(Charset.forName("UTF-8"));
         }
-        return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("application/json"), "")).code(404).build();
+
+        // Generate mock response
+        SmartMockResponse response = SmartMockServer.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body);
+        if (response != null)
+        {
+            return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("application/json"), response.getBody())).code(200).build();
+        }
+        return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("text/plain"), "")).code(404).build();
     }
 }

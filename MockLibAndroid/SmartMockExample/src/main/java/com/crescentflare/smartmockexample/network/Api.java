@@ -17,7 +17,7 @@ public class Api
      */
 
     private static final boolean enableMocking = true;
-    public static final String mockUrl = "file:///endpoints";
+    public static final String mockUrl = "assets:///endpoints";
     public static final String baseUrl = "http://127.0.0.1:2143";
     public static final Api instance = new Api(baseUrl);
 

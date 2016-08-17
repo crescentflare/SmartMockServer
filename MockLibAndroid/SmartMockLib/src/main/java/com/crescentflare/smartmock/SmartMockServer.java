@@ -2,10 +2,17 @@ package com.crescentflare.smartmock;
 
 import android.content.Context;
 
-import java.io.IOException;
+import com.crescentflare.smartmock.responsegenerator.SmartMockEndPointFinder;
+import com.crescentflare.smartmock.responsegenerator.SmartMockResponseFinder;
+import com.crescentflare.smartmock.utility.SmartMockFileUtility;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Smart mock library: the main server interface
@@ -25,52 +32,37 @@ public class SmartMockServer
      * Serve the response
      */
 
-    public static String obtainResponse(Context context, String rootPath, String path)
+    public static SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body)
     {
-        rootPath = rootPath.replace("file:///", "");
-        try
+        // Fetch parameters from path
+        Map<String, String> parameters = new HashMap<>();
+        int paramMark = path.indexOf('?');
+        if (paramMark >= 0)
         {
-            InputStream responseStream = context.getAssets().open(rootPath + path + "/responseBody.json");
-            if (responseStream != null)
+            String[] parameterStrings = path.substring(paramMark + 1).split("&");
+            for (String parameterString : parameterStrings)
             {
-                String result = readFromInputStream(responseStream);
-                responseStream.close();
-                return result;
-            }
-        }
-        catch (IOException ignored)
-        {
-        }
-        return null;
-    }
-
-
-    /**
-     * Helpers
-     */
-
-    private static String readFromInputStream(InputStream stream)
-    {
-        final int bufferSize = 1024;
-        final char[] buffer = new char[bufferSize];
-        final StringBuilder out = new StringBuilder();
-        try
-        {
-            Reader in = new InputStreamReader(stream, "UTF-8");
-            for ( ; ; )
-            {
-                int rsz = in.read(buffer, 0, buffer.length);
-                if (rsz < 0)
+                String[] parameterPair = parameterString.split("=");
+                if (parameterPair.length > 1)
                 {
-                    break;
+                    try
+                    {
+                        parameters.put(URLDecoder.decode(parameterPair[0], "UTF-8"), URLDecoder.decode(parameterPair[1], "UTF-8"));
+                    }
+                    catch (UnsupportedEncodingException ignored)
+                    {
+                    }
                 }
-                out.append(buffer, 0, rsz);
             }
-            return out.toString();
+            path = path.substring(0, paramMark);
         }
-        catch (Exception ignored)
+        if (!path.startsWith("/"))
         {
+            path = "/" + path;
         }
-        return null;
+
+        // Find location and generate response
+        String filePath = SmartMockEndPointFinder.findLocation(context, rootPath, path);
+        return SmartMockResponseFinder.generateResponse(context, null, method, path, filePath, parameters, body);
     }
 }

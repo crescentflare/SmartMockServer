@@ -29,7 +29,7 @@ public class SmartMockServer
      * Serve the response
      */
 
-    public static SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body)
+    public static SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, Map<String, String> headers)
     {
         // Fetch parameters from path
         Map<String, String> parameters = new HashMap<>();
@@ -60,6 +60,6 @@ public class SmartMockServer
 
         // Find location and generate response
         String filePath = SmartMockEndPointFinder.findLocation(context, rootPath, path);
-        return SmartMockResponseFinder.generateResponse(context, null, method, path, filePath, parameters, body);
+        return SmartMockResponseFinder.generateResponse(context, headers, method, path, filePath, parameters, body);
     }
 }

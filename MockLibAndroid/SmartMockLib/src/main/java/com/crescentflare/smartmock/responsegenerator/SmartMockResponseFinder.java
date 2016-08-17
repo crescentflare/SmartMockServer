@@ -1,10 +1,12 @@
 package com.crescentflare.smartmock.responsegenerator;
 
 import android.content.Context;
+import android.os.Looper;
 
 import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.model.SmartMockProperties;
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
+import com.crescentflare.smartmock.utility.SmartMockParamMatcher;
 import com.crescentflare.smartmock.utility.SmartMockPropertiesUtility;
 
 import org.json.JSONArray;
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -95,7 +98,26 @@ public class SmartMockResponseFinder
 
         // Obtain properties and continue
         SmartMockProperties properties = SmartMockPropertiesUtility.readFile(context, requestPath, filePath);
-        return collectResponse(context, filePath, properties);
+        SmartMockProperties useProperties = matchAlternativeProperties(properties, method, getParameters, body, headers);
+        if (useProperties.getMethod() != null && !method.equals(useProperties.getMethod().toUpperCase()))
+        {
+            SmartMockResponse response = new SmartMockResponse();
+            response.setCode(409);
+            response.setMimeType("text/plain");
+            response.setBody("Requested method of " + method + " doesn't match required " + useProperties.getMethod().toUpperCase());
+            return response;
+        }
+        if (useProperties.getDelay() > 0 && Looper.myLooper() != Looper.getMainLooper())
+        {
+            try
+            {
+                Thread.sleep(useProperties.getDelay());
+            }
+            catch (InterruptedException ignored)
+            {
+            }
+        }
+        return collectResponse(context, filePath, useProperties);
     }
 
     private static SmartMockResponse collectResponse(Context context, String filePath, SmartMockProperties properties)
@@ -134,7 +156,7 @@ public class SmartMockResponseFinder
         }
 
         // Check for response generators, they are not supported
-        if (properties.getGenerates().equals("indexPage") || properties.getGenerates().equals("fileList"))
+        if (properties.getGenerates() != null && (properties.getGenerates().equals("indexPage") || properties.getGenerates().equals("fileList")))
         {
             SmartMockResponse response = new SmartMockResponse();
             response.setCode(500);
@@ -181,6 +203,141 @@ public class SmartMockResponseFinder
         response.setMimeType("text/plain");
         response.setBody("Couldn't find response. Only the following formats are supported: JSON, HTML and text");
         return response;
+    }
+
+
+    /**
+     * Property matching
+     */
+
+    private static SmartMockProperties matchAlternativeProperties(SmartMockProperties properties, String method, Map<String, String> getParameters, String body, Map<String, String> headers)
+    {
+        if (properties.getAlternatives() != null)
+        {
+            for (int i = 0; i < properties.getAlternatives().size(); i++)
+            {
+                // First pass: match method
+                SmartMockProperties alternative = properties.getAlternatives().get(i);
+                if (alternative.getMethod() == null)
+                {
+                    alternative.setMethod(properties.getMethod());
+                }
+                if (alternative.getMethod() != null && !alternative.getMethod().toUpperCase().equals(method))
+                {
+                    continue;
+                }
+
+                // Second pass: GET parameters
+                if (alternative.getGetParameters() != null)
+                {
+                    boolean foundAlternative = true;
+                    for (String key : alternative.getGetParameters().keySet())
+                    {
+                        if (!SmartMockParamMatcher.paramEquals(alternative.getGetParameters().get(key), getParameters.get(key)))
+                        {
+                            foundAlternative = false;
+                            break;
+                        }
+                    }
+                    if (!foundAlternative)
+                    {
+                        continue;
+                    }
+                }
+
+                // Third pass: POST parameters
+                if (alternative.getPostParameters() != null)
+                {
+                    Map<String, String> postParameters = new HashMap<>();
+                    String[] bodySplit = body.split("&");
+                    for (int j = 0; j < bodySplit.length; j++)
+                    {
+                        String[] bodyParamSplit = bodySplit[j].split("=");
+                        if (bodyParamSplit.length == 2)
+                        {
+                            try
+                            {
+                                postParameters.put(URLDecoder.decode(bodyParamSplit[0].trim(), "UTF-8"), URLDecoder.decode(bodyParamSplit[1].trim(), "UTF-8"));
+                            }
+                            catch (UnsupportedEncodingException ignored)
+                            {
+                            }
+                        }
+                    }
+                    boolean foundAlternative = true;
+                    for (String key : alternative.getPostParameters().keySet())
+                    {
+                        if (!SmartMockParamMatcher.paramEquals(alternative.getPostParameters().get(key), postParameters.get(key)))
+                        {
+                            foundAlternative = false;
+                            break;
+                        }
+                    }
+                    if (!foundAlternative)
+                    {
+                        continue;
+                    }
+                }
+
+                // Fourth pass: POST JSON
+                if (alternative.getPostJson() != null)
+                {
+                    JSONObject bodyJson = null;
+                    try
+                    {
+                        bodyJson = new JSONObject(body);
+                    }
+                    catch (JSONException ignored)
+                    {
+                    }
+                    if (bodyJson == null || !SmartMockParamMatcher.deepEquals(bodyJson, alternative.getPostJson()))
+                    {
+                        continue;
+                    }
+                }
+
+                // Fifth pass: headers
+                if (alternative.getCheckHeaders() != null)
+                {
+                    boolean foundAlternative = true;
+                    for (String key : alternative.getCheckHeaders().keySet())
+                    {
+                        if (!SmartMockParamMatcher.paramEquals(alternative.getCheckHeaders().get(key), headers.get(key)))
+                        {
+                            foundAlternative = false;
+                            break;
+                        }
+                    }
+                    if (!foundAlternative)
+                    {
+                        continue;
+                    }
+                }
+
+                // All passes OK, use alternative
+                if (alternative.getResponseCode() < 0)
+                {
+                    alternative.setResponseCode(properties.getResponseCode());
+                }
+                if (alternative.getDelay() < 0)
+                {
+                    alternative.setDelay(properties.getDelay());
+                }
+                if (alternative.getResponsePath() == null)
+                {
+                    if (alternative.getName() != null)
+                    {
+                        alternative.setResponsePath("alternative" + alternative.getName());
+                    }
+                    else
+                    {
+                        alternative.setResponsePath("alternative" + i);
+                    }
+                }
+                return alternative;
+            }
+        }
+        return properties;
     }
 
 

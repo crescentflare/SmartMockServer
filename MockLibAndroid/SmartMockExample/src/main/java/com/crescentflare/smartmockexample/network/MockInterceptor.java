@@ -6,6 +6,9 @@ import com.crescentflare.smartmockexample.ExampleApplication;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -48,8 +51,25 @@ public class MockInterceptor implements Interceptor
             body = buffer.readString(Charset.forName("UTF-8"));
         }
 
+        // Collect headers
+        Map<String, List<String>> headerMap = chain.request().headers().toMultimap();
+        Map<String, String> sendHeaders = new HashMap<>();
+        for (String key : headerMap.keySet())
+        {
+            String headerValue = "";
+            for (String value : headerMap.get(key))
+            {
+                if (headerValue.length() > 0)
+                {
+                    headerValue += "; ";
+                }
+                headerValue += value;
+            }
+            sendHeaders.put(key, headerValue);
+        }
+
         // Generate mock response
-        SmartMockResponse response = SmartMockServer.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body);
+        SmartMockResponse response = SmartMockServer.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
         if (response != null)
         {
             Headers.Builder headersBuilder = new Headers.Builder();

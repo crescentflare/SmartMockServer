@@ -2,12 +2,20 @@ package com.crescentflare.smartmock.responsegenerator;
 
 import android.content.Context;
 
-import com.crescentflare.smartmock.SmartMockResponse;
+import com.crescentflare.smartmock.model.SmartMockResponse;
+import com.crescentflare.smartmock.model.SmartMockProperties;
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
+import com.crescentflare.smartmock.utility.SmartMockPropertiesUtility;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -25,20 +33,154 @@ public class SmartMockResponseFinder
 
 
     /**
-     * Utility functions
+     * Main utility functions
      */
 
     public static SmartMockResponse generateResponse(Context context, Map<String, String> headers, String method, String requestPath, String filePath, Map<String, String> getParameters, String body)
     {
-        InputStream responseStream = SmartMockFileUtility.open(context, filePath + "/responseBody.json");
-        if (responseStream != null)
+        // Convert POST data or header overrides in get parameter list
+        if (getParameters.containsKey("methodOverride"))
         {
-            String result = readFromInputStream(responseStream);
+            method = getParameters.get("methodOverride");
+            getParameters.remove("methodOverride");
+        }
+        if (getParameters.containsKey("postBodyOverride"))
+        {
+            body = getParameters.get("postBodyOverride");
+            getParameters.remove("postBodyOverride");
+        }
+        if (getParameters.containsKey("headerOverride"))
+        {
+            JSONObject addHeaders = new JSONObject();
+            try
+            {
+                addHeaders = new JSONObject(getParameters.get("headerOverride"));
+            }
+            catch (JSONException ignored)
+            {
+            }
+            Iterator<String> headerKeys = addHeaders.keys();
+            while (headerKeys.hasNext())
+            {
+                String headerKey = headerKeys.next();
+                headers.put(headerKey, addHeaders.optString(headerKey, ""));
+            }
+            getParameters.remove("headerOverride");
+        }
+        if (getParameters.containsKey("getAsPostParameters"))
+        {
+            String paramBody = "";
+            for (String parameter : getParameters.keySet())
+            {
+                if (!parameter.equals("getAsPostParameters"))
+                {
+                    try
+                    {
+                        String paramSet = URLEncoder.encode(parameter, "UTF-8") + "=" + URLEncoder.encode(getParameters.get(parameter), "UTF-8");
+                        if (!paramBody.isEmpty())
+                        {
+                            paramBody += "&";
+                        }
+                        paramBody += paramSet;
+                    }
+                    catch (UnsupportedEncodingException ignored)
+                    {
+                    }
+                }
+            }
+            body = paramBody;
+            getParameters = new HashMap<>();
+        }
+        method = method.toUpperCase();
+
+        // Obtain properties and continue
+        SmartMockProperties properties = SmartMockPropertiesUtility.readFile(context, requestPath, filePath);
+        return collectResponse(context, filePath, properties);
+    }
+
+    private static SmartMockResponse collectResponse(Context context, String filePath, SmartMockProperties properties)
+    {
+        // First collect headers to return
+        Map<String, String> returnHeaders = new HashMap<>();
+        String[] files = SmartMockFileUtility.list(context, filePath);
+        if (files == null)
+        {
+            files = new String[0];
+        }
+        String foundFile = fileArraySearch(files, properties.getResponsePath() + "Headers.json", "responseHeaders.json", null, null);
+        if (foundFile != null)
+        {
+            InputStream inputStream = SmartMockFileUtility.open(context, filePath + "/" + foundFile);
+            if (inputStream != null)
+            {
+                String fileContent = SmartMockFileUtility.readFromInputStream(inputStream);
+                if (fileContent != null)
+                {
+                    try
+                    {
+                        JSONObject headersJson = new JSONObject(fileContent);
+                        Iterator<String> keys = headersJson.keys();
+                        while (keys.hasNext())
+                        {
+                            String key = keys.next();
+                            returnHeaders.put(key, headersJson.optString(key, ""));
+                        }
+                    }
+                    catch (JSONException ignored)
+                    {
+                    }
+                }
+            }
+        }
+
+        // Check for response generators, they are not supported
+        if (properties.getGenerates().equals("indexPage") || properties.getGenerates().equals("fileList"))
+        {
             SmartMockResponse response = new SmartMockResponse();
-            response.setBody(result);
+            response.setCode(500);
+            response.setMimeType("text/plain");
+            response.setBody("Response generators not supported in app libraries");
             return response;
         }
-        return null;
+
+        // Check for executable javascript, this is not supported
+        String foundJavascriptFile = fileArraySearch(files, properties.getResponsePath() + "Body.js", properties.getResponsePath() + ".js", "responseBody.js", "response.js");
+        if (foundJavascriptFile != null)
+        {
+            SmartMockResponse response = new SmartMockResponse();
+            response.setCode(500);
+            response.setMimeType("text/plain");
+            response.setBody("Executable javascript not supported in app libraries");
+            return response;
+        }
+
+        // Check for JSON
+        String foundJsonFile = fileArraySearch(files, properties.getResponsePath() + "Body.json", properties.getResponsePath() + ".json", "responseBody.json", "response.json");
+        if (foundJsonFile != null)
+        {
+            return responseFromFile(context, "application/json", filePath + "/" + foundJsonFile, properties.getResponseCode(), returnHeaders);
+        }
+
+        // Check for HTML
+        String foundHtmlFile = fileArraySearch(files, properties.getResponsePath() + "Body.html", properties.getResponsePath() + ".html", "responseBody.html", "response.html");
+        if (foundHtmlFile != null)
+        {
+            return responseFromFile(context, "text/html", filePath + "/" + foundHtmlFile, properties.getResponseCode(), returnHeaders);
+        }
+
+        // Check for plain text
+        String foundTextFile = fileArraySearch(files, properties.getResponsePath() + "Body.txt", properties.getResponsePath() + ".txt", "responseBody.txt", "response.txt");
+        if (foundTextFile != null)
+        {
+            return responseFromFile(context, "text/plain", filePath + "/" + foundTextFile, properties.getResponseCode(), returnHeaders);
+        }
+
+        // Nothing found, return a not supported message
+        SmartMockResponse response = new SmartMockResponse();
+        response.setCode(500);
+        response.setMimeType("text/plain");
+        response.setBody("Couldn't find response. Only the following formats are supported: JSON, HTML and text");
+        return response;
     }
 
 
@@ -46,30 +188,69 @@ public class SmartMockResponseFinder
      * Helpers
      */
 
-    private static String readFromInputStream(InputStream stream)
+    private static SmartMockResponse responseFromFile(Context context, String contentType, String filePath, int responseCode, Map<String, String> headers)
     {
-        final int bufferSize = 1024;
-        final char[] buffer = new char[bufferSize];
-        final StringBuilder out = new StringBuilder();
-        String result = null;
-        try
+        InputStream responseStream = SmartMockFileUtility.open(context, filePath);
+        if (responseStream != null)
         {
-            Reader in = new InputStreamReader(stream, "UTF-8");
-            for ( ; ; )
+            String result = SmartMockFileUtility.readFromInputStream(responseStream);
+            if (result != null)
             {
-                int rsz = in.read(buffer, 0, buffer.length);
-                if (rsz < 0)
+                if (contentType.equals("application/json"))
                 {
-                    break;
+                    int exceptionCount = 0;
+                    try
+                    {
+                        new JSONObject(result);
+                    }
+                    catch (JSONException e)
+                    {
+                        exceptionCount++;
+                    }
+                    if (exceptionCount > 0)
+                    {
+                        try
+                        {
+                            new JSONArray(result);
+                        }
+                        catch (JSONException e)
+                        {
+                            exceptionCount++;
+                        }
+                    }
+                    if (exceptionCount >= 2)
+                    {
+                        SmartMockResponse response = new SmartMockResponse();
+                        response.setCode(500);
+                        response.setMimeType("text/plain");
+                        response.setBody("Couldn't parse JSON of file: " + filePath);
+                        return response;
+                    }
                 }
-                out.append(buffer, 0, rsz);
+                SmartMockResponse response = new SmartMockResponse();
+                response.setCode(responseCode);
+                response.setMimeType(contentType);
+                response.getHeaders().putAll(headers);
+                response.setBody(result);
+                return response;
             }
-            result = out.toString();
-            stream.close();
         }
-        catch (Exception ignored)
+        SmartMockResponse response = new SmartMockResponse();
+        response.setCode(500);
+        response.setMimeType("text/plain");
+        response.setBody("Couldn't read file: " + filePath);
+        return response;
+    }
+
+    private static String fileArraySearch(String[] stringArray, String element, String alt1, String alt2, String alt3)
+    {
+        for (String check : stringArray)
         {
+            if (check.equals(element) || (alt1 != null && check.equals(alt1)) || (alt2 != null && check.equals(alt2)) || (alt3 != null && check.equals(alt3)))
+            {
+                return check;
+            }
         }
-        return result;
+        return null;
     }
 }

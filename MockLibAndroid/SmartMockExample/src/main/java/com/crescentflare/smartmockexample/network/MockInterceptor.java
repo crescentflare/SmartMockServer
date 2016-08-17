@@ -1,12 +1,13 @@
 package com.crescentflare.smartmockexample.network;
 
-import com.crescentflare.smartmock.SmartMockResponse;
+import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.SmartMockServer;
 import com.crescentflare.smartmockexample.ExampleApplication;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -51,7 +52,13 @@ public class MockInterceptor implements Interceptor
         SmartMockResponse response = SmartMockServer.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body);
         if (response != null)
         {
-            return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("application/json"), response.getBody())).code(200).build();
+            Headers.Builder headersBuilder = new Headers.Builder();
+            for (String key : response.getHeaders().keySet())
+            {
+                headersBuilder.add(key, response.getHeaders().get(key));
+            }
+            Headers headers = headersBuilder.build();
+            return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse(response.getMimeType()), response.getBody())).code(response.getCode()).headers(headers).build();
         }
         return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("text/plain"), "")).code(404).build();
     }

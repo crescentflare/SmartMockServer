@@ -2,13 +2,10 @@ package com.crescentflare.smartmock;
 
 import android.content.Context;
 
+import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.responsegenerator.SmartMockEndPointFinder;
 import com.crescentflare.smartmock.responsegenerator.SmartMockResponseFinder;
-import com.crescentflare.smartmock.utility.SmartMockFileUtility;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;

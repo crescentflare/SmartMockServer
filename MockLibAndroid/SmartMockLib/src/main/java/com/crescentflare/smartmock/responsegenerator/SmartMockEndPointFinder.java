@@ -4,12 +4,6 @@ import android.content.Context;
 
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
  * Smart mock library response generator: find the end point based on the path (with wildcard matching)
  */

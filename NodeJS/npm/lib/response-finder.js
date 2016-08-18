@@ -131,7 +131,14 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
             if (alternative.checkHeaders) {
                 var foundAlternative = true;
                 for (var key in alternative.checkHeaders) {
-                    if (!ParamMatcher.paramEquals(alternative.checkHeaders[key], headers[key])) {
+                    var haveHeader = null;
+                    for (var haveKey in headers) {
+                        if (haveKey.toLowerCase() == key.toLowerCase()) {
+                            haveHeader = headers[haveKey];
+                            break;
+                        }
+                    }
+                    if (!ParamMatcher.paramEquals(alternative.checkHeaders[key], haveHeader)) {
                         foundAlternative = false;
                         break;
                     }

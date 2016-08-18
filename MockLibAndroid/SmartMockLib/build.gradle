@@ -50,6 +50,7 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
+    testCompile 'org.json:org.json:2.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

@@ -28,6 +28,7 @@ public class Api
 
     private Retrofit retrofit = null;
     private ApiCookies cookieJar = null;
+    private MockInterceptor mockInterceptor = null;
     private AuthenticationService authentication = null;
     private ProductService product = null;
     private ServiceService service = null;
@@ -47,7 +48,8 @@ public class Api
         OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(logInterceptor).addInterceptor(new ApiErrorInterceptor()).cookieJar(cookieJar);
         if (enableMocking)
         {
-            builder.addInterceptor(new MockInterceptor(baseUrl, mockUrl)); //It's important that this one is added at the end (for example, to make it work with the error interceptor)
+            mockInterceptor = new MockInterceptor(baseUrl, mockUrl);
+            builder.addInterceptor(mockInterceptor); //It's important that this one is added at the end (for example, to make it work with the error interceptor)
         }
         OkHttpClient client = builder.build();
 
@@ -90,9 +92,16 @@ public class Api
     public static void setCurrentUser(User user)
     {
         instance.currentUser = user;
-        if (user == null && instance.cookieJar != null)
+        if (user == null)
         {
-            instance.cookieJar.clear();
+            if (instance.cookieJar != null)
+            {
+                instance.cookieJar.clear();
+            }
+            if (instance.mockInterceptor != null)
+            {
+                instance.mockInterceptor.clearCookies();
+            }
         }
     }
 

@@ -3,8 +3,8 @@ package com.crescentflare.smartmock.responsegenerator;
 import android.content.Context;
 import android.os.Looper;
 
-import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.model.SmartMockProperties;
+import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
 import com.crescentflare.smartmock.utility.SmartMockParamMatcher;
 import com.crescentflare.smartmock.utility.SmartMockPropertiesUtility;
@@ -290,7 +290,7 @@ public class SmartMockResponseFinder
                     catch (JSONException ignored)
                     {
                     }
-                    if (bodyJson == null || !SmartMockParamMatcher.deepEquals(bodyJson, alternative.getPostJson()))
+                    if (bodyJson == null || !SmartMockParamMatcher.deepEquals(alternative.getPostJson(), bodyJson))
                     {
                         continue;
                     }
@@ -302,7 +302,16 @@ public class SmartMockResponseFinder
                     boolean foundAlternative = true;
                     for (String key : alternative.getCheckHeaders().keySet())
                     {
-                        if (!SmartMockParamMatcher.paramEquals(alternative.getCheckHeaders().get(key), headers.get(key)))
+                        String haveHeader = null;
+                        for (String haveKey : headers.keySet())
+                        {
+                            if (haveKey.equalsIgnoreCase(key))
+                            {
+                                haveHeader = headers.get(haveKey);
+                                break;
+                            }
+                        }
+                        if (!SmartMockParamMatcher.paramEquals(alternative.getCheckHeaders().get(key), haveHeader))
                         {
                             foundAlternative = false;
                             break;

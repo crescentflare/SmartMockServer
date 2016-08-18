@@ -1,14 +1,11 @@
 package com.crescentflare.smartmock.utility;
 
-import android.content.Context;
-
-import com.crescentflare.smartmock.model.SmartMockProperties;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Smart mock library utility: match parameters with wildcard support
@@ -30,7 +27,31 @@ public class SmartMockParamMatcher
 
     public static boolean deepEquals(JSONObject requireObject, JSONObject haveObject)
     {
-        return false; // TODO: to be implemented
+        List<String> wantKeys = new ArrayList<>();
+        Iterator<String> requireObjIterator = requireObject.keys();
+        while (requireObjIterator.hasNext())
+        {
+            wantKeys.add(requireObjIterator.next());
+        }
+        for (String key : wantKeys)
+        {
+            if (!haveObject.has(key))
+            {
+                return false;
+            }
+            else if (haveObject.opt(key) instanceof JSONObject && requireObject.opt(key) instanceof JSONObject)
+            {
+                if (!deepEquals(requireObject.optJSONObject(key), haveObject.optJSONObject(key)))
+                {
+                    return false;
+                }
+            }
+            else if (!paramEquals(requireObject.optString(key, ""), haveObject.optString(key, "")))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean paramEquals(String requireParam, String haveParam)
@@ -39,7 +60,7 @@ public class SmartMockParamMatcher
         {
             return false;
         }
-        String[] patternSet = requireParam.split("\\*");
+        String[] patternSet = requireParam.split("\\*", -1);
         if (patternSet.length == 0)
         {
             return true;
@@ -60,14 +81,14 @@ public class SmartMockParamMatcher
     {
         while (patternSet.length > 0 && patternSet[0].length() == 0)
         {
-            Arrays.copyOfRange(patternSet, 1, patternSet.length);
+            patternSet = Arrays.copyOfRange(patternSet, 1, patternSet.length);
         }
         if (patternSet.length == 0)
         {
             return 0;
         }
-        int startPos = 0, pos = 0;
-        boolean searching = false;
+        int startPos = 0, pos;
+        boolean searching;
         do
         {
             searching = false;

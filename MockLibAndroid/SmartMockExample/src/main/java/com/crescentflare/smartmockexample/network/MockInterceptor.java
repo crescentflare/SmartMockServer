@@ -25,6 +25,7 @@ public class MockInterceptor implements Interceptor
 {
     private String fromUrl = "";
     private String toMockUrl = "";
+    private String cookie = null;
 
     public MockInterceptor(String fromUrl, String toMockUrl)
     {
@@ -36,6 +37,11 @@ public class MockInterceptor implements Interceptor
         {
             this.toMockUrl = toMockUrl;
         }
+    }
+
+    public void clearCookies()
+    {
+        cookie = null;
     }
 
     @Override
@@ -67,6 +73,10 @@ public class MockInterceptor implements Interceptor
             }
             sendHeaders.put(key, headerValue);
         }
+        if (cookie != null)
+        {
+            sendHeaders.put("Cookie", cookie);
+        }
 
         // Generate mock response
         SmartMockResponse response = SmartMockServer.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
@@ -78,6 +88,14 @@ public class MockInterceptor implements Interceptor
                 headersBuilder.add(key, response.getHeaders().get(key));
             }
             Headers headers = headersBuilder.build();
+            for (String key : response.getHeaders().keySet())
+            {
+                if (key.equalsIgnoreCase("Set-Cookie"))
+                {
+                    cookie = response.getHeaders().get(key);
+                    break;
+                }
+            }
             return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse(response.getMimeType()), response.getBody())).code(response.getCode()).headers(headers).build();
         }
         return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("text/plain"), "")).code(404).build();

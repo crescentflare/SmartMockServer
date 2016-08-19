@@ -67,7 +67,7 @@ public class MockInterceptor implements Interceptor
         }
 
         // Generate mock response
-        SmartMockResponse response = SmartMockServer.instance.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
+        SmartMockResponse response = SmartMockServer.instance.obtainResponseSync(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
         if (response != null)
         {
             Headers.Builder headersBuilder = new Headers.Builder();

@@ -1,6 +1,8 @@
 package com.crescentflare.smartmock;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.crescentflare.smartmock.model.SmartMockHeaders;
 import com.crescentflare.smartmock.model.SmartMockResponse;
@@ -47,7 +49,38 @@ public class SmartMockServer
      * Serve the response
      */
 
-    public SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, SmartMockHeaders headers)
+    public void obtainResponse(Context context, final String method, final String rootPath, final String path, final String body, final SmartMockHeaders headers, final SmartMockServerCallback completion)
+    {
+        if (Looper.myLooper() != Looper.getMainLooper())
+        {
+            completion.onObtainMockResponse(obtainResponseSync(context, method, rootPath, path, body, headers));
+            return;
+        }
+        final Handler handler = new Handler();
+        final Context appContext = context.getApplicationContext();
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                final SmartMockResponse response = obtainResponseSync(appContext, method, rootPath, path, body, headers);
+                handler.post(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (completion != null)
+                        {
+                            completion.onObtainMockResponse(response);
+                        }
+                    }
+                });
+            }
+        });
+        thread.start();
+    }
+
+    public SmartMockResponse obtainResponseSync(Context context, String method, String rootPath, String path, String body, SmartMockHeaders headers)
     {
         // Safety checks
         if (body == null)
@@ -152,5 +185,15 @@ public class SmartMockServer
                 }
             }
         }
+    }
+
+
+    /**
+     * Listener for asynchronous mock server call
+     */
+
+    public interface SmartMockServerCallback
+    {
+        void onObtainMockResponse(SmartMockResponse response);
     }
 }

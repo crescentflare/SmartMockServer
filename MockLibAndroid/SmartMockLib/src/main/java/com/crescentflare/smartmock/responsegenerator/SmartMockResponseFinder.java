@@ -119,10 +119,10 @@ public class SmartMockResponseFinder
             {
             }
         }
-        return collectResponse(context, filePath, useProperties);
+        return collectResponse(context, requestPath, filePath, useProperties);
     }
 
-    private static SmartMockResponse collectResponse(Context context, String filePath, SmartMockProperties properties)
+    private static SmartMockResponse collectResponse(Context context, String requestPath, String filePath, SmartMockProperties properties)
     {
         // First collect headers to return
         SmartMockHeaders returnHeaders = SmartMockHeaders.create(null);
@@ -157,9 +157,17 @@ public class SmartMockResponseFinder
             }
         }
 
-        // Check for response generators, they are not supported
+        // Check for response generators, they are not supported (except for a file within the file list)
         if (properties.getGenerates() != null && (properties.getGenerates().equals("indexPage") || properties.getGenerates().equals("fileList")))
         {
+            if (properties.getGenerates().equals("fileList"))
+            {
+                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath);
+                if (fileResponse != null)
+                {
+                    return fileResponse;
+                }
+            }
             SmartMockResponse response = new SmartMockResponse();
             response.setCode(500);
             response.setMimeType("text/plain");
@@ -402,14 +410,14 @@ public class SmartMockResponseFinder
             SmartMockResponse response = new SmartMockResponse();
             response.setCode(responseCode);
             response.setMimeType(contentType);
-            response.getHeaders().overwiteHeaders(headers);
+            response.getHeaders().overwriteHeaders(headers);
             response.setBody(SmartMockResponseBody.createFromString(result));
             return response;
         }
         SmartMockResponse response = new SmartMockResponse();
         response.setCode(responseCode);
         response.setMimeType(contentType);
-        response.getHeaders().overwiteHeaders(headers);
+        response.getHeaders().overwriteHeaders(headers);
         if (SmartMockFileUtility.isAssetFile(filePath))
         {
             response.setBody(SmartMockResponseBody.createFromAsset(context.getAssets(), SmartMockFileUtility.getRawPath(filePath), fileLength));
@@ -419,6 +427,73 @@ public class SmartMockResponseFinder
             response.setBody(SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(filePath), fileLength));
         }
         return response;
+    }
+
+    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath)
+    {
+        String requestEndPart = "";
+        String fileEndPart = "";
+        int lastRequestSlashIndex = requestPath.lastIndexOf('/');
+        int lastPathSlashIndex = filePath.lastIndexOf('/');
+        if (lastRequestSlashIndex >= 0)
+        {
+            requestEndPart = requestPath.substring(lastRequestSlashIndex + 1);
+        }
+        if (lastPathSlashIndex >= 0)
+        {
+            fileEndPart = filePath.substring(lastPathSlashIndex + 1);
+        }
+        if (!requestEndPart.isEmpty() && !requestEndPart.equals(fileEndPart))
+        {
+            String serveFile = filePath + "/" + requestEndPart;
+            SmartMockResponse response = new SmartMockResponse();
+            response.setCode(200);
+            response.setMimeType(getMimeType(serveFile));
+            if (SmartMockFileUtility.isAssetFile(serveFile))
+            {
+                response.setBody(SmartMockResponseBody.createFromAsset(context.getAssets(), SmartMockFileUtility.getRawPath(serveFile), SmartMockFileUtility.getLength(context, serveFile)));
+            }
+            else
+            {
+                response.setBody(SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(serveFile), SmartMockFileUtility.getLength(context, serveFile)));
+            }
+            return response;
+        }
+        return null;
+    }
+
+    private static String getMimeType(String filename)
+    {
+        String extension = "";
+        if (filename != null)
+        {
+            int dotPos = filename.lastIndexOf(".");
+            if (dotPos >= 0)
+            {
+                extension = filename.substring(dotPos + 1);
+            }
+        }
+        if (extension.equals("png"))
+        {
+            return "image/png";
+        }
+        else if (extension.equals("gif"))
+        {
+            return "image/gif";
+        }
+        else if (extension.equals("jpg") || extension.equals("jpeg"))
+        {
+            return "image/jpg";
+        }
+        else if (extension.equals("htm") || extension.equals("html"))
+        {
+            return "text/html";
+        }
+        else if (extension.equals("zip"))
+        {
+            return "application/zip";
+        }
+        return "text/plain";
     }
 
     private static String fileArraySearch(String[] stringArray, String element, String alt1, String alt2, String alt3)

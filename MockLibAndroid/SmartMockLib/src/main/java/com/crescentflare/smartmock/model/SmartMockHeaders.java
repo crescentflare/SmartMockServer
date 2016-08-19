@@ -61,7 +61,7 @@ public class SmartMockHeaders
         return values;
     }
 
-    public void overwiteHeaders(SmartMockHeaders headers)
+    public void overwriteHeaders(SmartMockHeaders headers)
     {
         for (String key : headers.getHeaderMap().keySet())
         {

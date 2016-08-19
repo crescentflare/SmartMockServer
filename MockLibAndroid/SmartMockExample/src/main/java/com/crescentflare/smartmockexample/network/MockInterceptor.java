@@ -63,7 +63,7 @@ public class MockInterceptor implements Interceptor
         Map<String, List<String>> cookies = cookieJar.convertToHeaders();
         if (cookies != null)
         {
-            sendHeaders.overwiteHeaders(SmartMockHeaders.create(cookies));
+            sendHeaders.overwriteHeaders(SmartMockHeaders.create(cookies));
         }
 
         // Generate mock response

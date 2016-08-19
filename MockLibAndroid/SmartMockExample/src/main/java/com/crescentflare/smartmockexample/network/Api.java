@@ -48,7 +48,7 @@ public class Api
         OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(logInterceptor).addInterceptor(new ApiErrorInterceptor()).cookieJar(cookieJar);
         if (enableMocking)
         {
-            mockInterceptor = new MockInterceptor(baseUrl, mockUrl);
+            mockInterceptor = new MockInterceptor(baseUrl, mockUrl, cookieJar);
             builder.addInterceptor(mockInterceptor); //It's important that this one is added at the end (for example, to make it work with the error interceptor)
         }
         OkHttpClient client = builder.build();
@@ -97,10 +97,6 @@ public class Api
             if (instance.cookieJar != null)
             {
                 instance.cookieJar.clear();
-            }
-            if (instance.mockInterceptor != null)
-            {
-                instance.mockInterceptor.clearCookies();
             }
         }
     }

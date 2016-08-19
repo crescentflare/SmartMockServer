@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.CookieJar;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -26,8 +27,9 @@ public class MockInterceptor implements Interceptor
 {
     private String fromUrl = "";
     private String toMockUrl = "";
+    private ApiCookies cookieJar = new ApiCookies();
 
-    public MockInterceptor(String fromUrl, String toMockUrl)
+    public MockInterceptor(String fromUrl, String toMockUrl, ApiCookies cookieJar)
     {
         if (fromUrl != null)
         {
@@ -37,12 +39,10 @@ public class MockInterceptor implements Interceptor
         {
             this.toMockUrl = toMockUrl;
         }
-        SmartMockServer.instance.enableCookies(true);
-    }
-
-    public void clearCookies()
-    {
-        SmartMockServer.instance.clearCookies();
+        if (cookieJar != null)
+        {
+            this.cookieJar = cookieJar;
+        }
     }
 
     @Override
@@ -58,12 +58,20 @@ public class MockInterceptor implements Interceptor
             body = buffer.readString(Charset.forName("UTF-8"));
         }
 
-        // Generate mock response
+        // Apply cookies from jar
         SmartMockHeaders sendHeaders = SmartMockHeaders.create(chain.request().headers().toMultimap());
+        Map<String, List<String>> cookies = cookieJar.convertToHeaders();
+        if (cookies != null)
+        {
+            sendHeaders.overwiteHeaders(SmartMockHeaders.create(cookies));
+        }
+
+        // Generate mock response
         SmartMockResponse response = SmartMockServer.instance.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
         if (response != null)
         {
             Headers.Builder headersBuilder = new Headers.Builder();
+            cookieJar.applyFromHeaders(response.getHeaders().getHeaderMap());
             for (String key : response.getHeaders().getHeaderMap().keySet())
             {
                 headersBuilder.add(key, response.getHeaders().getHeaderValue(key));

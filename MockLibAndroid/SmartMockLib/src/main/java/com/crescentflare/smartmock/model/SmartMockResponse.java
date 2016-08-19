@@ -1,8 +1,5 @@
 package com.crescentflare.smartmock.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Smart mock library model: a mocked response object
  */
@@ -13,9 +10,19 @@ public class SmartMockResponse
      */
 
     private SmartMockHeaders headers = SmartMockHeaders.create(null);
-    private String body = "";
+    private SmartMockResponseBody body = SmartMockResponseBody.createFromString("");
     private String mimeType = "";
     private int code = 0;
+
+
+    /**
+     * Helpers
+     */
+
+    public void setStringBody(String body)
+    {
+        this.body = SmartMockResponseBody.createFromString(body);
+    }
 
 
     /**
@@ -32,12 +39,12 @@ public class SmartMockResponse
         this.headers = headers;
     }
 
-    public String getBody()
+    public SmartMockResponseBody getBody()
     {
         return body;
     }
 
-    public void setBody(String body)
+    public void setBody(SmartMockResponseBody body)
     {
         this.body = body;
     }

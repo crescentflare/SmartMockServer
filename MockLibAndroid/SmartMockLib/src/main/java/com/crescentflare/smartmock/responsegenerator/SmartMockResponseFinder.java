@@ -6,6 +6,7 @@ import android.os.Looper;
 import com.crescentflare.smartmock.model.SmartMockHeaders;
 import com.crescentflare.smartmock.model.SmartMockProperties;
 import com.crescentflare.smartmock.model.SmartMockResponse;
+import com.crescentflare.smartmock.model.SmartMockResponseBody;
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
 import com.crescentflare.smartmock.utility.SmartMockParamMatcher;
 import com.crescentflare.smartmock.utility.SmartMockPropertiesUtility;
@@ -105,7 +106,7 @@ public class SmartMockResponseFinder
             SmartMockResponse response = new SmartMockResponse();
             response.setCode(409);
             response.setMimeType("text/plain");
-            response.setBody("Requested method of " + method + " doesn't match required " + useProperties.getMethod().toUpperCase());
+            response.setStringBody("Requested method of " + method + " doesn't match required " + useProperties.getMethod().toUpperCase());
             return response;
         }
         if (useProperties.getDelay() > 0 && Looper.myLooper() != Looper.getMainLooper())
@@ -162,7 +163,7 @@ public class SmartMockResponseFinder
             SmartMockResponse response = new SmartMockResponse();
             response.setCode(500);
             response.setMimeType("text/plain");
-            response.setBody("Response generators not supported in app libraries");
+            response.setStringBody("Response generators not supported in app libraries");
             return response;
         }
 
@@ -173,7 +174,7 @@ public class SmartMockResponseFinder
             SmartMockResponse response = new SmartMockResponse();
             response.setCode(500);
             response.setMimeType("text/plain");
-            response.setBody("Executable javascript not supported in app libraries");
+            response.setStringBody("Executable javascript not supported in app libraries");
             return response;
         }
 
@@ -202,7 +203,7 @@ public class SmartMockResponseFinder
         SmartMockResponse response = new SmartMockResponse();
         response.setCode(500);
         response.setMimeType("text/plain");
-        response.setBody("Couldn't find response. Only the following formats are supported: JSON, HTML and text");
+        response.setStringBody("Couldn't find response. Only the following formats are supported: JSON, HTML and text");
         return response;
     }
 
@@ -348,13 +349,24 @@ public class SmartMockResponseFinder
 
     private static SmartMockResponse responseFromFile(Context context, String contentType, String filePath, int responseCode, SmartMockHeaders headers)
     {
-        InputStream responseStream = SmartMockFileUtility.open(context, filePath);
-        if (responseStream != null)
+        long fileLength = SmartMockFileUtility.getLength(context, filePath);
+        if (fileLength < 0)
         {
-            String result = SmartMockFileUtility.readFromInputStream(responseStream);
-            if (result != null)
+            SmartMockResponse response = new SmartMockResponse();
+            response.setCode(404);
+            response.setMimeType("text/plain");
+            response.setStringBody("Couldn't read file: " + filePath);
+            return response;
+        }
+        if (contentType.equals("application/json"))
+        {
+            boolean validatedJson = false;
+            InputStream responseStream = SmartMockFileUtility.open(context, filePath);
+            String result = null;
+            if (responseStream != null)
             {
-                if (contentType.equals("application/json"))
+                result = SmartMockFileUtility.readFromInputStream(responseStream);
+                if (result != null)
                 {
                     int exceptionCount = 0;
                     try
@@ -376,27 +388,36 @@ public class SmartMockResponseFinder
                             exceptionCount++;
                         }
                     }
-                    if (exceptionCount >= 2)
-                    {
-                        SmartMockResponse response = new SmartMockResponse();
-                        response.setCode(500);
-                        response.setMimeType("text/plain");
-                        response.setBody("Couldn't parse JSON of file: " + filePath);
-                        return response;
-                    }
+                    validatedJson = exceptionCount < 2;
                 }
+            }
+            if (!validatedJson)
+            {
                 SmartMockResponse response = new SmartMockResponse();
-                response.setCode(responseCode);
-                response.setMimeType(contentType);
-                response.getHeaders().overwiteHeaders(headers);
-                response.setBody(result);
+                response.setCode(500);
+                response.setMimeType("text/plain");
+                response.setStringBody("Couldn't parse JSON of file: " + filePath);
                 return response;
             }
+            SmartMockResponse response = new SmartMockResponse();
+            response.setCode(responseCode);
+            response.setMimeType(contentType);
+            response.getHeaders().overwiteHeaders(headers);
+            response.setBody(SmartMockResponseBody.createFromString(result));
+            return response;
         }
         SmartMockResponse response = new SmartMockResponse();
-        response.setCode(500);
-        response.setMimeType("text/plain");
-        response.setBody("Couldn't read file: " + filePath);
+        response.setCode(responseCode);
+        response.setMimeType(contentType);
+        response.getHeaders().overwiteHeaders(headers);
+        if (SmartMockFileUtility.isAssetFile(filePath))
+        {
+            response.setBody(SmartMockResponseBody.createFromAsset(context.getAssets(), SmartMockFileUtility.getRawPath(filePath), fileLength));
+        }
+        else
+        {
+            response.setBody(SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(filePath), fileLength));
+        }
         return response;
     }
 

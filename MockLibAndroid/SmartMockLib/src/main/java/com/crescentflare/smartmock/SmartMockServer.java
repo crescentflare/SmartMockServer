@@ -49,6 +49,16 @@ public class SmartMockServer
 
     public SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, SmartMockHeaders headers)
     {
+        // Safety checks
+        if (body == null)
+        {
+            body = "";
+        }
+        if (headers == null)
+        {
+            headers = SmartMockHeaders.create(null);
+        }
+
         // Fetch parameters from path
         Map<String, String> parameters = new HashMap<>();
         int paramMark = path.indexOf('?');

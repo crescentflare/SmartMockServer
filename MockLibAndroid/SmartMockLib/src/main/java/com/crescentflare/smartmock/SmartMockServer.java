@@ -9,7 +9,9 @@ import com.crescentflare.smartmock.responsegenerator.SmartMockResponseFinder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,10 +20,25 @@ import java.util.Map;
 public class SmartMockServer
 {
     /**
+     * Singleton instance
+     */
+
+    public static final SmartMockServer instance = new SmartMockServer();
+
+
+    /**
+     * Members
+     */
+
+    private List<String> cookieValues = new ArrayList<>();
+    private boolean cookiesEnabled = false;
+
+
+    /**
      * Initialization
      */
 
-    private SmartMockServer()
+    public SmartMockServer()
     {
     }
 
@@ -30,7 +47,7 @@ public class SmartMockServer
      * Serve the response
      */
 
-    public static SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, SmartMockHeaders headers)
+    public SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, SmartMockHeaders headers)
     {
         // Fetch parameters from path
         Map<String, String> parameters = new HashMap<>();
@@ -59,8 +76,71 @@ public class SmartMockServer
             path = "/" + path;
         }
 
+        // Add cookies (if enabled)
+        if (cookiesEnabled)
+        {
+            for (String value : cookieValues)
+            {
+                headers.addHeader("Cookie", value);
+            }
+        }
+
         // Find location and generate response
         String filePath = SmartMockEndPointFinder.findLocation(context, rootPath, path);
-        return SmartMockResponseFinder.generateResponse(context, headers, method, path, filePath, parameters, body);
+        SmartMockResponse response = SmartMockResponseFinder.generateResponse(context, headers, method, path, filePath, parameters, body);
+        if (cookiesEnabled)
+        {
+            String cookieValue = response.getHeaders().getHeaderValue("Set-Cookie");
+            if (cookieValue != null && cookieValue.length() > 0)
+            {
+                applyToCookies(cookieValue);
+            }
+        }
+        return response;
+    }
+
+
+    /**
+     * Cookie management
+     */
+
+    public void enableCookies(boolean enabled)
+    {
+        cookiesEnabled = enabled;
+    }
+
+    public void clearCookies()
+    {
+        cookieValues.clear();
+    }
+
+    private void applyToCookies(String value)
+    {
+        String[] splitValues = value.split(";");
+        for (String splitValue : splitValues)
+        {
+            String[] valueSet = splitValue.split("=");
+            if (valueSet.length > 0)
+            {
+                int foundAtIndex = -1;
+                for (int i = 0; i < cookieValues.size(); i++)
+                {
+                    String[] checkValueSet = cookieValues.get(i).split("=");
+                    if (checkValueSet.length > 0 && checkValueSet[0].equals(valueSet[0]))
+                    {
+                        foundAtIndex = i;
+                        break;
+                    }
+                }
+                if (foundAtIndex >= 0)
+                {
+                    cookieValues.set(foundAtIndex, splitValue);
+                }
+                else
+                {
+                    cookieValues.add(splitValue);
+                }
+            }
+        }
     }
 }

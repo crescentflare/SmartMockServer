@@ -26,7 +26,6 @@ public class MockInterceptor implements Interceptor
 {
     private String fromUrl = "";
     private String toMockUrl = "";
-    private String cookie = null;
 
     public MockInterceptor(String fromUrl, String toMockUrl)
     {
@@ -38,11 +37,12 @@ public class MockInterceptor implements Interceptor
         {
             this.toMockUrl = toMockUrl;
         }
+        SmartMockServer.instance.enableCookies(true);
     }
 
     public void clearCookies()
     {
-        cookie = null;
+        SmartMockServer.instance.clearCookies();
     }
 
     @Override
@@ -58,15 +58,9 @@ public class MockInterceptor implements Interceptor
             body = buffer.readString(Charset.forName("UTF-8"));
         }
 
-        // Collect headers
-        SmartMockHeaders sendHeaders = SmartMockHeaders.create(chain.request().headers().toMultimap());
-        if (cookie != null)
-        {
-            sendHeaders.addHeader("Cookie", cookie);
-        }
-
         // Generate mock response
-        SmartMockResponse response = SmartMockServer.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
+        SmartMockHeaders sendHeaders = SmartMockHeaders.create(chain.request().headers().toMultimap());
+        SmartMockResponse response = SmartMockServer.instance.obtainResponse(ExampleApplication.context, chain.request().method(), toMockUrl, path, body, sendHeaders);
         if (response != null)
         {
             Headers.Builder headersBuilder = new Headers.Builder();
@@ -74,13 +68,7 @@ public class MockInterceptor implements Interceptor
             {
                 headersBuilder.add(key, response.getHeaders().getHeaderValue(key));
             }
-            Headers headers = headersBuilder.build();
-            String headerCookie = response.getHeaders().getHeaderValue("Set-Cookie");
-            if (headerCookie != null && !headerCookie.isEmpty())
-            {
-                cookie = headerCookie;
-            }
-            return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse(response.getMimeType()), response.getBody())).code(response.getCode()).headers(headers).build();
+            return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse(response.getMimeType()), response.getBody())).code(response.getCode()).headers(headersBuilder.build()).build();
         }
         return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("text/plain"), "The internal mock server could not generate a response")).code(404).build();
     }

@@ -86,7 +86,7 @@ public class ProductActivity extends AppCompatActivity implements Callback<Produ
         findViewById(R.id.product_name).setVisibility(View.VISIBLE);
         findViewById(R.id.product_description).setVisibility(View.VISIBLE);
         findViewById(R.id.product_price).setVisibility(View.VISIBLE);
-        Picasso.with(this).load(Api.baseUrl + response.body().getImage()).resize(0, (int)(getResources().getDisplayMetrics().density * 128)).into((ImageView)findViewById(R.id.product_image));
+        Api.picassoFor(this, response.body().getImage()).resize(0, (int)(getResources().getDisplayMetrics().density * 128)).into((ImageView)findViewById(R.id.product_image));
         ((TextView)findViewById(R.id.product_name)).setTextColor(Color.DKGRAY);
         ((TextView)findViewById(R.id.product_name)).setText(response.body().getName());
         ((TextView)findViewById(R.id.product_description)).setText(response.body().getDescription());

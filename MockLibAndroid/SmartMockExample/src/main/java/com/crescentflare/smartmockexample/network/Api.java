@@ -1,6 +1,10 @@
 package com.crescentflare.smartmockexample.network;
 
+import android.content.Context;
+
 import com.crescentflare.smartmockexample.data.User;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -68,6 +72,15 @@ public class Api
     /**
      * Obtain services
      */
+
+    public static RequestCreator picassoFor(Context context, String path)
+    {
+        if (enableMocking)
+        {
+            return Picasso.with(context).load(mockUrl.replace("assets:///", "file:///android_asset/") + path);
+        }
+        return Picasso.with(context).load(baseUrl + path);
+    }
 
     public static AuthenticationService authentication()
     {

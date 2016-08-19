@@ -3,6 +3,7 @@ package com.crescentflare.smartmock.responsegenerator;
 import android.content.Context;
 import android.os.Looper;
 
+import com.crescentflare.smartmock.model.SmartMockHeaders;
 import com.crescentflare.smartmock.model.SmartMockProperties;
 import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
@@ -39,7 +40,7 @@ public class SmartMockResponseFinder
      * Main utility functions
      */
 
-    public static SmartMockResponse generateResponse(Context context, Map<String, String> headers, String method, String requestPath, String filePath, Map<String, String> getParameters, String body)
+    public static SmartMockResponse generateResponse(Context context, SmartMockHeaders headers, String method, String requestPath, String filePath, Map<String, String> getParameters, String body)
     {
         // Convert POST data or header overrides in get parameter list
         if (getParameters.containsKey("methodOverride"))
@@ -66,7 +67,7 @@ public class SmartMockResponseFinder
             while (headerKeys.hasNext())
             {
                 String headerKey = headerKeys.next();
-                headers.put(headerKey, addHeaders.optString(headerKey, ""));
+                headers.addHeader(headerKey, addHeaders.optString(headerKey, ""));
             }
             getParameters.remove("headerOverride");
         }
@@ -123,7 +124,7 @@ public class SmartMockResponseFinder
     private static SmartMockResponse collectResponse(Context context, String filePath, SmartMockProperties properties)
     {
         // First collect headers to return
-        Map<String, String> returnHeaders = new HashMap<>();
+        SmartMockHeaders returnHeaders = SmartMockHeaders.create(null);
         String[] files = SmartMockFileUtility.list(context, filePath);
         if (files == null)
         {
@@ -145,7 +146,7 @@ public class SmartMockResponseFinder
                         while (keys.hasNext())
                         {
                             String key = keys.next();
-                            returnHeaders.put(key, headersJson.optString(key, ""));
+                            returnHeaders.addHeader(key, headersJson.optString(key, ""));
                         }
                     }
                     catch (JSONException ignored)
@@ -210,7 +211,7 @@ public class SmartMockResponseFinder
      * Property matching
      */
 
-    private static SmartMockProperties matchAlternativeProperties(SmartMockProperties properties, String method, Map<String, String> getParameters, String body, Map<String, String> headers)
+    private static SmartMockProperties matchAlternativeProperties(SmartMockProperties properties, String method, Map<String, String> getParameters, String body, SmartMockHeaders headers)
     {
         if (properties.getAlternatives() != null)
         {
@@ -302,16 +303,7 @@ public class SmartMockResponseFinder
                     boolean foundAlternative = true;
                     for (String key : alternative.getCheckHeaders().keySet())
                     {
-                        String haveHeader = null;
-                        for (String haveKey : headers.keySet())
-                        {
-                            if (haveKey.equalsIgnoreCase(key))
-                            {
-                                haveHeader = headers.get(haveKey);
-                                break;
-                            }
-                        }
-                        if (!SmartMockParamMatcher.paramEquals(alternative.getCheckHeaders().get(key), haveHeader))
+                        if (!SmartMockParamMatcher.paramEquals(alternative.getCheckHeaders().get(key), headers.getHeaderValue(key)))
                         {
                             foundAlternative = false;
                             break;
@@ -354,7 +346,7 @@ public class SmartMockResponseFinder
      * Helpers
      */
 
-    private static SmartMockResponse responseFromFile(Context context, String contentType, String filePath, int responseCode, Map<String, String> headers)
+    private static SmartMockResponse responseFromFile(Context context, String contentType, String filePath, int responseCode, SmartMockHeaders headers)
     {
         InputStream responseStream = SmartMockFileUtility.open(context, filePath);
         if (responseStream != null)
@@ -396,7 +388,7 @@ public class SmartMockResponseFinder
                 SmartMockResponse response = new SmartMockResponse();
                 response.setCode(responseCode);
                 response.setMimeType(contentType);
-                response.getHeaders().putAll(headers);
+                response.getHeaders().overwiteHeaders(headers);
                 response.setBody(result);
                 return response;
             }

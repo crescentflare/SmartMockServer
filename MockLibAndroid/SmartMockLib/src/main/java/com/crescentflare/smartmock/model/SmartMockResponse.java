@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Smart mock library: a mocked response object
+ * Smart mock library model: a mocked response object
  */
 public class SmartMockResponse
 {
@@ -12,7 +12,7 @@ public class SmartMockResponse
      * Members
      */
 
-    private Map<String, String> headers = new HashMap<>();
+    private SmartMockHeaders headers = SmartMockHeaders.create(null);
     private String body = "";
     private String mimeType = "";
     private int code = 0;
@@ -22,12 +22,12 @@ public class SmartMockResponse
      * Generated code
      */
 
-    public Map<String, String> getHeaders()
+    public SmartMockHeaders getHeaders()
     {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers)
+    public void setHeaders(SmartMockHeaders headers)
     {
         this.headers = headers;
     }
@@ -52,11 +52,11 @@ public class SmartMockResponse
         this.mimeType = mimeType;
         if (mimeType.length() > 0)
         {
-            headers.put("Content-Type", mimeType);
+            headers.setHeader("Content-Type", mimeType);
         }
         else
         {
-            headers.remove("Content-Type");
+            headers.removeHeader("Content-Type");
         }
     }
 

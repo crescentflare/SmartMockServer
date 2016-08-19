@@ -2,6 +2,7 @@ package com.crescentflare.smartmock;
 
 import android.content.Context;
 
+import com.crescentflare.smartmock.model.SmartMockHeaders;
 import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.responsegenerator.SmartMockEndPointFinder;
 import com.crescentflare.smartmock.responsegenerator.SmartMockResponseFinder;
@@ -29,7 +30,7 @@ public class SmartMockServer
      * Serve the response
      */
 
-    public static SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, Map<String, String> headers)
+    public static SmartMockResponse obtainResponse(Context context, String method, String rootPath, String path, String body, SmartMockHeaders headers)
     {
         // Fetch parameters from path
         Map<String, String> parameters = new HashMap<>();

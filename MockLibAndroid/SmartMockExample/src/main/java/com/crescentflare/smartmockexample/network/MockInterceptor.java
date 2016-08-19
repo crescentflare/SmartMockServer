@@ -1,5 +1,6 @@
 package com.crescentflare.smartmockexample.network;
 
+import com.crescentflare.smartmock.model.SmartMockHeaders;
 import com.crescentflare.smartmock.model.SmartMockResponse;
 import com.crescentflare.smartmock.SmartMockServer;
 import com.crescentflare.smartmockexample.ExampleApplication;
@@ -58,24 +59,10 @@ public class MockInterceptor implements Interceptor
         }
 
         // Collect headers
-        Map<String, List<String>> headerMap = chain.request().headers().toMultimap();
-        Map<String, String> sendHeaders = new HashMap<>();
-        for (String key : headerMap.keySet())
-        {
-            String headerValue = "";
-            for (String value : headerMap.get(key))
-            {
-                if (headerValue.length() > 0)
-                {
-                    headerValue += "; ";
-                }
-                headerValue += value;
-            }
-            sendHeaders.put(key, headerValue);
-        }
+        SmartMockHeaders sendHeaders = SmartMockHeaders.create(chain.request().headers().toMultimap());
         if (cookie != null)
         {
-            sendHeaders.put("Cookie", cookie);
+            sendHeaders.addHeader("Cookie", cookie);
         }
 
         // Generate mock response
@@ -83,21 +70,18 @@ public class MockInterceptor implements Interceptor
         if (response != null)
         {
             Headers.Builder headersBuilder = new Headers.Builder();
-            for (String key : response.getHeaders().keySet())
+            for (String key : response.getHeaders().getHeaderMap().keySet())
             {
-                headersBuilder.add(key, response.getHeaders().get(key));
+                headersBuilder.add(key, response.getHeaders().getHeaderValue(key));
             }
             Headers headers = headersBuilder.build();
-            for (String key : response.getHeaders().keySet())
+            String headerCookie = response.getHeaders().getHeaderValue("Set-Cookie");
+            if (headerCookie != null && !headerCookie.isEmpty())
             {
-                if (key.equalsIgnoreCase("Set-Cookie"))
-                {
-                    cookie = response.getHeaders().get(key);
-                    break;
-                }
+                cookie = headerCookie;
             }
             return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse(response.getMimeType()), response.getBody())).code(response.getCode()).headers(headers).build();
         }
-        return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("text/plain"), "")).code(404).build();
+        return new Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1).body(ResponseBody.create(MediaType.parse("text/plain"), "The internal mock server could not generate a response")).code(404).build();
     }
 }

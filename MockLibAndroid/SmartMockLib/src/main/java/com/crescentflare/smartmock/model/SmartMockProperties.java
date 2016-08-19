@@ -1,0 +1,232 @@
+package com.crescentflare.smartmock.model;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Smart mock library model: a properties model
+ */
+public class SmartMockProperties
+{
+    /**
+     * Members
+     */
+
+    private Map<String, String> getParameters = null;
+    private Map<String, String> postParameters = null;
+    private Map<String, String> checkHeaders = null;
+    private JSONObject postJson = null;
+    private List<SmartMockProperties> alternatives = null;
+    private String name = null;
+    private String method = null;
+    private String responsePath = null;
+    private String generates = null;
+    private int delay = -1;
+    private int responseCode = -1;
+
+
+    /**
+     * Serialization
+     */
+
+    public void parseJson(JSONObject jsonObject)
+    {
+        // Parse parameters, body and header filters
+        getParameters = serializeJsonStringMap(jsonObject, "getParameters");
+        postParameters = serializeJsonStringMap(jsonObject, "postParameters");
+        checkHeaders = serializeJsonStringMap(jsonObject, "checkHeaders");
+        postJson = jsonObject.optJSONObject("postJson");
+
+        // Parse alternatives
+        JSONArray alternativesJson = jsonObject.optJSONArray("alternatives");
+        if (alternativesJson != null)
+        {
+            alternatives = new ArrayList<>();
+            for (int i = 0; i < alternativesJson.length(); i++)
+            {
+                JSONObject propertiesJson = alternativesJson.optJSONObject(i);
+                if (propertiesJson != null)
+                {
+                    SmartMockProperties addProperties = new SmartMockProperties();
+                    addProperties.parseJson(propertiesJson);
+                    alternatives.add(addProperties);
+                }
+            }
+        }
+
+        // Parse basic fields
+        name = jsonObject.optString("name", null);
+        method = jsonObject.optString("method", null);
+        responsePath = jsonObject.optString("responsePath", null);
+        generates = jsonObject.optString("generates", null);
+        delay = jsonObject.optInt("delay", -1);
+        responseCode = jsonObject.optInt("responseCode", -1);
+    }
+
+
+    /**
+     * Helpers
+     */
+
+    public void forceDefaults()
+    {
+        responseCode = responseCode >= 0 ? responseCode : 200;
+        responsePath = responsePath != null ? responsePath : "response";
+    }
+
+    private Map<String, String> serializeJsonStringMap(JSONObject jsonObject, String mapKey)
+    {
+        JSONObject mapJson = jsonObject.optJSONObject(mapKey);
+        if (mapJson != null)
+        {
+            Map<String, String> result = new HashMap<>();
+            Iterator<String> keys = mapJson.keys();
+            while (keys.hasNext())
+            {
+                String key = keys.next();
+                result.put(key, mapJson.optString(key, ""));
+            }
+            return result;
+        }
+        return null;
+    }
+
+
+    /**
+     * Generated code
+     */
+
+    public Map<String, String> getGetParameters()
+    {
+        return getParameters;
+    }
+
+    public void setGetParameters(Map<String, String> getParameters)
+    {
+        this.getParameters = getParameters;
+    }
+
+    public Map<String, String> getPostParameters()
+    {
+        return postParameters;
+    }
+
+    public void setPostParameters(Map<String, String> postParameters)
+    {
+        this.postParameters = postParameters;
+    }
+
+    public Map<String, String> getCheckHeaders()
+    {
+        return checkHeaders;
+    }
+
+    public void setCheckHeaders(Map<String, String> checkHeaders)
+    {
+        this.checkHeaders = checkHeaders;
+    }
+
+    public JSONObject getPostJson()
+    {
+        return postJson;
+    }
+
+    public void setPostJson(JSONObject postJson)
+    {
+        this.postJson = postJson;
+    }
+
+    public List<SmartMockProperties> getAlternatives()
+    {
+        return alternatives;
+    }
+
+    public void setAlternatives(List<SmartMockProperties> alternatives)
+    {
+        this.alternatives = alternatives;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getMethod()
+    {
+        return method;
+    }
+
+    public void setMethod(String method)
+    {
+        this.method = method;
+    }
+
+    public String getResponsePath()
+    {
+        return responsePath;
+    }
+
+    public void setResponsePath(String responsePath)
+    {
+        this.responsePath = responsePath;
+    }
+
+    public String getGenerates()
+    {
+        return generates;
+    }
+
+    public void setGenerates(String generates)
+    {
+        this.generates = generates;
+    }
+
+    public int getDelay()
+    {
+        return delay;
+    }
+
+    public void setDelay(int delay)
+    {
+        this.delay = delay;
+    }
+
+    public int getResponseCode()
+    {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode)
+    {
+        this.responseCode = responseCode;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "SmartMockProperties{" +
+                "getParameters=" + getParameters +
+                ", postParameters=" + postParameters +
+                ", checkHeaders=" + checkHeaders +
+                ", postJson=" + postJson +
+                ", alternatives=" + alternatives +
+                ", name='" + name + '\'' +
+                ", method='" + method + '\'' +
+                ", responsePath='" + responsePath + '\'' +
+                ", generates='" + generates + '\'' +
+                ", delay=" + delay +
+                ", responseCode=" + responseCode +
+                '}';
+    }
+}

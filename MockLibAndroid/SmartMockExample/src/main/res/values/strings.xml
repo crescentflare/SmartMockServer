@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Example Smart Mock</string>
+    <string name="title_login">Login</string>
+    <string name="title_product">Product details</string>
+    <string name="title_service">Service details</string>
+    <string name="section_user">User</string>
+    <string name="section_products">Products</string>
+    <string name="section_services">Services</string>
+    <string name="user_not_logged_in">The user is not logged in yet, click on login below to show user information and available services.</string>
+    <string name="user_logged_in">Logged in with user: %s.\nClick logout below to end the session or to log in as a different user.</string>
+    <string name="products_not_loaded">Products not loaded yet, please wait for them to load.</string>
+    <string name="products_empty">No products are found.</string>
+    <string name="products_list">The following products are available:</string>
+    <string name="services_not_loaded">Services not loaded yet, please wait for them to load.</string>
+    <string name="services_empty">No services are found.</string>
+    <string name="services_list">The following services can be used:</string>
+    <string name="link_log_in">> Login</string>
+    <string name="link_log_out">> Logout</string>
+    <string name="login_message">Log in below with a username and password. In the default setup, the mock server will successfully authenticate everything except username \'error\'.</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="price_free">Price: free</string>
+    <string name="price_number">Price: %.2f</string>
+    <string name="action_ok">OK</string>
+    <string name="error_generic">A technical error occurred, please try again.</string>
+    <string name="error_login_title">Login failed</string>
+    <string name="error_title_product">Product details not available.</string>
+    <string name="error_title_service">Service details not available.</string>
+</resources>

@@ -67,7 +67,7 @@ ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseC
 //////////////////////////////////////////////////
 
 // Try to find an alternative match within the properties (or fall back to the main properties)
-ResponseFinder.matchAlternativeProperties = function(properties, method, getParameters, rawBody, callback) {
+ResponseFinder.matchAlternativeProperties = function(properties, method, getParameters, rawBody, headers, callback) {
     if (properties.alternatives) {
         for (var i = 0; i < properties.alternatives.length; i++) {
             // First pass: match method
@@ -123,6 +123,27 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                     continue;
                 }
                 if (!ParamMatcher.deepEquals(bodyJson, alternative.postJson)) {
+                    continue;
+                }
+            }
+            
+            // Fifth pass: headers
+            if (alternative.checkHeaders) {
+                var foundAlternative = true;
+                for (var key in alternative.checkHeaders) {
+                    var haveHeader = null;
+                    for (var haveKey in headers) {
+                        if (haveKey.toLowerCase() == key.toLowerCase()) {
+                            haveHeader = headers[haveKey];
+                            break;
+                        }
+                    }
+                    if (!ParamMatcher.paramEquals(alternative.checkHeaders[key], haveHeader)) {
+                        foundAlternative = false;
+                        break;
+                    }
+                }
+                if (!foundAlternative) {
                     continue;
                 }
             }
@@ -207,7 +228,7 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         var foundFile = arrayContains(files, properties.responsePath + "Headers.json", "responseHeaders.json");
         if (foundFile) {
             fs.readFile(
-                foundFile,
+                filePath + "/" + foundFile,
                 function(error, data) {
                     var headers = null;
                     if (!error && data) {
@@ -227,7 +248,8 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
 
 // Find the right response depending on the parameters and properties in the given folder
 ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getParameters, rawBody) {
-    // Convert POST data overrides in get parameter list
+    // Convert POST data or header overrides in get parameter list
+    var headers = req.headers;
     if (getParameters["methodOverride"]) {
         req.method = getParameters["methodOverride"];
         delete getParameters["methodOverride"];
@@ -235,6 +257,17 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
     if (getParameters["postBodyOverride"]) {
         rawBody = new Buffer(getParameters["postBodyOverride"]);
         delete getParameters["postBodyOverride"];
+    }
+    if (getParameters["headerOverride"]) {
+        var addHeaders = {};
+        try {
+            addHeaders = JSON.parse(getParameters["headerOverride"]);
+        } catch (ignored) {
+        }
+        for (var key in addHeaders) {
+            headers[key] = addHeaders[key];
+        }
+        delete getParameters["headerOverride"];
     }
     if (getParameters["getAsPostParameters"]) {
         var body = "";
@@ -253,7 +286,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
     
     // Obtain properties and continue
     ResponsePropertiesHelper.readFile(requestPath, filePath, function(properties) {
-        ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, function(useProperties) {
+        ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, headers, function(useProperties) {
             if (useProperties.method && req.method != useProperties.method.toUpperCase()) {
                 res.writeHead(409, ResponseFinder.compileHeaders("text/plain", {}));
                 res.end("Requested method of " + req.method + " doesn't match required " + useProperties.method.toUpperCase());

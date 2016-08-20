@@ -1,6 +1,6 @@
 {
-  "id": "__any__",
-  "name": "Service name",
-  "description": "A generic page about service details without having to implement all the responses",
-  "price": 4.95
+  "error_message": "Not authenticated, please log in.",
+  "error_id": "not_authenticated",
+  "error_code": "0150",
+  "log_entry": "87a343bc-957b-34ac-734e-91a9e8ff12e4"
 }

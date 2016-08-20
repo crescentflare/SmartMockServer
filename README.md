@@ -29,7 +29,7 @@ The \_\_dirname parameter is the directory in which the javascript file is locat
 When using gradle, the library can easily be imported into the build.gradle file of your project. Add the following dependency:
 
 ```
-compile ('com.crescentflare.smartmock:SmartMockLib:0.4.0')
+compile 'com.crescentflare.smartmock:SmartMockLib:0.4.0'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.

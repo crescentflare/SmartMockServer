@@ -130,6 +130,14 @@ public class SmartMockServer
 
         // Find location and generate response
         String filePath = SmartMockEndPointFinder.findLocation(context, rootPath, path);
+        if (filePath == null)
+        {
+            SmartMockResponse response = new SmartMockResponse();
+            response.setCode(404);
+            response.setMimeType("text/plain");
+            response.setStringBody("Request path not found: " + path + " (within: " + rootPath + ")");
+            return response;
+        }
         SmartMockResponse response = SmartMockResponseFinder.generateResponse(context, headers, method, path, filePath, parameters, body);
         if (cookiesEnabled)
         {

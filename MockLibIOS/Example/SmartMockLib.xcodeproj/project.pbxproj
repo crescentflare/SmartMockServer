@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043B6BBC1D776DDE008C4663 /* EndPoints in Resources */ = {isa = PBXBuildFile; fileRef = 043B6BBB1D776DDE008C4663 /* EndPoints */; };
 		046806DC1D7610680024A648 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046806DB1D7610680024A648 /* ProductViewController.swift */; };
 		046806DE1D761C880024A648 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046806DD1D761C880024A648 /* ServiceViewController.swift */; };
 		049B7FDE1D6F7F3200D8DB93 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B7FDC1D6F7F3200D8DB93 /* Api.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		019BD931D4B2185723E0CBDF /* Pods-SmartMockLib_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		043B6BBB1D776DDE008C4663 /* EndPoints */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EndPoints; sourceTree = "<group>"; };
 		046806DB1D7610680024A648 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		046806DD1D761C880024A648 /* ServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
 		049B7FDC1D6F7F3200D8DB93 /* Api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				04A904811D6CCBF500F0C130 /* Main.storyboard */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				043B6BBB1D776DDE008C4663 /* EndPoints */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for SmartMockLib";
@@ -323,6 +326,7 @@
 				04AABE001D6A3AC60078EFFE /* SmartMockLib.podspec in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				043B6BBC1D776DDE008C4663 /* EndPoints in Resources */,
 				04A904821D6CCBF500F0C130 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

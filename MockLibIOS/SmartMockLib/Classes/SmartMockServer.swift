@@ -18,7 +18,7 @@ class SmartMockServer: UIViewController {
     // MARK: Serve the response
     // --
     
-    public func obtainResponseSync() -> String? {
+    public func obtainResponseSync(method: String, rootPath: String, path: String, body: String?, headers: SmartMockHeaders?) -> String? {
         return nil
     }
     

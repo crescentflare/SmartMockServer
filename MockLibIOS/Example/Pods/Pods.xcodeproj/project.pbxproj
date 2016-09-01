@@ -12,19 +12,22 @@
 		11D1C30F956A0B9D5010E9E164975DF8 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B718ACFB17E24C0581807B26C0586C /* Image.swift */; };
 		14D0F8F8FEC81AF0EE97D984EBACB0AA /* ObjectMapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EAE313260F2579E4F9F28AE09BF0703 /* ObjectMapper-dummy.m */; };
 		16102E4E35FAA0FC4161282FECE56469 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B272762383F6E1E09910815F5D936E7D /* Timeline.swift */; };
+		18F5419EF3F8DD813D619C4A9E7E1A73 /* SmartMockServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82FADDA22D428A57721F5EA920DAF0 /* SmartMockServer.swift */; };
 		1D5FBE46901C325E761E59519EBCB310 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A223698594DBA64A9DCD55274DD3633A /* ObjectMapper.framework */; };
 		228C24E12068D693BF7EF9AC5DD4F2B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB8FECFEADD6F457868A5A246B4633 /* Foundation.framework */; };
+		231AD98E078A6303ECADEE8360D33A0A /* SmartMockLib-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC1E6A183FF2311DE83D4C8BDC00A9 /* SmartMockLib-dummy.m */; };
 		2897581A0F53AF51328F14BF9BAE5842 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594C942563AECCCD05BAC8DAD48A76DB /* DateTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2A55F6113BB4C41E8996BE2056FA25A8 /* SmartMockProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1508AFF2A17DAB0135CD28FC20B2027 /* SmartMockProperties.swift */; };
 		2D3405986FC586FA6C0A5E0B6BA7E64E /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3794CDDC2A6A5E02F2A1B8B2E44F48 /* Validation.swift */; };
 		34CCDCA848A701466256BC2927DA8856 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2610AA43B762E936F0CDB0236B679481 /* NetworkReachabilityManager.swift */; };
 		3A6502171B181276231C2E92BB25FF94 /* ObjectMapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 274E881459E132C49C5CC9B4A40E553D /* ObjectMapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3EA8F215C9C1432D74E5CCA4834AA8C0 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B9EE35F2CA32A8691D1D4FD87A280 /* ResponseSerialization.swift */; };
+		3F61F2AD2A6D56AF49780A0B88954FB0 /* SmartMockHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AF04A13ED2CED52F4787A8BCECCD1 /* SmartMockHeaders.swift */; };
 		405382FEF1BC90298D9CCF8F998ADB13 /* Pods-SmartMockLib_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B8579AE1E7746DABCF7B1915F71C896 /* Pods-SmartMockLib_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4081EA628AF0B73AC51FFB9D7AB3B89E /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DACFCCDA77AAFF294BA745DF6740D07 /* Manager.swift */; };
 		44D0FF87F8A99E3D32047169E247A8DC /* UIImage+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DBE235D33DE5903FFE64945DB76B84 /* UIImage+AlamofireImage.swift */; };
 		484F481A94D98EEF53B8DBC648E2CB63 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FE541033FFD80FF3DD0D65909B30 /* Map.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		48903DF2FF8D2378A210831BB05CD9F3 /* AlamofireObjectMapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E80B80479D1AF9F59B1F32314BC9CC20 /* AlamofireObjectMapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4A0F3F0F5FDCBB454F7ECE52AD1D0D19 /* SmartMockServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA0C14339792BB3994300D7E2B620F /* SmartMockServer.swift */; };
 		51C7B03FC104B84744C83B8F4787279D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F954332A74C083A4D03509D8C9A1C7A /* ImageCache.swift */; };
 		565D62E4D2E284D0795FF8A7CB60AF22 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB8FECFEADD6F457868A5A246B4633 /* Foundation.framework */; };
 		5BC19E6E0F199276003F0AF96838BCE5 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942D37A3BD14AAE3D3B35AF6D4870F77 /* Upload.swift */; };
@@ -44,6 +47,7 @@
 		91C09AC2A52ED69A27C8D923139A006F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB8FECFEADD6F457868A5A246B4633 /* Foundation.framework */; };
 		91F023CB33CC22BA4CC841AE468163A9 /* AlamofireImage-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8294C149D30C086A7C381B7DA877DB99 /* AlamofireImage-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9469DF81ECB494E84675969B5E13374C /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CDC9187F57BA74819E8C08C8A1C7C33 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		94B825EB38FAECA79B98F47DB0A140E0 /* SmartMockResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACFA85F008CFD4BA0AE07E626F30710 /* SmartMockResponseBody.swift */; };
 		94FEB030B75C6D881494694D82A33253 /* ISO8601DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440101E14E45639FA01E2861F8A4A6CC /* ISO8601DateTransform.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F95DA5E02FB33ADF42241D2CCEE2369 /* AlamofireObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B2AF0FB1971B7B7E8BAB15DD2FDE60 /* AlamofireObjectMapper.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AA314156AC500125F4078EE968DB14C6 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112EC6C54AF1E04D57B9F15266E09382 /* Result.swift */; };
@@ -71,9 +75,9 @@
 		EB7D1260D31A6F49E3E273CE870AA3DD /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5CD5F529635469DCD984384FF848D2B /* Alamofire.framework */; };
 		EF48B357A3158B57C78F8D28326748C9 /* UIButton+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD81C61C53923E9FF1BC5CA3BB146A0 /* UIButton+AlamofireImage.swift */; };
 		EFE92E8D3813DD26E78E93EEAF6D7E7E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F6884486F519F3BC1755B009E58FFA /* Request.swift */; };
-		F002A5D9F27798069739D7261E8D68E1 /* SmartMockLib-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC1E6A183FF2311DE83D4C8BDC00A9 /* SmartMockLib-dummy.m */; };
 		F8E8A54004355BEDF60903CA298AA38E /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5CD5F529635469DCD984384FF848D2B /* Alamofire.framework */; };
 		FAA1017FCE0F8B1C6E6BACCCD05B4A6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB8FECFEADD6F457868A5A246B4633 /* Foundation.framework */; };
+		FF6B735D87F1EBFF96029C059391AB59 /* SmartMockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754B3D968B665D27B049375CC2C398C2 /* SmartMockResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +143,7 @@
 		035C5BB1AAC4D6FA826834B8D40C4705 /* SmartMockLib-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SmartMockLib-prefix.pch"; sourceTree = "<group>"; };
 		06DB8FECFEADD6F457868A5A246B4633 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		0905CC811FC9B0FB3A6A327BBEAA0BD0 /* Download.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Download.swift; path = Source/Download.swift; sourceTree = "<group>"; };
+		0ACFA85F008CFD4BA0AE07E626F30710 /* SmartMockResponseBody.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponseBody.swift; sourceTree = "<group>"; };
 		0B8579AE1E7746DABCF7B1915F71C896 /* Pods-SmartMockLib_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartMockLib_Tests-umbrella.h"; sourceTree = "<group>"; };
 		112EC6C54AF1E04D57B9F15266E09382 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
 		119E69E5FD20025906A7F4A0000DE40C /* URLTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLTransform.swift; path = ObjectMapper/Transforms/URLTransform.swift; sourceTree = "<group>"; };
@@ -170,7 +175,6 @@
 		440101E14E45639FA01E2861F8A4A6CC /* ISO8601DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ISO8601DateTransform.swift; path = ObjectMapper/Transforms/ISO8601DateTransform.swift; sourceTree = "<group>"; };
 		48B718ACFB17E24C0581807B26C0586C /* Image.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Image.swift; path = Source/Image.swift; sourceTree = "<group>"; };
 		4C86003DCC9ADE756DF1D18C94845753 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4EAA0C14339792BB3994300D7E2B620F /* SmartMockServer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockServer.swift; sourceTree = "<group>"; };
 		4F0BB18E7BDF553473AEE14439038460 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
 		594C942563AECCCD05BAC8DAD48A76DB /* DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DateTransform.swift; path = ObjectMapper/Transforms/DateTransform.swift; sourceTree = "<group>"; };
 		5C99FB1526878C4A8B3532C5FEB47D13 /* TransformOf.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformOf.swift; path = ObjectMapper/Transforms/TransformOf.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 		639AE494CBA6AA9EB694A5749FA5248E /* ImageDownloader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = Source/ImageDownloader.swift; sourceTree = "<group>"; };
 		6415D81B55F8270E15E0CDB332EBDBC6 /* Pods-SmartMockLib_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SmartMockLib_Tests.modulemap"; sourceTree = "<group>"; };
 		6F22A9326B7ECE2F2907B244B1EF7AD4 /* Pods-SmartMockLib_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		754B3D968B665D27B049375CC2C398C2 /* SmartMockResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponse.swift; sourceTree = "<group>"; };
 		780B6DE60E30B0730C585BD58A4758F5 /* AlamofireImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AlamofireImage.xcconfig; sourceTree = "<group>"; };
 		7DDED497773A8C037717C0F19E65CBD3 /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = Source/Error.swift; sourceTree = "<group>"; };
 		8294C149D30C086A7C381B7DA877DB99 /* AlamofireImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireImage-umbrella.h"; sourceTree = "<group>"; };
@@ -194,6 +199,7 @@
 		996C23C08F42FA2229308EC6E0ADA434 /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Source/Response.swift; sourceTree = "<group>"; };
 		9CDC9187F57BA74819E8C08C8A1C7C33 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		9DACFCCDA77AAFF294BA745DF6740D07 /* Manager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Manager.swift; path = Source/Manager.swift; sourceTree = "<group>"; };
+		A1508AFF2A17DAB0135CD28FC20B2027 /* SmartMockProperties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockProperties.swift; sourceTree = "<group>"; };
 		A223698594DBA64A9DCD55274DD3633A /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A434DFFD5E413ACBDB359E5E99A163FF /* SmartMockLib-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SmartMockLib-umbrella.h"; sourceTree = "<group>"; };
 		A4B0CC13E38CCFE22C70E113A7FF3983 /* SmartMockLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartMockLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,10 +238,12 @@
 		EF134CF12E29EA56658A50A2BCB4ABA2 /* Pods_SmartMockLib_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartMockLib_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF30F9AE83C0F99E1BCC6675CDACD7D5 /* Pods-SmartMockLib_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SmartMockLib_Example-frameworks.sh"; sourceTree = "<group>"; };
 		F0B3F1035DA4C65F363468FB6074917B /* Pods-SmartMockLib_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SmartMockLib_Tests-frameworks.sh"; sourceTree = "<group>"; };
+		F46AF04A13ED2CED52F4787A8BCECCD1 /* SmartMockHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockHeaders.swift; sourceTree = "<group>"; };
 		F5CD5F529635469DCD984384FF848D2B /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68306B1FD4EA23B2919489D4A7217F8 /* NSDecimalNumberTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSDecimalNumberTransform.swift; path = ObjectMapper/Transforms/NSDecimalNumberTransform.swift; sourceTree = "<group>"; };
 		F803715C965124B90EFB2C6ABE04D8E9 /* AlamofireImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AlamofireImage-dummy.m"; sourceTree = "<group>"; };
 		F8DC1E6A183FF2311DE83D4C8BDC00A9 /* SmartMockLib-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SmartMockLib-dummy.m"; sourceTree = "<group>"; };
+		FA82FADDA22D428A57721F5EA920DAF0 /* SmartMockServer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockServer.swift; sourceTree = "<group>"; };
 		FBAE393933B1999A34C159E840E9ADCE /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC01C8C91665549DE241A9CF5439EB64 /* UIImageView+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImageView+AlamofireImage.swift"; path = "Source/UIImageView+AlamofireImage.swift"; sourceTree = "<group>"; };
 		FD3794CDDC2A6A5E02F2A1B8B2E44F48 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
@@ -308,7 +316,7 @@
 		0D78F845531E12B4A11AD55EA03E5113 /* MockLibIOS */ = {
 			isa = PBXGroup;
 			children = (
-				E64A911F438F8BBB4204C327D9353365 /* SmartMockLib */,
+				456D49929C02BBA1C48DF959D60548DA /* SmartMockLib */,
 			);
 			path = MockLibIOS;
 			sourceTree = "<group>";
@@ -369,14 +377,6 @@
 			path = ObjectMapper;
 			sourceTree = "<group>";
 		};
-		239902F1736437C0F770759BF2BCC561 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				4EAA0C14339792BB3994300D7E2B620F /* SmartMockServer.swift */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		2A342EE1BED0D5F9E7D84228BD517EC4 /* Alamofire */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +432,23 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/AlamofireImage";
+			sourceTree = "<group>";
+		};
+		456D49929C02BBA1C48DF959D60548DA /* SmartMockLib */ = {
+			isa = PBXGroup;
+			children = (
+				5088E17753C64E6287484910440D4371 /* Classes */,
+			);
+			path = SmartMockLib;
+			sourceTree = "<group>";
+		};
+		5088E17753C64E6287484910440D4371 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FA82FADDA22D428A57721F5EA920DAF0 /* SmartMockServer.swift */,
+				DB0D7C12E07C57EA23611EF27EAC11C5 /* model */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		50E2B714FC098F0A895034E4F191C58E /* Frameworks */ = {
@@ -565,6 +582,17 @@
 			path = "Target Support Files/Pods-SmartMockLib_Example";
 			sourceTree = "<group>";
 		};
+		DB0D7C12E07C57EA23611EF27EAC11C5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				F46AF04A13ED2CED52F4787A8BCECCD1 /* SmartMockHeaders.swift */,
+				A1508AFF2A17DAB0135CD28FC20B2027 /* SmartMockProperties.swift */,
+				754B3D968B665D27B049375CC2C398C2 /* SmartMockResponse.swift */,
+				0ACFA85F008CFD4BA0AE07E626F30710 /* SmartMockResponseBody.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		E4B764EB7D473AEA717127891C1BCAD6 /* SmartMockLib */ = {
 			isa = PBXGroup;
 			children = (
@@ -573,14 +601,6 @@
 			);
 			name = SmartMockLib;
 			path = ../../..;
-			sourceTree = "<group>";
-		};
-		E64A911F438F8BBB4204C327D9353365 /* SmartMockLib */ = {
-			isa = PBXGroup;
-			children = (
-				239902F1736437C0F770759BF2BCC561 /* Classes */,
-			);
-			path = SmartMockLib;
 			sourceTree = "<group>";
 		};
 		EB365016F20A94D78FFC6C9F5975EE2F /* iOS */ = {
@@ -748,7 +768,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F32DAABD2C7F5C8A00DDEA779AC862D /* Build configuration list for PBXNativeTarget "SmartMockLib" */;
 			buildPhases = (
-				262C46D1E4B74A77669B5778EE22ED0C /* Sources */,
+				C566A17F15FF9269F27A2AB899936D30 /* Sources */,
 				12CB631725E1B589AA6729D9A4A0D3FA /* Frameworks */,
 				4A5DDEEE1A547E5332DC7C78DBB26FE3 /* Headers */,
 			);
@@ -813,15 +833,6 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		262C46D1E4B74A77669B5778EE22ED0C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F002A5D9F27798069739D7261E8D68E1 /* SmartMockLib-dummy.m in Sources */,
-				4A0F3F0F5FDCBB454F7ECE52AD1D0D19 /* SmartMockServer.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2A0948CDC1D0D4309C0B7AFB3AB85A1E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -901,6 +912,19 @@
 				EF48B357A3158B57C78F8D28326748C9 /* UIButton+AlamofireImage.swift in Sources */,
 				44D0FF87F8A99E3D32047169E247A8DC /* UIImage+AlamofireImage.swift in Sources */,
 				AFB62E073F1070F28D0F0E966EC44E50 /* UIImageView+AlamofireImage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C566A17F15FF9269F27A2AB899936D30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F61F2AD2A6D56AF49780A0B88954FB0 /* SmartMockHeaders.swift in Sources */,
+				231AD98E078A6303ECADEE8360D33A0A /* SmartMockLib-dummy.m in Sources */,
+				2A55F6113BB4C41E8996BE2056FA25A8 /* SmartMockProperties.swift in Sources */,
+				FF6B735D87F1EBFF96029C059391AB59 /* SmartMockResponse.swift in Sources */,
+				94B825EB38FAECA79B98F47DB0A140E0 /* SmartMockResponseBody.swift in Sources */,
+				18F5419EF3F8DD813D619C4A9E7E1A73 /* SmartMockServer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,7 +24,7 @@ class SmartMockPropertiesUtility {
         var properties = SmartMockProperties()
         if let responseStream = SmartMockFileUtility.open(filePath + "/properties.json") {
             let result = SmartMockFileUtility.readFromInputStream(responseStream)
-            if let dictionary = convertStringToDictionary(result) {
+            if let dictionary = SmartMockStringUtility.convertStringToDictionary(result) {
                 properties.parseJsonDictionary(dictionary)
             }
         }
@@ -32,24 +32,4 @@ class SmartMockPropertiesUtility {
         return properties
     }
     
-    public static func convertStringToDictionary(text: String) -> [String: AnyObject]? {
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
-            do {
-                return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
-            } catch _ {
-            }
-        }
-        return nil
-    }
-
-    public static func convertStringToArray(text: String) -> [AnyObject]? {
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
-            do {
-                return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [AnyObject]
-            } catch _ {
-            }
-        }
-        return nil
-    }
-
 }

@@ -34,7 +34,7 @@ class SmartMockResponseFinder {
             getParameters.removeValueForKey("postBodyOverride")
         }
         if getParameters.keys.contains("headerOverride") {
-            if let addHeaders = SmartMockPropertiesUtility.convertStringToDictionary(getParameters["headerOverride"]!) {
+            if let addHeaders = SmartMockStringUtility.convertStringToDictionary(getParameters["headerOverride"]!) {
                 for (key, value) in addHeaders {
                     headers.addHeader(key, value: value as? String ?? "")
                 }
@@ -45,7 +45,7 @@ class SmartMockResponseFinder {
             var paramBody = ""
             for (parameter, value) in getParameters {
                 if parameter != "getAsPostParameters" {
-                    let paramSet = urlEncode(parameter) + "=" + urlEncode(value)
+                    let paramSet = SmartMockStringUtility.urlEncode(parameter) + "=" + SmartMockStringUtility.urlEncode(value)
                     if !paramBody.isEmpty {
                         paramBody += "&"
                     }
@@ -80,7 +80,7 @@ class SmartMockResponseFinder {
         if let foundFile = fileArraySearch(files, element: properties.responsePath! + "Headers.json", alt1: "responseHeaders.json", alt2: nil, alt3: nil) {
             if let inputStream = SmartMockFileUtility.open(filePath + "/" + foundFile) {
                 let fileContent = SmartMockFileUtility.readFromInputStream(inputStream)
-                if let headersJson = SmartMockPropertiesUtility.convertStringToDictionary(fileContent) {
+                if let headersJson = SmartMockStringUtility.convertStringToDictionary(fileContent) {
                     for (key, value) in headersJson {
                         returnHeaders.addHeader(key, value: value as? String ?? "")
                     }
@@ -172,7 +172,7 @@ class SmartMockResponseFinder {
                     for j in 0..<bodySplit.count {
                         let bodyParamSplit = bodySplit[j].characters.split{ $0 == "=" }.map(String.init)
                         if bodyParamSplit.count == 2 {
-                            postParameters[urlDecode(bodyParamSplit[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))] = urlDecode(bodyParamSplit[1].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
+                            postParameters[SmartMockStringUtility.urlDecode(bodyParamSplit[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))] = SmartMockStringUtility.urlDecode(bodyParamSplit[1].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
                         }
                     }
                     var foundAlternative = true
@@ -189,7 +189,7 @@ class SmartMockResponseFinder {
                 
                 // Fourth pass: POST JSON
                 if alternative.postJson != nil {
-                    var bodyJson: [String: AnyObject]? = SmartMockPropertiesUtility.convertStringToDictionary(body)
+                    var bodyJson: [String: AnyObject]? = SmartMockStringUtility.convertStringToDictionary(body)
                     if bodyJson == nil || !SmartMockParamMatcher.deepEquals(alternative.postJson!, haveDictionary: bodyJson!) {
                         continue
                     }
@@ -244,7 +244,7 @@ class SmartMockResponseFinder {
             var result: String?
             if let responseStream = SmartMockFileUtility.open(filePath) {
                 let result = SmartMockFileUtility.readFromInputStream(responseStream)
-                if SmartMockPropertiesUtility.convertStringToDictionary(result) != nil || SmartMockPropertiesUtility.convertStringToArray(result) != nil {
+                if SmartMockStringUtility.convertStringToDictionary(result) != nil || SmartMockStringUtility.convertStringToArray(result) != nil {
                     validatedJson = true
                 }
             }
@@ -316,25 +316,6 @@ class SmartMockResponseFinder {
             }
         }
         return nil
-    }
-
-
-    // --
-    // MARK: URL coding
-    // --
-
-    private static func urlEncode(string: String) -> String {
-        let result = string.stringByReplacingOccurrencesOfString(" ", withString: "+")
-        let characters = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
-        guard let encodedString = result.stringByAddingPercentEncodingWithAllowedCharacters(characters) else {
-            return result
-        }
-        return encodedString
-    }
-    
-    private static func urlDecode(string: String) -> String {
-        let result = string.stringByReplacingOccurrencesOfString("+", withString: " ")
-        return result.stringByRemovingPercentEncoding!
     }
 
 }

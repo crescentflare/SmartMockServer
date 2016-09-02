@@ -8,5 +8,6 @@ target 'SmartMockLib_Example' do
 
   target 'SmartMockLib_Tests' do
     inherit! :search_paths
+    pod 'SmartMockLib', :path => '../../'
   end
 end

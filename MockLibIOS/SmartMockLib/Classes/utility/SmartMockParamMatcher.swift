@@ -58,7 +58,7 @@ class SmartMockParamMatcher {
         if haveParam == nil {
             return false
         }
-        let patternSet = requireParam.characters.split{ $0 == "*" }.map(String.init)
+        let patternSet = requireParam.characters.split(allowEmptySlices: true, isSeparator: { $0 == "*" }).map(String.init)
         if patternSet.count == 0 {
             return true
         }
@@ -162,7 +162,7 @@ class SmartMockParamMatcher {
         if endPos <= startPos {
             return ""
         }
-        return string.substringWithRange(Range(start: string.startIndex.advancedBy(startPos), end: string.endIndex.advancedBy(endPos)))
+        return string.substringWithRange(Range(start: string.startIndex.advancedBy(startPos), end: string.startIndex.advancedBy(endPos)))
     }
     
 }

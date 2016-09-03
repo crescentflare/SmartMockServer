@@ -39,7 +39,7 @@ public class SmartMockResponseBody
     {
         SmartMockResponseBody result = new SmartMockResponseBody();
         result.stringContent = body;
-        result.contentLength = body.length();
+        result.contentLength = body.getBytes().length;
         return result;
     }
 

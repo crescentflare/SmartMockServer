@@ -113,7 +113,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                     continue;
                 }
             }
-            
+
             // Fourth pass: POST JSON
             if (alternative.postJson) {
                 var bodyJson = {};
@@ -122,7 +122,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                 } catch (exception) {
                     continue;
                 }
-                if (!ParamMatcher.deepEquals(bodyJson, alternative.postJson)) {
+                if (!ParamMatcher.deepEquals(alternative.postJson, bodyJson)) {
                     continue;
                 }
             }

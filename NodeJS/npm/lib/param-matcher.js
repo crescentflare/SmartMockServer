@@ -98,17 +98,17 @@ ParamMatcher.paramEquals = function(requireParam, haveParam) {
 }
 
 // Does a 'param' match against all (nested) elements in the given objects
-ParamMatcher.deepEquals = function(o1, o2) {
-    var wantKeys = Object.keys(o2);
+ParamMatcher.deepEquals = function(requireObject, haveObject) {
+    var wantKeys = Object.keys(requireObject);
     for (var index in wantKeys) {
         var key = wantKeys[index];
-        if (!o1[key]) {
+        if (haveObject[key] == null ) {
             return false;
-        } else if (typeof o1[key] == typeof o2[key] && typeof o1[key] == "object") {
-            if (!ParamMatcher.deepEquals(o1[key], o2[key])) {
+        } else if (typeof haveObject[key] == typeof requireObject[key] && typeof haveObject[key] == "object") {
+            if (!ParamMatcher.deepEquals(requireObject[key], haveObject[key])) {
                 return false;
             }
-        } else if (!ParamMatcher.paramEquals("" + o2[key], "" + o1[key])) {
+        } else if (!ParamMatcher.paramEquals("" + requireObject[key], "" + haveObject[key])) {
             return false;
         }
     }

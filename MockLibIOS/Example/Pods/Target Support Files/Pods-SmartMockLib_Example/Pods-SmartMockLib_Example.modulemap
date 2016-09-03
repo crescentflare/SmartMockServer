@@ -1,0 +1,6 @@
+framework module Pods_SmartMockLib_Example {
+  umbrella header "Pods-SmartMockLib_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

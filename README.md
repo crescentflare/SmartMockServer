@@ -1,5 +1,10 @@
 # SmartMockServer
 
+[![CI Status](http://img.shields.io/travis/crescentflare/SmartMockLib.svg?style=flat)](https://travis-ci.org/crescentflare/SmartMockLib)
+[![Version](https://img.shields.io/cocoapods/v/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
+[![License](https://img.shields.io/cocoapods/l/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
+[![Platform](https://img.shields.io/cocoapods/p/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
+
 Easily set up a mock server, either by running NodeJS, or by using an internal mock library within Android. Serve JSON (and several other) responses including features to make the mock server more flexible. For example, having multiple responses on the same endpoint depending on the post body.
 
 
@@ -33,6 +38,15 @@ compile 'com.crescentflare.smartmock:SmartMockLib:0.4.0'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
+
+
+### iOS integration guide
+
+The library is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+
+```ruby
+pod "SmartMockLib"
+```
 
 
 ### NodeJS module configuration

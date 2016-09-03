@@ -165,3 +165,26 @@ class MockedRequest {
     }
 
 }
+
+extension UIImageView {
+    
+    func setMockableImageUrl(URL: NSURL) {
+        if URL.scheme == "http" || URL.scheme == "https" {
+            af_setImageWithURL(URL)
+        } else {
+            image = UIImage(contentsOfFile: getRawPath(URL.absoluteString))
+        }
+    }
+    
+    private func getRawPath(path: String) -> String {
+        if path.hasPrefix("bundle:///") {
+            return (NSBundle.mainBundle().resourcePath ?? "") + "/" + path.stringByReplacingOccurrencesOfString("bundle:///", withString: "")
+        } else if path.hasPrefix("document:///") {
+            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let documentPath = paths[0]
+            return documentPath + "/" + path.stringByReplacingOccurrencesOfString("document:///", withString: "")
+        }
+        return path.stringByReplacingOccurrencesOfString("file:///", withString: "/")
+    }
+    
+}

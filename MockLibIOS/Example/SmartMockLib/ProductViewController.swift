@@ -28,7 +28,7 @@ class ProductViewController: UIViewController {
         super.viewDidLoad()
         Api.productService.loadProduct( productId ?? "", success: { product in
             let URL = NSURL(string: Api.baseUrl + product.image!)!
-            self._image.af_setImageWithURL(URL)
+            self._image.setMockableImageUrl(URL)
             self._title.text = product.name
             self._text.text = product.productDescription
         }, failure: { apiError in

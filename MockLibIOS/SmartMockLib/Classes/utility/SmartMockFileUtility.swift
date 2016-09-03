@@ -25,12 +25,21 @@ class SmartMockFileUtility {
     }
     
     public static func open(path: String) -> NSInputStream? {
-        return NSInputStream(fileAtPath: getRawPath(path))
+        if let inputStream = NSInputStream(fileAtPath: getRawPath(path)) {
+            inputStream.open()
+            return inputStream
+        }
+        return nil
     }
     
     public static func getLength(path: String) -> Int {
         if let attr = try? NSFileManager.defaultManager().attributesOfItemAtPath(getRawPath(path)) {
-            if let fileSize = attr[NSFileSize]  {
+            if let fileType = attr[NSFileType] {
+                if fileType as? String == NSFileTypeDirectory {
+                    return 0
+                }
+            }
+            if let fileSize = attr[NSFileSize] {
                 return (fileSize as! NSNumber).longValue
             }
             return 0
@@ -52,12 +61,14 @@ class SmartMockFileUtility {
             let bytesRead = stream.read(&buffer, maxLength: buffer.count)
             data.appendBytes(buffer, length: bytesRead)
         }
-        return String(data: data, encoding: NSUTF8StringEncoding) ?? ""
+        let result = String(data: data, encoding: NSUTF8StringEncoding) ?? ""
+        stream.close()
+        return result
     }
     
     public static func getRawPath(path: String) -> String {
         if path.hasPrefix("bundle:///") {
-            return NSBundle.mainBundle().resourcePath ?? "" + "/" + path.stringByReplacingOccurrencesOfString("bundle:///", withString: "")
+            return (NSBundle.mainBundle().resourcePath ?? "") + "/" + path.stringByReplacingOccurrencesOfString("bundle:///", withString: "")
         } else if path.hasPrefix("document:///") {
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let documentPath = paths[0]

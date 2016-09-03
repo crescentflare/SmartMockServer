@@ -5,7 +5,7 @@
 //  Main library model: a set of headers
 //
 
-class SmartMockHeaders {
+public class SmartMockHeaders {
     
     // --
     // MARK: Members

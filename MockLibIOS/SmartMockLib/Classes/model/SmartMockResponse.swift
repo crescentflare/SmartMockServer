@@ -5,7 +5,7 @@
 //  Main library model: a mocked response object
 //
 
-class SmartMockResponse {
+public class SmartMockResponse {
     
     // --
     // MARK: Members

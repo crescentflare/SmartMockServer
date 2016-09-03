@@ -5,7 +5,7 @@
 //  Main library model: a mocked response body to hold large streams or simple strings
 //
 
-class SmartMockResponseBody {
+public class SmartMockResponseBody {
     
     // --
     // MARK: Members

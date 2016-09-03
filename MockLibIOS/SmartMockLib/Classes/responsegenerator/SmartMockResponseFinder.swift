@@ -243,9 +243,11 @@ class SmartMockResponseFinder {
             var validatedJson = false
             var result: String?
             if let responseStream = SmartMockFileUtility.open(filePath) {
-                let result = SmartMockFileUtility.readFromInputStream(responseStream)
-                if SmartMockStringUtility.convertStringToDictionary(result) != nil || SmartMockStringUtility.convertStringToArray(result) != nil {
-                    validatedJson = true
+                result = SmartMockFileUtility.readFromInputStream(responseStream)
+                if result != nil {
+                    if SmartMockStringUtility.convertStringToDictionary(result!) != nil || SmartMockStringUtility.convertStringToArray(result!) != nil {
+                        validatedJson = true
+                    }
                 }
             }
             if !validatedJson {

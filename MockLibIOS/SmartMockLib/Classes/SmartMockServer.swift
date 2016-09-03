@@ -5,13 +5,13 @@
 //  Main library: obtain responses from the mock server endpoints
 //
 
-class SmartMockServer: UIViewController {
+public class SmartMockServer: UIViewController {
     
     // --
     // MARK: Singleton instance
     // --
     
-    let sharedServer = SmartMockServer()
+    public static let sharedServer = SmartMockServer()
 
     
     // --

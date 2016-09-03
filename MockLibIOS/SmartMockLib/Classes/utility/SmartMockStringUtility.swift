@@ -5,7 +5,7 @@
 //  Main library utility: string and JSON helpers
 //
 
-class SmartMockStringUtility {
+public class SmartMockStringUtility {
     
     // --
     // MARK: Initialization

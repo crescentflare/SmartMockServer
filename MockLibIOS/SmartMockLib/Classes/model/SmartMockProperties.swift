@@ -31,8 +31,8 @@ class SmartMockProperties {
     public func parseJsonDictionary(jsonDictionary: [String: AnyObject]) {
         // Parse parameters, body and header filters
         getParameters = serializeJsonDictionaryStringMap(jsonDictionary["getParameters"])
-        postParameters = serializeJsonDictionaryStringMap(jsonDictionary["getParameters"])
-        checkHeaders = serializeJsonDictionaryStringMap(jsonDictionary["getParameters"])
+        postParameters = serializeJsonDictionaryStringMap(jsonDictionary["postParameters"])
+        checkHeaders = serializeJsonDictionaryStringMap(jsonDictionary["checkHeaders"])
         postJson = jsonDictionary["postJson"] as? [String: AnyObject]
         
         // Parse alternatives

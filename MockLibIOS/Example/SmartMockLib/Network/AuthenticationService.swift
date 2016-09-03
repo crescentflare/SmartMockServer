@@ -36,13 +36,7 @@ class AuthenticationService {
     func logout() {
         mockableAlamofire.request(.POST, "logout").responseObject { (response: Response<User, NSError>) in } // Don't care about the result in the callback
         Api.setCurrentUser(nil)
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        if let cookies = storage.cookies {
-            for cookie in cookies {
-                storage.deleteCookie(cookie)
-            }
-        }
-        NSUserDefaults.standardUserDefaults().synchronize()
+        Api.clearCookies()
     }
     
 }

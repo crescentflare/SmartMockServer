@@ -11,10 +11,10 @@ public class SmartMockResponse {
     // MARK: Members
     // --
     
-    var headers = SmartMockHeaders.create(nil)
-    var body = SmartMockResponseBody.createFromString("")
-    var mimeType = ""
-    var code = 0
+    public var headers = SmartMockHeaders.create(nil)
+    public var body = SmartMockResponseBody.createFromString("")
+    public var mimeType = ""
+    public var code = 0
 
     
     // --

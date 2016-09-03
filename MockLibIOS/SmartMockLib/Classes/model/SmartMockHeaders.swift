@@ -22,13 +22,13 @@ public class SmartMockHeaders {
         // Private constructor, use factory methods to create an instance
     }
     
-    static func create(headers: [String: [String]]?) -> SmartMockHeaders {
+    public static func create(headers: [String: [String]]?) -> SmartMockHeaders {
         let result = SmartMockHeaders()
         result.values = headers ?? [:]
         return result
     }
     
-    static func createFromFlattenedMap(headers: [String: String]) -> SmartMockHeaders {
+    public static func createFromFlattenedMap(headers: [String: String]) -> SmartMockHeaders {
         let result = SmartMockHeaders()
         for (key, value) in headers {
             let list: [String] = [ value ]
@@ -44,6 +44,14 @@ public class SmartMockHeaders {
     
     public func getHeaderMap() -> [String: [String]] {
         return values
+    }
+    
+    public func getFlattenedHeaderMap() -> [String: String] {
+        var result: [String: String] = [:]
+        for (key, value) in values {
+            result[key] = getHeaderValue(key)
+        }
+        return result
     }
 
     public func overwriteHeaders(headers: SmartMockHeaders) {

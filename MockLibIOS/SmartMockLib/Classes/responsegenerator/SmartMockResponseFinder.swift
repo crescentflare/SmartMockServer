@@ -68,7 +68,7 @@ class SmartMockResponseFinder {
             return response
         }
         if useProperties.delay > 0 && !NSThread.isMainThread() {
-            sleep(UInt32(useProperties.delay))
+            usleep(UInt32(useProperties.delay) * 1000)
         }
         return collectResponse(requestPath, filePath: filePath, properties: useProperties)
     }

@@ -1,6 +1,6 @@
 # SmartMockServer
 
-[![CI Status](http://img.shields.io/travis/crescentflare/SmartMockLib.svg?style=flat)](https://travis-ci.org/crescentflare/SmartMockLib)
+[![CI Status](http://img.shields.io/travis/crescentflare/SmartMockServer.svg?style=flat)](https://travis-ci.org/crescentflare/SmartMockServer)
 [![License](https://img.shields.io/cocoapods/l/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
 [![Version](https://img.shields.io/npm/v/smart-mock-server.svg?style=flat)](https://www.npmjs.com/package/smart-mock-server)
 [![Version](https://img.shields.io/cocoapods/v/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)

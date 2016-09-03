@@ -1,25 +1,32 @@
 # SmartMockServer
 
 [![CI Status](http://img.shields.io/travis/crescentflare/SmartMockLib.svg?style=flat)](https://travis-ci.org/crescentflare/SmartMockLib)
-[![Version](https://img.shields.io/cocoapods/v/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
 [![License](https://img.shields.io/cocoapods/l/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
-[![Platform](https://img.shields.io/cocoapods/p/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
+[![Version](https://img.shields.io/npm/v/smart-mock-server.svg?style=flat)](https://www.npmjs.com/package/smart-mock-server)
+[![Version](https://img.shields.io/cocoapods/v/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
+[![Version](https://img.shields.io/bintray/v/crescentflare/maven/SmartMockLib.svg?style=flat)](https://bintray.com/crescentflare/maven/SmartMockLib)
 
-Easily set up a mock server, either by running NodeJS, or by using an internal mock library within Android. Serve JSON (and several other) responses including features to make the mock server more flexible. For example, having multiple responses on the same endpoint depending on the post body.
+Easily set up a mock server, either by running NodeJS, or by using an internal mock library within iOS or Android. Serve JSON (and several other) responses including features to make the mock server more flexible. For example, having multiple responses on the same endpoint depending on the post body.
 
 
 ### Features
 
 * Be able to easily set up an actual server by installing NodeJS. Then start the module with only a few lines of code
-* Also be able to use the mock responses without running an actual server by including an internal app library for Android
+* Also be able to serve the mock responses without running an actual server by including an internal app library for iOS and Android
 * Configure the mock server through a JSON file or commandline parameters, like running in SSL mode
-* Fully data-driven, endpoints can be created easily by creating folders and placing response JSON (or other formats like HTML) files
+* Fully data-driven, endpoints can be created easily by creating folders and placing response JSON (or other formats like HTML) files, most of it can be done without even restarting the server
 * Create alternative responses on a single endpoint using get parameter or post body filters (with wildcard support), header filters are also supported
 * Easily set up an index page. It will automatically list all endpoints inside (including documentation and alternative responses)
 * Be able to set up an endpoint as a folder to serve any kind of file (like images)
 
 
 ### NodeJS integration guide
+
+The package can be installed through npm with the following command:
+
+```
+npm install smart-mock-server
+```
 
 After installing the npm module, create a new file (for example server.js) to contain the startup code. This can be as small as the following:
 
@@ -34,7 +41,7 @@ The \_\_dirname parameter is the directory in which the javascript file is locat
 When using gradle, the library can easily be imported into the build.gradle file of your project. Add the following dependency:
 
 ```
-compile 'com.crescentflare.smartmock:SmartMockLib:0.4.0'
+compile 'com.crescentflare.smartmock:SmartMockLib:0.5.0'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
@@ -47,6 +54,8 @@ The library is available through [CocoaPods](http://cocoapods.org). To install i
 ```ruby
 pod "SmartMockLib"
 ```
+
+An example is available which shows how it can be integrated with Alamofire. Though it can also be used with other libraries or standalone.
 
 
 ### NodeJS module configuration
@@ -108,4 +117,4 @@ As mentioned above, use the post or get parameters properties to define for whic
 
 ### Status
 
-The project is new, but the NodeJS implementation should have enough features to be useful in a typical app. The example shows how to set up different kind of responses, alternative responses and how to make an overview index page. An Android internal mock library is also included now. An iOS implementation will follow later.
+The mock server should be ready to use within NodeJS or internally through a library for iOS and Android. Potential new features may be added in the future.

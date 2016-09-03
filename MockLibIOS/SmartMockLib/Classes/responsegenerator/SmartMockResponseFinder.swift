@@ -20,7 +20,7 @@ class SmartMockResponseFinder {
     // MARK: Main utility functions
     // --
     
-    public static func generateResponse(headers: SmartMockHeaders, requestMethod: String, requestPath: String, filePath: String, requestGetParameters: [String: String], requestBody: String) -> SmartMockResponse {
+    static func generateResponse(headers: SmartMockHeaders, requestMethod: String, requestPath: String, filePath: String, requestGetParameters: [String: String], requestBody: String) -> SmartMockResponse {
         // Convert POST data or header overrides in get parameter list
         var method = requestMethod
         var getParameters = requestGetParameters
@@ -103,7 +103,7 @@ class SmartMockResponseFinder {
         }
         
         // Check for executable javascript, this is not supported
-        if let foundJavascriptFile = fileArraySearch(files, element: properties.responsePath! + "Body.js", alt1: properties.responsePath! + ".js", alt2: "responseBody.js", alt3: "response.js") {
+        if let _ = fileArraySearch(files, element: properties.responsePath! + "Body.js", alt1: properties.responsePath! + ".js", alt2: "responseBody.js", alt3: "response.js") {
             let response = SmartMockResponse()
             response.code = 500
             response.mimeType = "text/plain"
@@ -189,7 +189,7 @@ class SmartMockResponseFinder {
                 
                 // Fourth pass: POST JSON
                 if alternative.postJson != nil {
-                    var bodyJson: [String: AnyObject]? = SmartMockStringUtility.convertStringToDictionary(body)
+                    let bodyJson: [String: AnyObject]? = SmartMockStringUtility.convertStringToDictionary(body)
                     if bodyJson == nil || !SmartMockParamMatcher.deepEquals(alternative.postJson!, haveDictionary: bodyJson!) {
                         continue
                     }

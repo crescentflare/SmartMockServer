@@ -20,7 +20,7 @@ class SmartMockParamMatcher {
     // MARK: String or JSON matching
     // --
     
-    public static func deepEquals(requireDictionary: [String: AnyObject], haveDictionary: [String: AnyObject]) -> Bool {
+    static func deepEquals(requireDictionary: [String: AnyObject], haveDictionary: [String: AnyObject]) -> Bool {
         let wantKeys = Array(requireDictionary.keys)
         for key in wantKeys {
             if !haveDictionary.keys.contains(key) {
@@ -54,7 +54,7 @@ class SmartMockParamMatcher {
         return true
     }
 
-    public static func paramEquals(requireParam: String, haveParam: String?) -> Bool {
+    static func paramEquals(requireParam: String, haveParam: String?) -> Bool {
         if haveParam == nil {
             return false
         }
@@ -128,7 +128,7 @@ class SmartMockParamMatcher {
         }
         var patternIndex = pattern.startIndex
         var valueIndex = value.startIndex
-        for i in 0..<pattern.characters.count {
+        for _ in 0..<pattern.characters.count {
             if pattern.characters[patternIndex] != "?" && value.characters[valueIndex] != pattern.characters[patternIndex] {
                 return false
             }
@@ -162,7 +162,7 @@ class SmartMockParamMatcher {
         if endPos <= startPos {
             return ""
         }
-        return string.substringWithRange(Range(start: string.startIndex.advancedBy(startPos), end: string.startIndex.advancedBy(endPos)))
+        return string.substringWithRange(string.startIndex.advancedBy(startPos)..<string.startIndex.advancedBy(endPos))
     }
     
 }

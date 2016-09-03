@@ -42,8 +42,8 @@ public class SmartMockServer: UIViewController {
     
     public func obtainResponseSync(method: String, rootPath: String, requestPath: String, requestBody: String?, requestHeaders: SmartMockHeaders?) -> SmartMockResponse {
         // Safety checks
-        var body = requestBody ?? ""
-        var headers = requestHeaders ?? SmartMockHeaders.create(nil)
+        let body = requestBody ?? ""
+        let headers = requestHeaders ?? SmartMockHeaders.create(nil)
         var path = requestPath
         
         // Fetch parameters from path

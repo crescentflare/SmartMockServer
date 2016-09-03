@@ -48,14 +48,14 @@ public class SmartMockHeaders {
     
     public func getFlattenedHeaderMap() -> [String: String] {
         var result: [String: String] = [:]
-        for (key, value) in values {
+        for (key, _) in values {
             result[key] = getHeaderValue(key)
         }
         return result
     }
 
     public func overwriteHeaders(headers: SmartMockHeaders) {
-        for (key, value) in headers.getHeaderMap() {
+        for (key, _) in headers.getHeaderMap() {
             setHeader(key, value: headers.getHeaderValue(key) ?? "")
         }
     }
@@ -83,7 +83,7 @@ public class SmartMockHeaders {
     }
     
     public func addHeader(key: String, value: String) {
-        for (checkKey, checkValue) in values {
+        for (checkKey, _) in values {
             if checkKey.caseInsensitiveCompare(key) == NSComparisonResult.OrderedSame {
                 values[checkKey]?.append(value)
                 return
@@ -93,7 +93,7 @@ public class SmartMockHeaders {
     }
     
     public func removeHeader(key: String) {
-        for (checkKey, checkValue) in values {
+        for (checkKey, _) in values {
             if checkKey.caseInsensitiveCompare(key) == NSComparisonResult.OrderedSame {
                 values.removeValueForKey(checkKey)
                 return

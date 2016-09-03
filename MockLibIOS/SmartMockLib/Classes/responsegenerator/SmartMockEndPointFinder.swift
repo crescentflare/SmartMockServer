@@ -20,7 +20,7 @@ class SmartMockEndPointFinder {
     // MARK: Utility functions
     // --
     
-    public static func findLocation(rootPath: String, checkRequestPath: String) -> String? {
+    static func findLocation(rootPath: String, checkRequestPath: String) -> String? {
         // Return early if request path is empty
         if checkRequestPath.isEmpty || checkRequestPath == "/" {
             return rootPath

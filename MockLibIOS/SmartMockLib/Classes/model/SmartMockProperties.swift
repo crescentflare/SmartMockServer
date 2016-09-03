@@ -28,7 +28,7 @@ class SmartMockProperties {
     // MARK: Serialization
     // --
     
-    public func parseJsonDictionary(jsonDictionary: [String: AnyObject]) {
+    func parseJsonDictionary(jsonDictionary: [String: AnyObject]) {
         // Parse parameters, body and header filters
         getParameters = serializeJsonDictionaryStringMap(jsonDictionary["getParameters"])
         postParameters = serializeJsonDictionaryStringMap(jsonDictionary["postParameters"])
@@ -59,7 +59,7 @@ class SmartMockProperties {
     // MARK: Helpers
     // --
     
-    public func forceDefaults() {
+    func forceDefaults() {
         responseCode = responseCode >= 0 ? responseCode : 200
         responsePath = responsePath ?? "response"
     }

@@ -20,11 +20,11 @@ class SmartMockFileUtility {
     // MARK: Utility functions
     // --
     
-    public static func list(path: String) -> [String]? {
+    static func list(path: String) -> [String]? {
         return try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(getRawPath(path))
     }
     
-    public static func open(path: String) -> NSInputStream? {
+    static func open(path: String) -> NSInputStream? {
         if let inputStream = NSInputStream(fileAtPath: getRawPath(path)) {
             inputStream.open()
             return inputStream
@@ -32,7 +32,7 @@ class SmartMockFileUtility {
         return nil
     }
     
-    public static func getLength(path: String) -> Int {
+    static func getLength(path: String) -> Int {
         if let attr = try? NSFileManager.defaultManager().attributesOfItemAtPath(getRawPath(path)) {
             if let fileType = attr[NSFileType] {
                 if fileType as? String == NSFileTypeDirectory {
@@ -47,14 +47,14 @@ class SmartMockFileUtility {
         return -1
     }
     
-    public static func exists(path: String) -> Bool {
-        if let attr = try? NSFileManager.defaultManager().attributesOfItemAtPath(getRawPath(path)) {
+    static func exists(path: String) -> Bool {
+        if let _ = try? NSFileManager.defaultManager().attributesOfItemAtPath(getRawPath(path)) {
             return true
         }
         return false
     }
     
-    public static func readFromInputStream(stream: NSInputStream) -> String {
+    static func readFromInputStream(stream: NSInputStream) -> String {
         let data = NSMutableData()
         var buffer = [UInt8](count: 4096, repeatedValue: 0)
         while stream.hasBytesAvailable {
@@ -66,7 +66,7 @@ class SmartMockFileUtility {
         return result
     }
     
-    public static func getRawPath(path: String) -> String {
+    static func getRawPath(path: String) -> String {
         if path.hasPrefix("bundle:///") {
             return (NSBundle.mainBundle().resourcePath ?? "") + "/" + path.stringByReplacingOccurrencesOfString("bundle:///", withString: "")
         } else if path.hasPrefix("document:///") {

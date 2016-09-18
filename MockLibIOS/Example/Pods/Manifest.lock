@@ -1,17 +1,17 @@
 PODS:
-  - Alamofire (3.4.1)
-  - AlamofireImage (2.4.1):
-    - Alamofire (~> 3.3)
-  - AlamofireObjectMapper (3.0.2):
-    - Alamofire (~> 3.2)
-    - ObjectMapper (~> 1.0)
-  - ObjectMapper (1.4.0)
+  - Alamofire (4.0.0)
+  - AlamofireImage (3.0.0):
+    - Alamofire (~> 4.0)
+  - AlamofireObjectMapper (4.0.0):
+    - Alamofire (~> 4.0)
+    - ObjectMapper (~> 2.0)
+  - ObjectMapper (2.0.0)
   - SmartMockLib (0.5.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.4)
-  - AlamofireImage (~> 2.0)
-  - AlamofireObjectMapper (~> 3.0)
+  - Alamofire (~> 4.0)
+  - AlamofireImage (~> 3.0)
+  - AlamofireObjectMapper (~> 4.0)
   - SmartMockLib (from `../../`)
 
 EXTERNAL SOURCES:
@@ -19,12 +19,12 @@ EXTERNAL SOURCES:
     :path: ../../
 
 SPEC CHECKSUMS:
-  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
-  AlamofireImage: 3ccf3347d9ea24580dc11fb892770a0be6a29826
-  AlamofireObjectMapper: 70f97cbf45c01c48d26aa07a1a7059a60ed7411d
-  ObjectMapper: a07ad0462c5adf014adc0f89ef04c29b626e855e
+  Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
+  AlamofireImage: 6594aa1139a67dcd36cde6da79ea4e5b318e60fb
+  AlamofireObjectMapper: 9faa3ce5a240efda1b209009a2d6e1e949227abc
+  ObjectMapper: aed2570edabbd3c9b26c939e1cabdb6558f933e0
   SmartMockLib: 6bdea88eecb168b4dec036b30c0a6eb5e9082788
 
-PODFILE CHECKSUM: 8bfe35c1a5a3cd47217249eb1487b9371f5ddb2c
+PODFILE CHECKSUM: 81c05cac0c314eb2e7e496b30ea076e59c1a6a2e
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2

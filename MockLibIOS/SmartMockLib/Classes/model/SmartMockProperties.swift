@@ -28,7 +28,7 @@ class SmartMockProperties {
     // MARK: Serialization
     // --
     
-    func parseJsonDictionary(jsonDictionary: [String: AnyObject]) {
+    func parseJsonDictionary(_ jsonDictionary: [String: AnyObject]) {
         // Parse parameters, body and header filters
         getParameters = serializeJsonDictionaryStringMap(jsonDictionary["getParameters"])
         postParameters = serializeJsonDictionaryStringMap(jsonDictionary["postParameters"])
@@ -64,7 +64,7 @@ class SmartMockProperties {
         responsePath = responsePath ?? "response"
     }
     
-    private func serializeJsonDictionaryStringMap(dictionary: AnyObject?) -> [String: String]? {
+    fileprivate func serializeJsonDictionaryStringMap(_ dictionary: AnyObject?) -> [String: String]? {
         return dictionary as? [String: String]
     }
     

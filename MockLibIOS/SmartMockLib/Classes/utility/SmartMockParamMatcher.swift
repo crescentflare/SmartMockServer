@@ -11,7 +11,7 @@ class SmartMockParamMatcher {
     // MARK: Initialization
     // --
     
-    private init() {
+    fileprivate init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,7 +20,7 @@ class SmartMockParamMatcher {
     // MARK: String or JSON matching
     // --
     
-    static func deepEquals(requireDictionary: [String: AnyObject], haveDictionary: [String: AnyObject]) -> Bool {
+    static func deepEquals(_ requireDictionary: [String: AnyObject], haveDictionary: [String: AnyObject]) -> Bool {
         let wantKeys = Array(requireDictionary.keys)
         for key in wantKeys {
             if !haveDictionary.keys.contains(key) {
@@ -54,11 +54,11 @@ class SmartMockParamMatcher {
         return true
     }
 
-    static func paramEquals(requireParam: String, haveParam: String?) -> Bool {
+    static func paramEquals(_ requireParam: String, haveParam: String?) -> Bool {
         if haveParam == nil {
             return false
         }
-        let patternSet = requireParam.characters.split(allowEmptySlices: true, isSeparator: { $0 == "*" }).map(String.init)
+        let patternSet = requireParam.characters.split(omittingEmptySubsequences: false, whereSeparator: { $0 == "*" }).map(String.init)
         if patternSet.count == 0 {
             return true
         }
@@ -73,7 +73,7 @@ class SmartMockParamMatcher {
     // MARK: Internal pattern matching
     // --
     
-    private static func searchPatternSet(value: String, paramPatternSet: [String]) -> Int {
+    fileprivate static func searchPatternSet(_ value: String, paramPatternSet: [String]) -> Int {
         var patternSet = paramPatternSet
         while patternSet.count > 0 && patternSet[0].characters.count == 0 {
             patternSet = Array(patternSet[1..<patternSet.count])
@@ -106,7 +106,7 @@ class SmartMockParamMatcher {
         return -1
     }
 
-    private static func searchPattern(value: String, pattern: String) -> Int {
+    fileprivate static func searchPattern(_ value: String, pattern: String) -> Int {
         if pattern.characters.count == 0 {
             return 0
         }
@@ -117,12 +117,12 @@ class SmartMockParamMatcher {
                     return i
                 }
             }
-            valueIndex = valueIndex.advancedBy(1)
+            valueIndex = value.index(valueIndex, offsetBy: 1)
         }
         return -1
     }
 
-    private static func patternEquals(value: String, pattern: String) -> Bool {
+    fileprivate static func patternEquals(_ value: String, pattern: String) -> Bool {
         if value.characters.count != pattern.characters.count {
             return false
         }
@@ -132,8 +132,8 @@ class SmartMockParamMatcher {
             if pattern.characters[patternIndex] != "?" && value.characters[valueIndex] != pattern.characters[patternIndex] {
                 return false
             }
-            patternIndex = patternIndex.advancedBy(1)
-            valueIndex = valueIndex.advancedBy(1)
+            patternIndex = pattern.index(patternIndex, offsetBy: 1)
+            valueIndex = value.index(valueIndex, offsetBy: 1)
         }
         return true
     }
@@ -143,14 +143,14 @@ class SmartMockParamMatcher {
     // MARK: String helper
     // --
     
-    private static func safeSubstring(string: String, start: Int) -> String {
+    fileprivate static func safeSubstring(_ string: String, start: Int) -> String {
         if start > string.characters.count {
             return ""
         }
-        return string.substringFromIndex(string.startIndex.advancedBy(start))
+        return string.substring(from: string.characters.index(string.startIndex, offsetBy: start))
     }
     
-    private static func safeSubstring(string: String, start: Int, end: Int) -> String {
+    fileprivate static func safeSubstring(_ string: String, start: Int, end: Int) -> String {
         var startPos = start
         var endPos = end
         if startPos > string.characters.count {
@@ -162,7 +162,7 @@ class SmartMockParamMatcher {
         if endPos <= startPos {
             return ""
         }
-        return string.substringWithRange(string.startIndex.advancedBy(startPos)..<string.startIndex.advancedBy(endPos))
+        return string.substring(with: string.characters.index(string.startIndex, offsetBy: startPos)..<string.characters.index(string.startIndex, offsetBy: endPos))
     }
     
 }

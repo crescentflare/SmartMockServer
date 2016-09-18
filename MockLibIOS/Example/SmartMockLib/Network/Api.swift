@@ -22,24 +22,24 @@ class Api {
     static let productService = ProductService(mockableAlamofire: MockableAlamofire(baseUrl: baseUrl))
     static let serviceService = ServiceService(mockableAlamofire: MockableAlamofire(baseUrl: baseUrl))
     
-    private static var currentUser: User?
+    fileprivate static var currentUser: User?
     
     static func getCurrentUser() -> User? {
         return currentUser
     }
 
-    static func setCurrentUser(user: User?) {
+    static func setCurrentUser(_ user: User?) {
         currentUser = user
     }
     
     static func clearCookies() {
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        let storage = HTTPCookieStorage.shared
         if let cookies = storage.cookies {
             for cookie in cookies {
                 storage.deleteCookie(cookie)
             }
         }
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.synchronize()
         SmartMockServer.sharedServer.clearCookies()
     }
     
@@ -47,31 +47,33 @@ class Api {
 
 class MockableAlamofire {
     
-    private let baseUrl: String
+    fileprivate let baseUrl: String
     
     init(baseUrl: String) {
         self.baseUrl = baseUrl
     }
     
-    func request(method: Alamofire.Method, _ URLString: URLStringConvertible, parameters: [String: AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String: String]? = nil) -> MockedRequest {
+    func request(_ url: URLConvertible, method: HTTPMethod = .get, parameters: Parameters? = nil, encoding: ParameterEncoding = URLEncoding.default, headers: HTTPHeaders? = nil) -> MockedRequest {
         var path = baseUrl
         var addPath = ""
-        if baseUrl.substringFromIndex(baseUrl.endIndex.advancedBy(-1)) != "/" {
+        if baseUrl.substring(from: baseUrl.characters.index(baseUrl.endIndex, offsetBy: -1)) != "/" {
             path += "/"
         }
-        if URLString.URLString.substringToIndex(URLString.URLString.startIndex.advancedBy(1)) == "/" {
-            addPath = URLString.URLString.substringFromIndex(URLString.URLString.startIndex.advancedBy(1))
-        } else {
-            addPath = URLString.URLString
+        if let urlString = try? url.asURL().absoluteString {
+            if urlString.substring(to: urlString.characters.index(urlString.startIndex, offsetBy: 1)) == "/" {
+                addPath = urlString.substring(from: urlString.characters.index(urlString.startIndex, offsetBy: 1))
+            } else {
+                addPath = urlString
+            }
         }
         path += addPath
         
-        if (path.rangeOfString("http://") == nil && path.rangeOfString("https://") == nil) {
+        if (path.range(of: "http://") == nil && path.range(of: "https://") == nil) {
             var body = ""
             SmartMockServer.sharedServer.enableCookies(true)
             if parameters != nil {
                 var firstToAdd = true
-                if method == .GET {
+                if method == .get {
                     for (key, value) in parameters! {
                         addPath += firstToAdd ? "?" : "&"
                         addPath += SmartMockStringUtility.urlEncode(key) + "=" + SmartMockStringUtility.urlEncode(value as? String ?? "")
@@ -94,7 +96,7 @@ class MockableAlamofire {
             return MockedRequest(mockMethod: method.rawValue, mockRootPath: baseUrl, mockRequestPath: addPath, mockRequestBody: body, mockHeaders: mockHeaders)
         }
 
-        let request = Alamofire.request(method, path, parameters: parameters, encoding: encoding, headers: headers)
+        let request = Alamofire.request(path, method: method, parameters: parameters, encoding: encoding, headers: headers)
         return MockedRequest(unmockedRequest: request)
     }
 
@@ -102,14 +104,14 @@ class MockableAlamofire {
 
 class MockedRequest {
     
-    var unmockedRequest: Request?
+    var unmockedRequest: DataRequest?
     var mockMethod: String
     var mockRootPath: String
     var mockRequestPath: String
     var mockRequestBody: String?
     var mockRequestHeaders: SmartMockHeaders?
     
-    init(unmockedRequest: Request) {
+    init(unmockedRequest: DataRequest) {
         self.unmockedRequest = unmockedRequest
         mockMethod = ""
         mockRootPath = ""
@@ -123,39 +125,55 @@ class MockedRequest {
         self.mockRequestBody = mockRequestBody
         self.mockRequestHeaders = mockHeaders
     }
-
-    func responseObject<T: Mappable>(queue queue: dispatch_queue_t? = nil, keyPath: String? = nil, mapToObject object: T? = nil, context: MapContext? = nil, completionHandler: Response<T, NSError> -> Void) {
+    
+    func responseObject<T: BaseMappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, mapToObject object: T? = nil, context: MapContext? = nil, completionHandler: @escaping (Alamofire.DataResponse<T>) -> Swift.Void) {
         if unmockedRequest == nil {
             SmartMockServer.sharedServer.obtainResponse(mockMethod, rootPath: mockRootPath, requestPath: mockRequestPath, requestBody: mockRequestBody, requestHeaders: mockRequestHeaders, completion: { response in
-                let urlRequest = NSURLRequest(URL: NSURL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath))
-                let urlResponse = NSHTTPURLResponse(URL: NSURL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath), statusCode: response.code, HTTPVersion: "1.1", headerFields: response.headers.getFlattenedHeaderMap())
-                completionHandler(self.mockedSerializedResult(Request.ObjectMapperSerializer(keyPath, context: context), request: urlRequest, response: urlResponse, data: response.body.getByteData(), error: nil))
+                let urlRequest = URLRequest(url: URL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath))
+                let urlResponse = HTTPURLResponse(url: URL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath), statusCode: response.code, httpVersion: "1.1", headerFields: response.headers.getFlattenedHeaderMap())
+                completionHandler(self.mockedSerializedResult(DataRequest.ObjectMapperSerializer(keyPath, context: context), request: urlRequest, response: urlResponse, data: response.body.getByteData(), error: nil))
             })
             return
         }
-        unmockedRequest!.response(queue: queue, responseSerializer: Request.ObjectMapperSerializer(keyPath, mapToObject: object, context: context), completionHandler: completionHandler)
+        unmockedRequest!.responseObject(queue: queue, keyPath: keyPath, mapToObject: object, context: context, completionHandler: completionHandler)
     }
 
-    func responseArray<T: Mappable>(queue queue: dispatch_queue_t? = nil, keyPath: String? = nil, context: MapContext? = nil, completionHandler: Response<[T], NSError> -> Void) {
+    func responseArray<T: BaseMappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, context: MapContext? = nil, completionHandler: @escaping (Alamofire.DataResponse<[T]>) -> Swift.Void) {
         if unmockedRequest == nil {
             SmartMockServer.sharedServer.obtainResponse(mockMethod, rootPath: mockRootPath, requestPath: mockRequestPath, requestBody: mockRequestBody, requestHeaders: mockRequestHeaders, completion: { response in
-                let urlRequest = NSURLRequest(URL: NSURL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath))
-                let urlResponse = NSHTTPURLResponse(URL: NSURL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath), statusCode: response.code, HTTPVersion: "1.1", headerFields: response.headers.getFlattenedHeaderMap())
-                completionHandler(self.mockedSerializedResult(Request.ObjectMapperArraySerializer(keyPath, context: context), request: urlRequest, response: urlResponse, data: response.body.getByteData(), error: nil))
+                let urlRequest = URLRequest(url: URL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath))
+                let urlResponse = HTTPURLResponse(url: URL(fileURLWithPath: self.mockRootPath + "/" + self.mockRequestPath), statusCode: response.code, httpVersion: "1.1", headerFields: response.headers.getFlattenedHeaderMap())
+                completionHandler(self.mockedSerializedArrayResult(DataRequest.ObjectMapperArraySerializer(keyPath, context: context), request: urlRequest, response: urlResponse, data: response.body.getByteData(), error: nil))
             })
             return
         }
-        unmockedRequest!.response(queue: queue, responseSerializer: Request.ObjectMapperArraySerializer(keyPath, context: context), completionHandler: completionHandler)
+        unmockedRequest!.responseArray(queue: queue, keyPath: keyPath, context: context, completionHandler: completionHandler)
     }
     
-    func mockedSerializedResult<T: ResponseSerializerType>(responseSerializer: T, request: NSURLRequest, response: NSHTTPURLResponse?, data: NSData?, error: NSError?) -> Response<T.SerializedObject, T.ErrorObject> {
+    func mockedSerializedResult<T: BaseMappable>(_ responseSerializer: Alamofire.DataResponseSerializer<T>, request: URLRequest, response: HTTPURLResponse?, data: Data?, error: NSError?) -> Alamofire.DataResponse<T> {
         let result = responseSerializer.serializeResponse(
             request,
             response,
             data,
             error
         )
-        let response = Response<T.SerializedObject, T.ErrorObject>(
+        let response = DataResponse<T>(
+            request: request,
+            response: response,
+            data: data,
+            result: result
+        )
+        return response
+    }
+
+    func mockedSerializedArrayResult<T: BaseMappable>(_ responseSerializer: Alamofire.DataResponseSerializer<[T]>, request: URLRequest, response: HTTPURLResponse?, data: Data?, error: NSError?) -> Alamofire.DataResponse<[T]> {
+        let result = responseSerializer.serializeResponse(
+            request,
+            response,
+            data,
+            error
+        )
+        let response = DataResponse<[T]>(
             request: request,
             response: response,
             data: data,
@@ -168,23 +186,23 @@ class MockedRequest {
 
 extension UIImageView {
     
-    func setMockableImageUrl(URL: NSURL) {
+    func setMockableImageUrl(_ URL: Foundation.URL) {
         if URL.scheme == "http" || URL.scheme == "https" {
-            af_setImageWithURL(URL)
+            af_setImage(withURL: URL)
         } else {
             image = UIImage(contentsOfFile: getRawPath(URL.absoluteString))
         }
     }
     
-    private func getRawPath(path: String) -> String {
+    fileprivate func getRawPath(_ path: String) -> String {
         if path.hasPrefix("bundle:///") {
-            return (NSBundle.mainBundle().resourcePath ?? "") + "/" + path.stringByReplacingOccurrencesOfString("bundle:///", withString: "")
+            return (Bundle.main.resourcePath ?? "") + "/" + path.replacingOccurrences(of: "bundle:///", with: "")
         } else if path.hasPrefix("document:///") {
-            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let documentPath = paths[0]
-            return documentPath + "/" + path.stringByReplacingOccurrencesOfString("document:///", withString: "")
+            return documentPath + "/" + path.replacingOccurrences(of: "document:///", with: "")
         }
-        return path.stringByReplacingOccurrencesOfString("file:///", withString: "/")
+        return path.replacingOccurrences(of: "file:///", with: "/")
     }
     
 }

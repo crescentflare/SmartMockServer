@@ -5,7 +5,7 @@
 //  Main library model: a mocked response body to hold large streams or simple strings
 //
 
-public class SmartMockResponseBody {
+open class SmartMockResponseBody {
     
     // --
     // MARK: Members
@@ -20,18 +20,18 @@ public class SmartMockResponseBody {
     // MARK: Initialization
     // --
     
-    private init() {
+    fileprivate init() {
         // Private constructor, use factory methods to create an instance
     }
     
-    public static func createFromString(body: String) -> SmartMockResponseBody {
+    open static func createFromString(_ body: String) -> SmartMockResponseBody {
         let result = SmartMockResponseBody()
         result.stringContent = body
-        result.contentLength = body.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        result.contentLength = body.lengthOfBytes(using: String.Encoding.utf8)
         return result
     }
     
-    public static func createFromFile(path: String, fileLength: Int) -> SmartMockResponseBody {
+    open static func createFromFile(_ path: String, fileLength: Int) -> SmartMockResponseBody {
         let result = SmartMockResponseBody()
         result.filePath = path
         result.contentLength = fileLength
@@ -43,11 +43,11 @@ public class SmartMockResponseBody {
     // MARK: Obtain data in several ways
     // --
     
-    public func count() -> Int {
+    open func count() -> Int {
         return contentLength
     }
     
-    public func getStringData() -> String {
+    open func getStringData() -> String {
         if stringContent != nil {
             return stringContent!
         } else if filePath != nil {
@@ -56,20 +56,20 @@ public class SmartMockResponseBody {
         return ""
     }
     
-    public func getByteData() -> NSData? {
+    open func getByteData() -> Data? {
         if stringContent != nil {
-            return stringContent!.dataUsingEncoding(NSUTF8StringEncoding)
+            return stringContent!.data(using: String.Encoding.utf8)
         } else if filePath != nil {
-            return NSData(contentsOfFile: filePath!)
+            return (try? Data(contentsOf: URL(fileURLWithPath: filePath!)))
         }
         return nil
     }
     
-    public func getInputStream() -> NSInputStream? {
+    open func getInputStream() -> InputStream? {
         if stringContent != nil {
-            return NSInputStream(data: getByteData()!)
+            return InputStream(data: getByteData()!)
         } else if filePath != nil {
-            return NSInputStream(fileAtPath: filePath!)
+            return InputStream(fileAtPath: filePath!)
         }
         return nil
     }

@@ -14,9 +14,9 @@ class ProductViewController: UIViewController {
     // MARK: Members
     // --
 
-    @IBOutlet private var _image: UIImageView! = nil
-    @IBOutlet private var _title: UILabel! = nil
-    @IBOutlet private var _text: UILabel! = nil
+    @IBOutlet fileprivate var _image: UIImageView! = nil
+    @IBOutlet fileprivate var _title: UILabel! = nil
+    @IBOutlet fileprivate var _text: UILabel! = nil
     var productId: String?
 
     
@@ -27,7 +27,7 @@ class ProductViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Api.productService.loadProduct( productId ?? "", success: { product in
-            let URL = NSURL(string: Api.baseUrl + product.image!)!
+            let URL = Foundation.URL(string: Api.baseUrl + product.image!)!
             self._image.setMockableImageUrl(URL)
             self._title.text = product.name
             self._text.text = product.productDescription

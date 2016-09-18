@@ -11,7 +11,7 @@ class SmartMockFileUtility {
     // MARK: Initialization
     // --
     
-    private init() {
+    fileprivate init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,61 +20,61 @@ class SmartMockFileUtility {
     // MARK: Utility functions
     // --
     
-    static func list(path: String) -> [String]? {
-        return try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(getRawPath(path))
+    static func list(_ path: String) -> [String]? {
+        return try? FileManager.default.contentsOfDirectory(atPath: getRawPath(path))
     }
     
-    static func open(path: String) -> NSInputStream? {
-        if let inputStream = NSInputStream(fileAtPath: getRawPath(path)) {
+    static func open(_ path: String) -> InputStream? {
+        if let inputStream = InputStream(fileAtPath: getRawPath(path)) {
             inputStream.open()
             return inputStream
         }
         return nil
     }
     
-    static func getLength(path: String) -> Int {
-        if let attr = try? NSFileManager.defaultManager().attributesOfItemAtPath(getRawPath(path)) {
-            if let fileType = attr[NSFileType] {
-                if fileType as? String == NSFileTypeDirectory {
+    static func getLength(_ path: String) -> Int {
+        if let attr = try? FileManager.default.attributesOfItem(atPath: getRawPath(path)) {
+            if let fileType = attr[FileAttributeKey.type] {
+                if fileType as? String == FileAttributeType.typeDirectory.rawValue {
                     return 0
                 }
             }
-            if let fileSize = attr[NSFileSize] {
-                return (fileSize as! NSNumber).longValue
+            if let fileSize = attr[FileAttributeKey.size] {
+                return (fileSize as! NSNumber).intValue
             }
             return 0
         }
         return -1
     }
     
-    static func exists(path: String) -> Bool {
-        if let _ = try? NSFileManager.defaultManager().attributesOfItemAtPath(getRawPath(path)) {
+    static func exists(_ path: String) -> Bool {
+        if let _ = try? FileManager.default.attributesOfItem(atPath: getRawPath(path)) {
             return true
         }
         return false
     }
     
-    static func readFromInputStream(stream: NSInputStream) -> String {
+    static func readFromInputStream(_ stream: InputStream) -> String {
         let data = NSMutableData()
-        var buffer = [UInt8](count: 4096, repeatedValue: 0)
+        var buffer = [UInt8](repeating: 0, count: 4096)
         while stream.hasBytesAvailable {
             let bytesRead = stream.read(&buffer, maxLength: buffer.count)
-            data.appendBytes(buffer, length: bytesRead)
+            data.append(buffer, length: bytesRead)
         }
-        let result = String(data: data, encoding: NSUTF8StringEncoding) ?? ""
+        let result = String(data: data as Data, encoding: String.Encoding.utf8) ?? ""
         stream.close()
         return result
     }
     
-    static func getRawPath(path: String) -> String {
+    static func getRawPath(_ path: String) -> String {
         if path.hasPrefix("bundle:///") {
-            return (NSBundle.mainBundle().resourcePath ?? "") + "/" + path.stringByReplacingOccurrencesOfString("bundle:///", withString: "")
+            return (Bundle.main.resourcePath ?? "") + "/" + path.replacingOccurrences(of: "bundle:///", with: "")
         } else if path.hasPrefix("document:///") {
-            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let documentPath = paths[0]
-            return documentPath + "/" + path.stringByReplacingOccurrencesOfString("document:///", withString: "")
+            return documentPath + "/" + path.replacingOccurrences(of: "document:///", with: "")
         }
-        return path.stringByReplacingOccurrencesOfString("file:///", withString: "/")
+        return path.replacingOccurrences(of: "file:///", with: "/")
     }
     
 }

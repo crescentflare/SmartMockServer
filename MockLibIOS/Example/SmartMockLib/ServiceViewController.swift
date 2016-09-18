@@ -13,8 +13,8 @@ class ServiceViewController: UIViewController {
     // MARK: Members
     // --
 
-    @IBOutlet private var _title: UILabel! = nil
-    @IBOutlet private var _text: UILabel! = nil
+    @IBOutlet fileprivate var _title: UILabel! = nil
+    @IBOutlet fileprivate var _text: UILabel! = nil
     var serviceId: String?
 
     

@@ -13,9 +13,9 @@ class LoginViewController: UIViewController {
     // MARK: Members
     // --
 
-    @IBOutlet private var _usernameField: UITextField! = nil
-    @IBOutlet private var _passwordField: UITextField! = nil
-    @IBOutlet private var _loginButton: UIButton! = nil
+    @IBOutlet fileprivate var _usernameField: UITextField! = nil
+    @IBOutlet fileprivate var _passwordField: UITextField! = nil
+    @IBOutlet fileprivate var _loginButton: UIButton! = nil
 
     
     // --
@@ -23,16 +23,16 @@ class LoginViewController: UIViewController {
     // --
     
     @IBAction func loginButtonPressed() {
-        _usernameField.enabled = false
-        _passwordField.enabled = false
-        _loginButton.enabled = false
+        _usernameField.isEnabled = false
+        _passwordField.isEnabled = false
+        _loginButton.isEnabled = false
         Api.authenticationService.login( _usernameField.text ?? "", password: _passwordField.text ?? "", success: { user in
             Api.setCurrentUser(user)
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }, failure: { apiError in
-            self._usernameField.enabled = true
-            self._passwordField.enabled = true
-            self._loginButton.enabled = true
+            self._usernameField.isEnabled = true
+            self._passwordField.isEnabled = true
+            self._loginButton.isEnabled = true
             UIAlertView(title: "Login failed", message: apiError?.message ?? Api.defaultErrorMessage, delegate: nil, cancelButtonTitle: "OK").show()
         })
     }

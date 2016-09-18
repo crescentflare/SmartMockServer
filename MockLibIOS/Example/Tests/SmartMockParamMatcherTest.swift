@@ -24,16 +24,16 @@ class SmartMockParamMatcherTest: XCTestCase {
     
     func testDeepEquals() {
         XCTAssertTrue(SmartMockParamMatcher.deepEquals(
-            [ "username": "username" ],
-            haveDictionary: [ "username": "username", "extra": "value" ]
+            [ "username": "username" as AnyObject ],
+            haveDictionary: [ "username": "username" as AnyObject, "extra": "value" as AnyObject ]
         ))
         XCTAssertTrue(SmartMockParamMatcher.deepEquals(
-            [ "username": "username", "info": [ "name": "*", "role": "admin" ] ],
-            haveDictionary: [ "username": "username", "info": [ "name": "test", "role": "admin" ] ]
+            [ "username": "username" as AnyObject, "info": [ "name": "*", "role": "admin" ] as AnyObject ],
+            haveDictionary: [ "username": "username" as AnyObject, "info": [ "name": "test", "role": "admin" ] as AnyObject ]
         ))
         XCTAssertFalse(SmartMockParamMatcher.deepEquals(
-            [ "username": "username", "info": [ "name": "*", "role": "admin" ] ],
-            haveDictionary: [ "username": "username", "info": [ "role": "admin" ] ]
+            [ "username": "username" as AnyObject, "info": [ "name": "*", "role": "admin" ] as AnyObject ],
+            haveDictionary: [ "username": "username" as AnyObject, "info": [ "role": "admin" ] as AnyObject ]
         ))
     }
     

@@ -13,7 +13,7 @@ class User: Mappable {
     var username: String?
     var role: UserRole?
     
-    required init?(_ map: Map) {
+    required init?(map: Map) {
     }
     
     func mapping(map: Map) {

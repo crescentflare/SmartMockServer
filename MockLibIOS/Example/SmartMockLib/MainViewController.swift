@@ -6,15 +6,35 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 // Type of cells
 enum MainViewCellType {
     
-    case Header(String)
-    case Text(String)
-    case Error(String)
-    case Link(String, String)
-    case UnderlinkSpacer
+    case header(String)
+    case text(String)
+    case error(String)
+    case link(String, String)
+    case underlinkSpacer
     
 }
 
@@ -43,7 +63,7 @@ class MainViewController: UITableViewController, LinkCellDelegate {
         self.tableView.estimatedRowHeight = 44
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         refreshData()
     }
 
@@ -82,46 +102,46 @@ class MainViewController: UITableViewController, LinkCellDelegate {
 
     func generateCellData() -> [MainViewCellType] {
         var items: [MainViewCellType] = []
-        items.append(.Header("User"))
+        items.append(.header("User"))
         if Api.getCurrentUser() != nil {
-            items.append(.Text("Logged in with user: \(Api.getCurrentUser()!.username!).\nClick logout below to end the session or to log in as a different user."))
-            items.append(.Link("> Logout", "/logout"))
+            items.append(.text("Logged in with user: \(Api.getCurrentUser()!.username!).\nClick logout below to end the session or to log in as a different user."))
+            items.append(.link("> Logout", "/logout"))
         } else {
-            items.append(.Text("The user is not logged in yet, click on login below to show user information and available services."))
-            items.append(.Link("> Login", "/login"))
+            items.append(.text("The user is not logged in yet, click on login below to show user information and available services."))
+            items.append(.link("> Login", "/login"))
         }
-        items.append(.UnderlinkSpacer)
-        items.append(.Header("Products"))
+        items.append(.underlinkSpacer)
+        items.append(.header("Products"))
         if let errorMessage = self.productError {
-            items.append(.Error(errorMessage))
+            items.append(.error(errorMessage))
         } else if products != nil {
             if products?.count > 0 {
-                items.append(.Text("The following products are available:"))
+                items.append(.text("The following products are available:"))
                 for product in products! {
-                    items.append(.Link("> \(product.name!)", "/products/\(product.productId!)"))
+                    items.append(.link("> \(product.name!)", "/products/\(product.productId!)"))
                 }
-                items.append(.UnderlinkSpacer)
+                items.append(.underlinkSpacer)
             } else {
-                items.append(.Text("No products are found."))
+                items.append(.text("No products are found."))
             }
         } else {
-            items.append(.Text("Products not loaded yet, please wait for them to load."))
+            items.append(.text("Products not loaded yet, please wait for them to load."))
         }
-        items.append(.Header("Services"))
+        items.append(.header("Services"))
         if let errorMessage = self.serviceError {
-            items.append(.Error(errorMessage))
+            items.append(.error(errorMessage))
         } else if services != nil {
             if services?.count > 0 {
-                items.append(.Text("The following services can be used:"))
+                items.append(.text("The following services can be used:"))
                 for service in services! {
-                    items.append(.Link("> \(service.name!)", "/services/\(service.serviceId!)"))
+                    items.append(.link("> \(service.name!)", "/services/\(service.serviceId!)"))
                 }
-                items.append(.UnderlinkSpacer)
+                items.append(.underlinkSpacer)
             } else {
-                items.append(.Text("No services are found."))
+                items.append(.text("No services are found."))
             }
         } else {
-            items.append(.Text("Services not loaded yet, please wait for them to load."))
+            items.append(.text("Services not loaded yet, please wait for them to load."))
         }
         return items
     }
@@ -131,34 +151,34 @@ class MainViewController: UITableViewController, LinkCellDelegate {
     // MARK: UITableViewDataSource
     // --
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let items = generateCellData()
         return items.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let items = generateCellData()
-        switch items[indexPath.row] {
-        case .Header(let text):
-            let cell: HeaderCell = tableView.dequeueReusableCellWithIdentifier("table_header") as! HeaderCell
+        switch items[(indexPath as NSIndexPath).row] {
+        case .header(let text):
+            let cell: HeaderCell = tableView.dequeueReusableCell(withIdentifier: "table_header") as! HeaderCell
             cell.label = text
             return cell
-        case .Text(let text):
-            let cell: TextCell = tableView.dequeueReusableCellWithIdentifier("table_text") as! TextCell
+        case .text(let text):
+            let cell: TextCell = tableView.dequeueReusableCell(withIdentifier: "table_text") as! TextCell
             cell.label = text
             return cell
-        case .Error(let text):
-            let cell: ErrorCell = tableView.dequeueReusableCellWithIdentifier("table_error") as! ErrorCell
+        case .error(let text):
+            let cell: ErrorCell = tableView.dequeueReusableCell(withIdentifier: "table_error") as! ErrorCell
             cell.label = text
             return cell
-        case .Link(let text, let link):
-            let cell: LinkCell = tableView.dequeueReusableCellWithIdentifier("table_link") as! LinkCell
+        case .link(let text, let link):
+            let cell: LinkCell = tableView.dequeueReusableCell(withIdentifier: "table_link") as! LinkCell
             cell.buttonText = text
             cell.link = link
             cell.delegate = self
             return cell
-        case .UnderlinkSpacer:
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("underlink_spacer")!
+        case .underlinkSpacer:
+            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "underlink_spacer")!
             return cell
         }
     }
@@ -168,29 +188,29 @@ class MainViewController: UITableViewController, LinkCellDelegate {
     // MARK: LinkCellDelegate
     // --
     
-    func onLinkClicked(link: String) {
+    func onLinkClicked(_ link: String) {
         if link == "/login" {
-            performSegueWithIdentifier("showlogin", sender: self)
+            performSegue(withIdentifier: "showlogin", sender: self)
         } else if link == "/logout" {
             Api.authenticationService.logout()
             tableView.reloadData()
             refreshData()
         } else if link.hasPrefix("/products/") {
-            selectedProduct = link.stringByReplacingOccurrencesOfString("/products/", withString: "")
-            performSegueWithIdentifier("showproductdetails", sender: self)
+            selectedProduct = link.replacingOccurrences(of: "/products/", with: "")
+            performSegue(withIdentifier: "showproductdetails", sender: self)
         } else if link.hasPrefix("/services/") {
-            selectedService = link.stringByReplacingOccurrencesOfString("/services/", withString: "")
-            performSegueWithIdentifier("showservicedetails", sender: self)
+            selectedService = link.replacingOccurrences(of: "/services/", with: "")
+            performSegue(withIdentifier: "showservicedetails", sender: self)
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showproductdetails" {
-            if let productViewController = segue.destinationViewController as? ProductViewController {
+            if let productViewController = segue.destination as? ProductViewController {
                 productViewController.productId = selectedProduct
             }
         } else if segue.identifier == "showservicedetails" {
-            if let serviceViewController = segue.destinationViewController as? ServiceViewController {
+            if let serviceViewController = segue.destination as? ServiceViewController {
                 serviceViewController.serviceId = selectedService
             }
         }

@@ -17,7 +17,7 @@ class ProductService {
         self.mockableAlamofire = mockableAlamofire
     }
     
-    func loadProducts(_ success: @escaping ([Product]) -> Void, failure: @escaping (ApiError?) -> Void) {
+    func loadProducts(success: @escaping ([Product]) -> Void, failure: @escaping (ApiError?) -> Void) {
         mockableAlamofire.request("products").responseArray { (response: DataResponse<[Product]>) in
             if let productArray = response.result.value {
                 if response.response?.statusCode ?? 0 >= 200 && response.response?.statusCode ?? 0 < 300 {
@@ -33,7 +33,7 @@ class ProductService {
         }
     }
     
-    func loadProduct(_ productId: String, success: @escaping (Product) -> Void, failure: @escaping (ApiError?) -> Void) {
+    func loadProduct(productId: String, success: @escaping (Product) -> Void, failure: @escaping (ApiError?) -> Void) {
         mockableAlamofire.request("products/" + productId).responseObject { (response: DataResponse<Product>) in
             if let product = response.result.value {
                 if response.response?.statusCode ?? 0 >= 200 && response.response?.statusCode ?? 0 < 300 {

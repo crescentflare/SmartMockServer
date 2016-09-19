@@ -17,8 +17,8 @@ class AuthenticationService {
         self.mockableAlamofire = mockableAlamofire
     }
     
-    func login(_ username: String, password: String, success: @escaping (User) -> Void, failure: @escaping (ApiError?) -> Void) {
-        mockableAlamofire.request("login", method: .post, parameters: [ "username": username, "password": password ]).responseObject { (response: DataResponse<User>) in
+    func login(withUsername: String, andPassword: String, success: @escaping (User) -> Void, failure: @escaping (ApiError?) -> Void) {
+        mockableAlamofire.request("login", method: .post, parameters: [ "username": withUsername, "password": andPassword ]).responseObject { (response: DataResponse<User>) in
             if let user = response.result.value {
                 if response.response?.statusCode ?? 0 >= 200 && response.response?.statusCode ?? 0 < 300 {
                     success(user)

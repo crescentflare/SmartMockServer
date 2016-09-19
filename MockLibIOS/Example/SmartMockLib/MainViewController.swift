@@ -6,26 +6,6 @@
 //
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 // Type of cells
 enum MainViewCellType {
@@ -67,13 +47,9 @@ class MainViewController: UITableViewController, LinkCellDelegate {
         refreshData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func refreshData() {
         // Fetch products
-        Api.productService.loadProducts( { products in
+        Api.productService.loadProducts(success: { products in
             self.products = products
             self.productError = nil
             self.tableView.reloadData()
@@ -84,7 +60,7 @@ class MainViewController: UITableViewController, LinkCellDelegate {
         })
         
         // Fetch services
-        Api.serviceService.loadServices( { services in
+        Api.serviceService.loadServices(success: { services in
             self.services = services
             self.serviceError = nil
             self.tableView.reloadData()
@@ -115,7 +91,7 @@ class MainViewController: UITableViewController, LinkCellDelegate {
         if let errorMessage = self.productError {
             items.append(.error(errorMessage))
         } else if products != nil {
-            if products?.count > 0 {
+            if products?.count ?? 0 > 0 {
                 items.append(.text("The following products are available:"))
                 for product in products! {
                     items.append(.link("> \(product.name!)", "/products/\(product.productId!)"))
@@ -131,7 +107,7 @@ class MainViewController: UITableViewController, LinkCellDelegate {
         if let errorMessage = self.serviceError {
             items.append(.error(errorMessage))
         } else if services != nil {
-            if services?.count > 0 {
+            if services?.count ?? 0 > 0 {
                 items.append(.text("The following services can be used:"))
                 for service in services! {
                     items.append(.link("> \(service.name!)", "/services/\(service.serviceId!)"))
@@ -188,7 +164,7 @@ class MainViewController: UITableViewController, LinkCellDelegate {
     // MARK: LinkCellDelegate
     // --
     
-    func onLinkClicked(_ link: String) {
+    func onLinkClicked(link: String) {
         if link == "/login" {
             performSegue(withIdentifier: "showlogin", sender: self)
         } else if link == "/logout" {

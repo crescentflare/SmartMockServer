@@ -22,7 +22,7 @@ class Api {
     static let productService = ProductService(mockableAlamofire: MockableAlamofire(baseUrl: baseUrl))
     static let serviceService = ServiceService(mockableAlamofire: MockableAlamofire(baseUrl: baseUrl))
     
-    fileprivate static var currentUser: User?
+    private static var currentUser: User?
     
     static func getCurrentUser() -> User? {
         return currentUser
@@ -47,7 +47,7 @@ class Api {
 
 class MockableAlamofire {
     
-    fileprivate let baseUrl: String
+    private let baseUrl: String
     
     init(baseUrl: String) {
         self.baseUrl = baseUrl

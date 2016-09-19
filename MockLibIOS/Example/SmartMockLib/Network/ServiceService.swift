@@ -17,7 +17,7 @@ class ServiceService {
         self.mockableAlamofire = mockableAlamofire
     }
     
-    func loadServices(_ success: @escaping ([Service]) -> Void, failure: @escaping (ApiError?) -> Void) {
+    func loadServices(success: @escaping ([Service]) -> Void, failure: @escaping (ApiError?) -> Void) {
         mockableAlamofire.request("services").responseArray { (response: DataResponse<[Service]>) in
             if let serviceArray = response.result.value {
                 if response.response?.statusCode ?? 0 >= 200 && response.response?.statusCode ?? 0 < 300 {
@@ -33,7 +33,7 @@ class ServiceService {
         }
     }
     
-    func loadService(_ serviceId: String, success: @escaping (Service) -> Void, failure: @escaping (ApiError?) -> Void) {
+    func loadService(serviceId: String, success: @escaping (Service) -> Void, failure: @escaping (ApiError?) -> Void) {
         mockableAlamofire.request("services/" + serviceId).responseObject { (response: DataResponse<Service>) in
             if let service = response.result.value {
                 if response.response?.statusCode ?? 0 >= 200 && response.response?.statusCode ?? 0 < 300 {

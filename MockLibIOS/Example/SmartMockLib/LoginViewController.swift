@@ -13,9 +13,9 @@ class LoginViewController: UIViewController {
     // MARK: Members
     // --
 
-    @IBOutlet fileprivate var _usernameField: UITextField! = nil
-    @IBOutlet fileprivate var _passwordField: UITextField! = nil
-    @IBOutlet fileprivate var _loginButton: UIButton! = nil
+    @IBOutlet private var _usernameField: UITextField! = nil
+    @IBOutlet private var _passwordField: UITextField! = nil
+    @IBOutlet private var _loginButton: UIButton! = nil
 
     
     // --
@@ -26,7 +26,7 @@ class LoginViewController: UIViewController {
         _usernameField.isEnabled = false
         _passwordField.isEnabled = false
         _loginButton.isEnabled = false
-        Api.authenticationService.login( _usernameField.text ?? "", password: _passwordField.text ?? "", success: { user in
+        Api.authenticationService.login(withUsername: _usernameField.text ?? "", andPassword: _passwordField.text ?? "", success: { user in
             Api.setCurrentUser(user)
             _ = self.navigationController?.popViewController(animated: true)
         }, failure: { apiError in

@@ -13,8 +13,8 @@ class ServiceViewController: UIViewController {
     // MARK: Members
     // --
 
-    @IBOutlet fileprivate var _title: UILabel! = nil
-    @IBOutlet fileprivate var _text: UILabel! = nil
+    @IBOutlet private var _title: UILabel! = nil
+    @IBOutlet private var _text: UILabel! = nil
     var serviceId: String?
 
     
@@ -24,7 +24,7 @@ class ServiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Api.serviceService.loadService( serviceId ?? "", success: { service in
+        Api.serviceService.loadService(serviceId: serviceId ?? "", success: { service in
             self._title.text = service.name
             self._text.text = service.serviceDescription
         }, failure: { apiError in

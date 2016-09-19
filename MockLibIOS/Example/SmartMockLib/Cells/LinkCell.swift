@@ -9,7 +9,7 @@ import UIKit
 
 protocol LinkCellDelegate: class {
     
-    func onLinkClicked(_ link: String)
+    func onLinkClicked(link: String)
     
 }
 
@@ -19,10 +19,10 @@ class LinkCell: UITableViewCell {
     // MARK: Members
     // --
 
-    @IBOutlet fileprivate var _button: UIButton! = nil
-    fileprivate var _link: String?
-    fileprivate weak var _delegate: LinkCellDelegate?
-    fileprivate var buttonEventAttached = false
+    @IBOutlet private var _button: UIButton! = nil
+    private var _link: String?
+    private weak var _delegate: LinkCellDelegate?
+    private var buttonEventAttached = false
 
 
     // --
@@ -65,9 +65,9 @@ class LinkCell: UITableViewCell {
         }
     }
     
-    @objc fileprivate func buttonPressed() {
+    @objc private func buttonPressed() {
         if let pressLink = _link {
-            _delegate?.onLinkClicked(pressLink)
+            _delegate?.onLinkClicked(link: pressLink)
         }
     }
 

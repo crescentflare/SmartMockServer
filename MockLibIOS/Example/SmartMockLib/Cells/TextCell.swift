@@ -13,7 +13,7 @@ class TextCell: UITableViewCell {
     // MARK: Members
     // --
 
-    @IBOutlet fileprivate var _label: UILabel! = nil
+    @IBOutlet private var _label: UILabel! = nil
 
 
     // --

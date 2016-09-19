@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SmartMockLib'
-  s.version          = '0.5.0'
+  s.version          = '0.5.1'
   s.summary          = 'All features of the smart mock server locally accessible.'
 
 # This description is used to generate tags and improve search results.

@@ -11,7 +11,7 @@ class SmartMockPropertiesUtility {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,11 +20,11 @@ class SmartMockPropertiesUtility {
     // MARK: Utility functions
     // --
     
-    static func readFile(_ requestPath: String, filePath: String) -> SmartMockProperties {
+    static func readFile(requestPath: String, filePath: String) -> SmartMockProperties {
         let properties = SmartMockProperties()
-        if let responseStream = SmartMockFileUtility.open(filePath + "/properties.json") {
+        if let responseStream = SmartMockFileUtility.open(path: filePath + "/properties.json") {
             let result = SmartMockFileUtility.readFromInputStream(responseStream)
-            if let dictionary = SmartMockStringUtility.convertStringToDictionary(result) {
+            if let dictionary = SmartMockStringUtility.parseToDictionary(string: result) {
                 properties.parseJsonDictionary(dictionary)
             }
         }

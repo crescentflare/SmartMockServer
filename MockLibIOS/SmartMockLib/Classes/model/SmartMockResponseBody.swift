@@ -5,7 +5,7 @@
 //  Main library model: a mocked response body to hold large streams or simple strings
 //
 
-open class SmartMockResponseBody {
+public class SmartMockResponseBody {
     
     // --
     // MARK: Members
@@ -20,18 +20,18 @@ open class SmartMockResponseBody {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, use factory methods to create an instance
     }
     
-    open static func createFromString(_ body: String) -> SmartMockResponseBody {
+    public static func makeFromString(_ body: String) -> SmartMockResponseBody {
         let result = SmartMockResponseBody()
         result.stringContent = body
         result.contentLength = body.lengthOfBytes(using: String.Encoding.utf8)
         return result
     }
     
-    open static func createFromFile(_ path: String, fileLength: Int) -> SmartMockResponseBody {
+    public static func makeFromFile(path: String, fileLength: Int) -> SmartMockResponseBody {
         let result = SmartMockResponseBody()
         result.filePath = path
         result.contentLength = fileLength
@@ -43,11 +43,11 @@ open class SmartMockResponseBody {
     // MARK: Obtain data in several ways
     // --
     
-    open func count() -> Int {
+    public func count() -> Int {
         return contentLength
     }
     
-    open func getStringData() -> String {
+    public func getStringData() -> String {
         if stringContent != nil {
             return stringContent!
         } else if filePath != nil {
@@ -56,7 +56,7 @@ open class SmartMockResponseBody {
         return ""
     }
     
-    open func getByteData() -> Data? {
+    public func getByteData() -> Data? {
         if stringContent != nil {
             return stringContent!.data(using: String.Encoding.utf8)
         } else if filePath != nil {
@@ -65,7 +65,7 @@ open class SmartMockResponseBody {
         return nil
     }
     
-    open func getInputStream() -> InputStream? {
+    public func getInputStream() -> InputStream? {
         if stringContent != nil {
             return InputStream(data: getByteData()!)
         } else if filePath != nil {

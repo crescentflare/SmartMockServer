@@ -5,13 +5,13 @@
 //  Main library utility: string and JSON helpers
 //
 
-open class SmartMockStringUtility {
+public class SmartMockStringUtility {
     
     // --
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,8 +20,8 @@ open class SmartMockStringUtility {
     // MARK: String to (JSON) dictionary
     // --
     
-    open static func convertStringToDictionary(_ text: String) -> [String: AnyObject]? {
-        if let data = text.data(using: String.Encoding.utf8) {
+    public static func parseToDictionary(string: String) -> [String: AnyObject]? {
+        if let data = string.data(using: String.Encoding.utf8) {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
             } catch _ {
@@ -30,8 +30,8 @@ open class SmartMockStringUtility {
         return nil
     }
     
-    open static func convertStringToArray(_ text: String) -> [AnyObject]? {
-        if let data = text.data(using: String.Encoding.utf8) {
+    public static func parseToArray(string: String) -> [AnyObject]? {
+        if let data = string.data(using: String.Encoding.utf8) {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject]
             } catch _ {
@@ -45,7 +45,7 @@ open class SmartMockStringUtility {
     // MARK: URL coding
     // --
     
-    open static func urlEncode(_ string: String) -> String {
+    public static func urlEncode(_ string: String) -> String {
         let result = string.replacingOccurrences(of: " ", with: "+")
         let characters = (CharacterSet.urlQueryAllowed as NSCharacterSet).mutableCopy() as! NSMutableCharacterSet
         guard let encodedString = result.addingPercentEncoding(withAllowedCharacters: characters as CharacterSet) else {
@@ -54,7 +54,7 @@ open class SmartMockStringUtility {
         return encodedString
     }
     
-    open static func urlDecode(_ string: String) -> String {
+    public static func urlDecode(_ string: String) -> String {
         let result = string.replacingOccurrences(of: "+", with: " ")
         return result.removingPercentEncoding!
     }

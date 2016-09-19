@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
         _loginButton.isEnabled = false
         Api.authenticationService.login( _usernameField.text ?? "", password: _passwordField.text ?? "", success: { user in
             Api.setCurrentUser(user)
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }, failure: { apiError in
             self._usernameField.isEnabled = true
             self._passwordField.isEnabled = true

@@ -5,45 +5,45 @@
 //  Main library: obtain responses from the mock server endpoints
 //
 
-open class SmartMockServer: UIViewController {
+public class SmartMockServer: UIViewController {
     
     // --
     // MARK: Singleton instance
     // --
     
-    open static let sharedServer = SmartMockServer()
+    public static let shared = SmartMockServer()
 
     
     // --
     // MARK: Members
     // --
 
-    fileprivate var cookieValues: [String] = []
-    fileprivate var cookiesEnabled = false
+    private var cookieValues: [String] = []
+    private var cookiesEnabled = false
 
     
     // --
     // MARK: Serve the response
     // --
     
-    open func obtainResponse(_ method: String, rootPath: String, requestPath: String, requestBody: String?, requestHeaders: SmartMockHeaders?, completion: @escaping (_ response: SmartMockResponse) -> Void) {
+    public func obtainResponse(method: String, rootPath: String, requestPath: String, requestBody: String?, requestHeaders: SmartMockHeaders?, completion: @escaping (_ response: SmartMockResponse) -> Void) {
         if !Thread.isMainThread {
-            completion(obtainResponseSync(method, rootPath: rootPath, requestPath: requestPath, requestBody: requestBody, requestHeaders: requestHeaders))
+            completion(obtainResponseSync(method: method, rootPath: rootPath, requestPath: requestPath, requestBody: requestBody, requestHeaders: requestHeaders))
             return
         }
         let priority = DispatchQueue.GlobalQueuePriority.default
         DispatchQueue.global(priority: priority).async {
-            let result = self.obtainResponseSync(method, rootPath: rootPath, requestPath: requestPath, requestBody: requestBody, requestHeaders: requestHeaders)
+            let result = self.obtainResponseSync(method: method, rootPath: rootPath, requestPath: requestPath, requestBody: requestBody, requestHeaders: requestHeaders)
             DispatchQueue.main.async {
                 completion(result)
             }
         }
     }
     
-    open func obtainResponseSync(_ method: String, rootPath: String, requestPath: String, requestBody: String?, requestHeaders: SmartMockHeaders?) -> SmartMockResponse {
+    public func obtainResponseSync(method: String, rootPath: String, requestPath: String, requestBody: String?, requestHeaders: SmartMockHeaders?) -> SmartMockResponse {
         // Safety checks
         let body = requestBody ?? ""
-        let headers = requestHeaders ?? SmartMockHeaders.create(nil)
+        let headers = requestHeaders ?? SmartMockHeaders.makeFromHeaders(nil)
         var path = requestPath
         
         // Fetch parameters from path
@@ -65,17 +65,17 @@ open class SmartMockServer: UIViewController {
         // Add cookies (if enabled)
         if cookiesEnabled {
             for value in cookieValues {
-                headers.addHeader("Cookie", value: value)
+                headers.addHeader(key: "Cookie", value: value)
             }
         }
         
         // Find location and generate response
-        if let filePath = SmartMockEndPointFinder.findLocation(rootPath, checkRequestPath: path) {
-            let response = SmartMockResponseFinder.generateResponse(headers, requestMethod: method, requestPath: path, filePath: filePath, requestGetParameters: parameters, requestBody: body)
+        if let filePath = SmartMockEndPointFinder.findLocation(atRootPath: rootPath, checkRequestPath: path) {
+            let response = SmartMockResponseFinder.generateResponse(headers: headers, requestMethod: method, requestPath: path, filePath: filePath, requestGetParameters: parameters, requestBody: body)
             if cookiesEnabled {
-                if let cookieValue = response.headers.getHeaderValue("Set-Cookie") {
+                if let cookieValue = response.headers.getHeaderValue(key: "Set-Cookie") {
                     if cookieValue.characters.count > 0 {
-                        applyToCookies(cookieValue)
+                        applyToCookies(value: cookieValue)
                     }
                 }
             }
@@ -93,15 +93,15 @@ open class SmartMockServer: UIViewController {
     // MARK: Cookie management
     // --
     
-    open func enableCookies(_ enabled: Bool) {
+    public func enableCookies(_ enabled: Bool) {
         cookiesEnabled = enabled
     }
     
-    open func clearCookies() {
+    public func clearCookies() {
         cookieValues.removeAll()
     }
     
-    fileprivate func applyToCookies(_ value: String) {
+    private func applyToCookies(value: String) {
         let splitValues = value.characters.split{ $0 == ";"}.map(String.init)
         for splitValue in splitValues {
             let valueSet = splitValue.characters.split{ $0 == "=" }.map(String.init)

@@ -11,7 +11,7 @@ class SmartMockResponseFinder {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,7 +20,7 @@ class SmartMockResponseFinder {
     // MARK: Main utility functions
     // --
     
-    static func generateResponse(_ headers: SmartMockHeaders, requestMethod: String, requestPath: String, filePath: String, requestGetParameters: [String: String], requestBody: String) -> SmartMockResponse {
+    static func generateResponse(headers: SmartMockHeaders, requestMethod: String, requestPath: String, filePath: String, requestGetParameters: [String: String], requestBody: String) -> SmartMockResponse {
         // Convert POST data or header overrides in get parameter list
         var method = requestMethod
         var getParameters = requestGetParameters
@@ -34,9 +34,9 @@ class SmartMockResponseFinder {
             getParameters.removeValue(forKey: "postBodyOverride")
         }
         if getParameters.keys.contains("headerOverride") {
-            if let addHeaders = SmartMockStringUtility.convertStringToDictionary(getParameters["headerOverride"]!) {
+            if let addHeaders = SmartMockStringUtility.parseToDictionary(string: getParameters["headerOverride"]!) {
                 for (key, value) in addHeaders {
-                    headers.addHeader(key, value: value as? String ?? "")
+                    headers.addHeader(key: key, value: value as? String ?? "")
                 }
             }
             getParameters.removeValue(forKey: "headerOverride")
@@ -58,8 +58,8 @@ class SmartMockResponseFinder {
         method = method.uppercased()
         
         // Obtain properties and continue
-        let properties = SmartMockPropertiesUtility.readFile(requestPath, filePath: filePath)
-        let useProperties = matchAlternativeProperties(properties, method: method, getParameters: getParameters, body: body, headers: headers)
+        let properties = SmartMockPropertiesUtility.readFile(requestPath: requestPath, filePath: filePath)
+        let useProperties = matchAlternativeProperties(properties: properties, method: method, getParameters: getParameters, body: body, headers: headers)
         if useProperties.method != nil && method != useProperties.method!.uppercased() {
             let response = SmartMockResponse()
             response.code = 409
@@ -70,19 +70,19 @@ class SmartMockResponseFinder {
         if useProperties.delay > 0 && !Thread.isMainThread {
             usleep(UInt32(useProperties.delay) * 1000)
         }
-        return collectResponse(requestPath, filePath: filePath, properties: useProperties)
+        return collectResponse(requestPath: requestPath, filePath: filePath, properties: useProperties)
     }
     
-    fileprivate static func collectResponse(_ requestPath: String, filePath: String, properties: SmartMockProperties) -> SmartMockResponse {
+    private static func collectResponse(requestPath: String, filePath: String, properties: SmartMockProperties) -> SmartMockResponse {
         // First collect headers to return
-        let returnHeaders = SmartMockHeaders.create(nil)
-        let files = SmartMockFileUtility.list(filePath) ?? []
+        let returnHeaders = SmartMockHeaders.makeFromHeaders(nil)
+        let files = SmartMockFileUtility.list(fromPath: filePath) ?? []
         if let foundFile = fileArraySearch(files, element: properties.responsePath! + "Headers.json", alt1: "responseHeaders.json", alt2: nil, alt3: nil) {
-            if let inputStream = SmartMockFileUtility.open(filePath + "/" + foundFile) {
+            if let inputStream = SmartMockFileUtility.open(path: filePath + "/" + foundFile) {
                 let fileContent = SmartMockFileUtility.readFromInputStream(inputStream)
-                if let headersJson = SmartMockStringUtility.convertStringToDictionary(fileContent) {
+                if let headersJson = SmartMockStringUtility.parseToDictionary(string: fileContent) {
                     for (key, value) in headersJson {
-                        returnHeaders.addHeader(key, value: value as? String ?? "")
+                        returnHeaders.addHeader(key: key, value: value as? String ?? "")
                     }
                 }
             }
@@ -91,7 +91,7 @@ class SmartMockResponseFinder {
         // Check for response generators, they are not supported (except for a file within the file list)
         if properties.generates != nil && (properties.generates == "indexPage" || properties.generates == "fileList") {
             if properties.generates == "fileList" {
-                if let fileResponse = responseFromFileGenerator(requestPath, filePath: filePath) {
+                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath) {
                     return fileResponse
                 }
             }
@@ -113,17 +113,17 @@ class SmartMockResponseFinder {
         
         // Check for JSON
         if let foundJsonFile = fileArraySearch(files, element: properties.responsePath! + "Body.json", alt1: properties.responsePath! + ".json", alt2: "responseBody.json", alt3: "response.json") {
-            return responseFromFile("application/json", filePath: filePath + "/" + foundJsonFile, responseCode: properties.responseCode, headers: returnHeaders)
+            return responseFromFile(contentType: "application/json", filePath: filePath + "/" + foundJsonFile, responseCode: properties.responseCode, headers: returnHeaders)
         }
         
         // Check for HTML
         if let foundHtmlFile = fileArraySearch(files, element: properties.responsePath! + "Body.html", alt1: properties.responsePath! + ".html", alt2: "responseBody.html", alt3: "response.html") {
-            return responseFromFile("text/html", filePath: filePath + "/" + foundHtmlFile, responseCode: properties.responseCode, headers: returnHeaders)
+            return responseFromFile(contentType: "text/html", filePath: filePath + "/" + foundHtmlFile, responseCode: properties.responseCode, headers: returnHeaders)
         }
         
         // Check for plain text
         if let foundTextFile = fileArraySearch(files, element: properties.responsePath! + "Body.txt", alt1: properties.responsePath! + ".txt", alt2: "responseBody.txt", alt3: "response.txt") {
-            return responseFromFile("text/plain", filePath: filePath + "/" + foundTextFile, responseCode: properties.responseCode, headers: returnHeaders)
+            return responseFromFile(contentType: "text/plain", filePath: filePath + "/" + foundTextFile, responseCode: properties.responseCode, headers: returnHeaders)
         }
         
         // Nothing found, return a not supported message
@@ -139,7 +139,7 @@ class SmartMockResponseFinder {
     // MARK: Property matching
     // --
     
-    fileprivate static func matchAlternativeProperties(_ properties: SmartMockProperties, method: String, getParameters: [String:String], body: String, headers: SmartMockHeaders) -> SmartMockProperties {
+    private static func matchAlternativeProperties(properties: SmartMockProperties, method: String, getParameters: [String:String], body: String, headers: SmartMockHeaders) -> SmartMockProperties {
         if let alternatives = properties.alternatives {
             for i in 0..<alternatives.count {
                 // First pass: match method
@@ -155,7 +155,7 @@ class SmartMockResponseFinder {
                 if alternative.getParameters != nil {
                     var foundAlternative = true
                     for (key, value) in alternative.getParameters! {
-                        if !SmartMockParamMatcher.paramEquals(value, haveParam: getParameters[key]) {
+                        if !SmartMockParamMatcher.paramEquals(requireParam: value, haveParam: getParameters[key]) {
                             foundAlternative = false
                             break
                         }
@@ -177,7 +177,7 @@ class SmartMockResponseFinder {
                     }
                     var foundAlternative = true
                     for (key, value) in alternative.postParameters! {
-                        if !SmartMockParamMatcher.paramEquals(value, haveParam: postParameters[key]) {
+                        if !SmartMockParamMatcher.paramEquals(requireParam: value, haveParam: postParameters[key]) {
                             foundAlternative = false
                             break
                         }
@@ -189,8 +189,8 @@ class SmartMockResponseFinder {
                 
                 // Fourth pass: POST JSON
                 if alternative.postJson != nil {
-                    let bodyJson: [String: AnyObject]? = SmartMockStringUtility.convertStringToDictionary(body)
-                    if bodyJson == nil || !SmartMockParamMatcher.deepEquals(alternative.postJson!, haveDictionary: bodyJson!) {
+                    let bodyJson: [String: AnyObject]? = SmartMockStringUtility.parseToDictionary(string: body)
+                    if bodyJson == nil || !SmartMockParamMatcher.deepEquals(requireDictionary: alternative.postJson!, haveDictionary: bodyJson!) {
                         continue
                     }
                 }
@@ -199,7 +199,7 @@ class SmartMockResponseFinder {
                 if alternative.checkHeaders != nil {
                     var foundAlternative = true
                     for (key, value) in alternative.checkHeaders! {
-                        if !SmartMockParamMatcher.paramEquals(value, haveParam: headers.getHeaderValue(key)) {
+                        if !SmartMockParamMatcher.paramEquals(requireParam: value, haveParam: headers.getHeaderValue(key: key)) {
                             foundAlternative = false
                             break
                         }
@@ -230,8 +230,8 @@ class SmartMockResponseFinder {
     // MARK: Helpers
     // --
     
-    fileprivate static func responseFromFile(_ contentType: String, filePath: String, responseCode: Int, headers: SmartMockHeaders) -> SmartMockResponse {
-        let fileLength = SmartMockFileUtility.getLength(filePath)
+    private static func responseFromFile(contentType: String, filePath: String, responseCode: Int, headers: SmartMockHeaders) -> SmartMockResponse {
+        let fileLength = SmartMockFileUtility.getLength(ofPath: filePath)
         if fileLength < 0 {
             let response = SmartMockResponse()
             response.code = 404
@@ -242,10 +242,10 @@ class SmartMockResponseFinder {
         if contentType == "application/json" {
             var validatedJson = false
             var result: String?
-            if let responseStream = SmartMockFileUtility.open(filePath) {
+            if let responseStream = SmartMockFileUtility.open(path: filePath) {
                 result = SmartMockFileUtility.readFromInputStream(responseStream)
                 if result != nil {
-                    if SmartMockStringUtility.convertStringToDictionary(result!) != nil || SmartMockStringUtility.convertStringToArray(result!) != nil {
+                    if SmartMockStringUtility.parseToDictionary(string: result!) != nil || SmartMockStringUtility.parseToArray(string: result!) != nil {
                         validatedJson = true
                     }
                 }
@@ -261,18 +261,18 @@ class SmartMockResponseFinder {
             response.code = responseCode
             response.mimeType = contentType
             response.headers.overwriteHeaders(headers)
-            response.body = SmartMockResponseBody.createFromString(result ?? "")
+            response.body = SmartMockResponseBody.makeFromString(result ?? "")
             return response
         }
         let response = SmartMockResponse()
         response.code = responseCode
         response.mimeType = contentType
         response.headers.overwriteHeaders(headers)
-        response.body = SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(filePath), fileLength: fileLength)
+        response.body = SmartMockResponseBody.makeFromFile(path: SmartMockFileUtility.getRawPath(filePath), fileLength: fileLength)
         return response
     }
     
-    fileprivate static func responseFromFileGenerator(_ requestPath: String, filePath: String) -> SmartMockResponse? {
+    private static func responseFromFileGenerator(requestPath: String, filePath: String) -> SmartMockResponse? {
         var requestEndPart = ""
         var fileEndPart = ""
         if let lastRequestSlashIndex = requestPath.range(of: "/", options: .backwards)?.lowerBound {
@@ -285,17 +285,17 @@ class SmartMockResponseFinder {
             let serveFile = filePath + "/" + requestEndPart
             let response = SmartMockResponse()
             response.code = 200
-            response.mimeType = getMimeType(serveFile)
-            response.body = SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(serveFile), fileLength: SmartMockFileUtility.getLength(serveFile))
+            response.mimeType = getMimeType(fromFilename: serveFile)
+            response.body = SmartMockResponseBody.makeFromFile(path: SmartMockFileUtility.getRawPath(serveFile), fileLength: SmartMockFileUtility.getLength(ofPath: serveFile))
             return response
         }
         return nil
     }
     
-    fileprivate static func getMimeType(_ filename: String) -> String {
+    private static func getMimeType(fromFilename: String) -> String {
         var fileExt = ""
-        if let dotPos = filename.range(of: ".", options: .backwards)?.lowerBound {
-            fileExt = filename.substring(from: filename.index(dotPos, offsetBy: 1))
+        if let dotPos = fromFilename.range(of: ".", options: .backwards)?.lowerBound {
+            fileExt = fromFilename.substring(from: fromFilename.index(dotPos, offsetBy: 1))
         }
         if fileExt == "png" {
             return "image/png"
@@ -311,7 +311,7 @@ class SmartMockResponseFinder {
         return "text/plain"
     }
     
-    fileprivate static func fileArraySearch(_ stringArray: [String], element: String, alt1: String?, alt2: String?, alt3: String?) -> String? {
+    private static func fileArraySearch(_ stringArray: [String], element: String, alt1: String?, alt2: String?, alt3: String?) -> String? {
         for check in stringArray {
             if check == element || check == alt1 || check == alt2 || check == alt3 {
                 return check

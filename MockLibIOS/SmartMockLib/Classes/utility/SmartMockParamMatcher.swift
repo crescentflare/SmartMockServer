@@ -11,7 +11,7 @@ class SmartMockParamMatcher {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,13 +20,13 @@ class SmartMockParamMatcher {
     // MARK: String or JSON matching
     // --
     
-    static func deepEquals(_ requireDictionary: [String: AnyObject], haveDictionary: [String: AnyObject]) -> Bool {
+    static func deepEquals(requireDictionary: [String: AnyObject], haveDictionary: [String: AnyObject]) -> Bool {
         let wantKeys = Array(requireDictionary.keys)
         for key in wantKeys {
             if !haveDictionary.keys.contains(key) {
                 return false
             } else if haveDictionary[key] is [String: AnyObject] && requireDictionary[key] is [String: AnyObject] {
-                if !deepEquals(requireDictionary[key] as! [String: AnyObject], haveDictionary: haveDictionary[key] as! [String: AnyObject]) {
+                if !deepEquals(requireDictionary: requireDictionary[key] as! [String: AnyObject], haveDictionary: haveDictionary[key] as! [String: AnyObject]) {
                     return false
                 }
             } else {
@@ -46,7 +46,7 @@ class SmartMockParamMatcher {
                 } else if haveDictionary[key] is Bool {
                     haveParam = String(haveDictionary[key] as! Bool)
                 }
-                if !paramEquals(requireParam, haveParam: haveParam) {
+                if !paramEquals(requireParam: requireParam, haveParam: haveParam) {
                     return false
                 }
             }
@@ -54,7 +54,7 @@ class SmartMockParamMatcher {
         return true
     }
 
-    static func paramEquals(_ requireParam: String, haveParam: String?) -> Bool {
+    static func paramEquals(requireParam: String, haveParam: String?) -> Bool {
         if haveParam == nil {
             return false
         }
@@ -62,10 +62,10 @@ class SmartMockParamMatcher {
         if patternSet.count == 0 {
             return true
         }
-        if patternSet[0].characters.count > 0 && !patternEquals(safeSubstring(haveParam!, start: 0, end: patternSet[0].characters.count), pattern: patternSet[0]) {
+        if patternSet[0].characters.count > 0 && !patternEquals(value: safeSubstring(haveParam!, start: 0, end: patternSet[0].characters.count), pattern: patternSet[0]) {
             return false
         }
-        return searchPatternSet(haveParam!, paramPatternSet: patternSet) >= 0
+        return searchPatternSet(value: haveParam!, paramPatternSet: patternSet) >= 0
     }
 
     
@@ -73,7 +73,7 @@ class SmartMockParamMatcher {
     // MARK: Internal pattern matching
     // --
     
-    fileprivate static func searchPatternSet(_ value: String, paramPatternSet: [String]) -> Int {
+    private static func searchPatternSet(value: String, paramPatternSet: [String]) -> Int {
         var patternSet = paramPatternSet
         while patternSet.count > 0 && patternSet[0].characters.count == 0 {
             patternSet = Array(patternSet[1..<patternSet.count])
@@ -86,7 +86,7 @@ class SmartMockParamMatcher {
         var searching = false
         repeat {
             searching = false
-            pos = searchPattern(safeSubstring(value, start: startPos), pattern: patternSet[0])
+            pos = searchPattern(value: safeSubstring(value, start: startPos), pattern: patternSet[0])
             if pos >= 0 {
                 if patternSet.count == 1 {
                     if startPos + pos + patternSet[0].characters.count == value.characters.count {
@@ -94,7 +94,7 @@ class SmartMockParamMatcher {
                     }
                 } else {
                     let nextPos = startPos + pos + patternSet[0].characters.count
-                    let setPos = searchPatternSet(safeSubstring(value, start: nextPos), paramPatternSet: Array(patternSet[1..<patternSet.count]))
+                    let setPos = searchPatternSet(value: safeSubstring(value, start: nextPos), paramPatternSet: Array(patternSet[1..<patternSet.count]))
                     if setPos >= 0 {
                         return startPos + pos
                     }
@@ -106,14 +106,14 @@ class SmartMockParamMatcher {
         return -1
     }
 
-    fileprivate static func searchPattern(_ value: String, pattern: String) -> Int {
+    private static func searchPattern(value: String, pattern: String) -> Int {
         if pattern.characters.count == 0 {
             return 0
         }
         var valueIndex = value.startIndex
         for i in 0..<value.characters.count {
             if pattern.characters[pattern.startIndex] == "?" || value.characters[valueIndex] == pattern.characters[pattern.startIndex] {
-                if patternEquals(safeSubstring(value, start: i, end: i + pattern.characters.count), pattern: pattern) {
+                if patternEquals(value: safeSubstring(value, start: i, end: i + pattern.characters.count), pattern: pattern) {
                     return i
                 }
             }
@@ -122,7 +122,7 @@ class SmartMockParamMatcher {
         return -1
     }
 
-    fileprivate static func patternEquals(_ value: String, pattern: String) -> Bool {
+    private static func patternEquals(value: String, pattern: String) -> Bool {
         if value.characters.count != pattern.characters.count {
             return false
         }
@@ -143,14 +143,14 @@ class SmartMockParamMatcher {
     // MARK: String helper
     // --
     
-    fileprivate static func safeSubstring(_ string: String, start: Int) -> String {
+    private static func safeSubstring(_ string: String, start: Int) -> String {
         if start > string.characters.count {
             return ""
         }
         return string.substring(from: string.characters.index(string.startIndex, offsetBy: start))
     }
     
-    fileprivate static func safeSubstring(_ string: String, start: Int, end: Int) -> String {
+    private static func safeSubstring(_ string: String, start: Int, end: Int) -> String {
         var startPos = start
         var endPos = end
         if startPos > string.characters.count {

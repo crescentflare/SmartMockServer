@@ -5,7 +5,7 @@
 //  Main library model: a set of headers
 //
 
-open class SmartMockHeaders {
+public class SmartMockHeaders {
     
     // --
     // MARK: Members
@@ -18,17 +18,17 @@ open class SmartMockHeaders {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, use factory methods to create an instance
     }
     
-    open static func create(_ headers: [String: [String]]?) -> SmartMockHeaders {
+    public static func makeFromHeaders(_ headers: [String: [String]]?) -> SmartMockHeaders {
         let result = SmartMockHeaders()
         result.values = headers ?? [:]
         return result
     }
     
-    open static func createFromFlattenedMap(_ headers: [String: String]) -> SmartMockHeaders {
+    public static func makeFromFlattenedHeaderMap(_ headers: [String: String]) -> SmartMockHeaders {
         let result = SmartMockHeaders()
         for (key, value) in headers {
             let list: [String] = [ value ]
@@ -42,25 +42,25 @@ open class SmartMockHeaders {
     // MARK: Access headers
     // --
     
-    open func getHeaderMap() -> [String: [String]] {
+    public func getHeaderMap() -> [String: [String]] {
         return values
     }
     
-    open func getFlattenedHeaderMap() -> [String: String] {
+    public func getFlattenedHeaderMap() -> [String: String] {
         var result: [String: String] = [:]
         for (key, _) in values {
-            result[key] = getHeaderValue(key)
+            result[key] = getHeaderValue(key: key)
         }
         return result
     }
 
-    open func overwriteHeaders(_ headers: SmartMockHeaders) {
+    public func overwriteHeaders(_ headers: SmartMockHeaders) {
         for (key, _) in headers.getHeaderMap() {
-            setHeader(key, value: headers.getHeaderValue(key) ?? "")
+            setHeader(key: key, value: headers.getHeaderValue(key: key) ?? "")
         }
     }
     
-    open func getHeaderValue(_ key: String) -> String? {
+    public func getHeaderValue(key: String) -> String? {
         for (checkKey, checkValue) in values {
             if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
                 var result = ""
@@ -76,23 +76,23 @@ open class SmartMockHeaders {
         return nil
     }
     
-    open func setHeader(_ key: String, value: String) {
+    public func setHeader(key: String, value: String) {
         let list: [String] = [ value ]
-        removeHeader(key)
+        removeHeader(key: key)
         values[key] = list
     }
     
-    open func addHeader(_ key: String, value: String) {
+    public func addHeader(key: String, value: String) {
         for (checkKey, _) in values {
             if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
                 values[checkKey]?.append(value)
                 return
             }
         }
-        setHeader(key, value: value)
+        setHeader(key: key, value: value)
     }
     
-    open func removeHeader(_ key: String) {
+    public func removeHeader(key: String) {
         for (checkKey, _) in values {
             if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
                 values.removeValue(forKey: checkKey)

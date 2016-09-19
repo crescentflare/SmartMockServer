@@ -11,7 +11,7 @@ class SmartMockFileUtility {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,11 +20,11 @@ class SmartMockFileUtility {
     // MARK: Utility functions
     // --
     
-    static func list(_ path: String) -> [String]? {
-        return try? FileManager.default.contentsOfDirectory(atPath: getRawPath(path))
+    static func list(fromPath: String) -> [String]? {
+        return try? FileManager.default.contentsOfDirectory(atPath: getRawPath(fromPath))
     }
     
-    static func open(_ path: String) -> InputStream? {
+    static func open(path: String) -> InputStream? {
         if let inputStream = InputStream(fileAtPath: getRawPath(path)) {
             inputStream.open()
             return inputStream
@@ -32,8 +32,8 @@ class SmartMockFileUtility {
         return nil
     }
     
-    static func getLength(_ path: String) -> Int {
-        if let attr = try? FileManager.default.attributesOfItem(atPath: getRawPath(path)) {
+    static func getLength(ofPath: String) -> Int {
+        if let attr = try? FileManager.default.attributesOfItem(atPath: getRawPath(ofPath)) {
             if let fileType = attr[FileAttributeKey.type] {
                 if fileType as? String == FileAttributeType.typeDirectory.rawValue {
                     return 0
@@ -47,7 +47,7 @@ class SmartMockFileUtility {
         return -1
     }
     
-    static func exists(_ path: String) -> Bool {
+    static func exists(path: String) -> Bool {
         if let _ = try? FileManager.default.attributesOfItem(atPath: getRawPath(path)) {
             return true
         }

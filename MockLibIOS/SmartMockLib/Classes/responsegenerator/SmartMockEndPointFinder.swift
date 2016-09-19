@@ -11,7 +11,7 @@ class SmartMockEndPointFinder {
     // MARK: Initialization
     // --
     
-    fileprivate init() {
+    private init() {
         // Private constructor, only static methods allowed
     }
 
@@ -20,10 +20,10 @@ class SmartMockEndPointFinder {
     // MARK: Utility functions
     // --
     
-    static func findLocation(_ rootPath: String, checkRequestPath: String) -> String? {
+    static func findLocation(atRootPath: String, checkRequestPath: String) -> String? {
         // Return early if request path is empty
         if checkRequestPath.isEmpty || checkRequestPath == "/" {
-            return rootPath
+            return atRootPath
         }
 
         // Determine path to traverse
@@ -38,14 +38,14 @@ class SmartMockEndPointFinder {
         
         // Start going through the file tree until a path is found
         if pathComponents.count > 0 {
-            var checkPath = rootPath
+            var checkPath = atRootPath
             for i in 0..<pathComponents.count {
                 let pathComponent: String = pathComponents[i]
-                if let fileList = SmartMockFileUtility.list(checkPath) {
+                if let fileList = SmartMockFileUtility.list(fromPath: checkPath) {
                     if fileList.contains(pathComponent) {
                         var isFile = false
                         if i + 1 == pathComponents.count {
-                            isFile = SmartMockFileUtility.getLength(checkPath + "/" + pathComponent) > 0
+                            isFile = SmartMockFileUtility.getLength(ofPath: checkPath + "/" + pathComponent) > 0
                         }
                         if !isFile {
                             checkPath += "/" + pathComponent
@@ -61,7 +61,7 @@ class SmartMockEndPointFinder {
             }
             return checkPath
         }
-        return rootPath
+        return atRootPath
     }
     
 }

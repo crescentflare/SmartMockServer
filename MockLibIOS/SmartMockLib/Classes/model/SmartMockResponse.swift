@@ -5,24 +5,24 @@
 //  Main library model: a mocked response object
 //
 
-open class SmartMockResponse {
+public class SmartMockResponse {
     
     // --
     // MARK: Members
     // --
     
-    open var headers = SmartMockHeaders.create(nil)
-    open var body = SmartMockResponseBody.createFromString("")
-    open var mimeType = ""
-    open var code = 0
+    public var headers = SmartMockHeaders.makeFromHeaders(nil)
+    public var body = SmartMockResponseBody.makeFromString("")
+    public var mimeType = ""
+    public var code = 0
 
     
     // --
     // MARK: Helper
     // --
     
-    open func setStringBody(_ body: String) {
-        self.body = SmartMockResponseBody.createFromString(body)
+    public func setStringBody(_ body: String) {
+        self.body = SmartMockResponseBody.makeFromString(body)
     }
     
 }

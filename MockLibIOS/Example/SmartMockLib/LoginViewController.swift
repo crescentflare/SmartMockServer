@@ -33,7 +33,10 @@ class LoginViewController: UIViewController {
             self._usernameField.isEnabled = true
             self._passwordField.isEnabled = true
             self._loginButton.isEnabled = true
-            UIAlertView(title: "Login failed", message: apiError?.message ?? Api.defaultErrorMessage, delegate: nil, cancelButtonTitle: "OK").show()
+            
+            let alert = UIAlertController.init(title: "Login failed", message: apiError?.message ?? Api.defaultErrorMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         })
     }
     

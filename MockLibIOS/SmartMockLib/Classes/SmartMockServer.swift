@@ -31,8 +31,7 @@ public class SmartMockServer: UIViewController {
             completion(obtainResponseSync(method: method, rootPath: rootPath, requestPath: requestPath, requestBody: requestBody, requestHeaders: requestHeaders))
             return
         }
-        let priority = DispatchQueue.GlobalQueuePriority.default
-        DispatchQueue.global(priority: priority).async {
+        DispatchQueue.global().async {
             let result = self.obtainResponseSync(method: method, rootPath: rootPath, requestPath: requestPath, requestBody: requestBody, requestHeaders: requestHeaders)
             DispatchQueue.main.async {
                 completion(result)

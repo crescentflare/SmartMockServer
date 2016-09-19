@@ -23,17 +23,20 @@ class LoginViewController: UIViewController {
     // --
     
     @IBAction func loginButtonPressed() {
-        _usernameField.enabled = false
-        _passwordField.enabled = false
-        _loginButton.enabled = false
-        Api.authenticationService.login( _usernameField.text ?? "", password: _passwordField.text ?? "", success: { user in
+        _usernameField.isEnabled = false
+        _passwordField.isEnabled = false
+        _loginButton.isEnabled = false
+        Api.authenticationService.login(withUsername: _usernameField.text ?? "", andPassword: _passwordField.text ?? "", success: { user in
             Api.setCurrentUser(user)
-            self.navigationController?.popViewControllerAnimated(true)
+            _ = self.navigationController?.popViewController(animated: true)
         }, failure: { apiError in
-            self._usernameField.enabled = true
-            self._passwordField.enabled = true
-            self._loginButton.enabled = true
-            UIAlertView(title: "Login failed", message: apiError?.message ?? Api.defaultErrorMessage, delegate: nil, cancelButtonTitle: "OK").show()
+            self._usernameField.isEnabled = true
+            self._passwordField.isEnabled = true
+            self._loginButton.isEnabled = true
+            
+            let alert = UIAlertController.init(title: "Login failed", message: apiError?.message ?? Api.defaultErrorMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         })
     }
     

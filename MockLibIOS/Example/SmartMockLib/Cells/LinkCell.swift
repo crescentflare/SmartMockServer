@@ -43,7 +43,7 @@ class LinkCell: UITableViewCell {
     
     var buttonText: String? {
         set {
-            _button!.setTitle(newValue, forState: .Normal)
+            _button!.setTitle(newValue, for: UIControlState())
         }
         get { return _button!.titleLabel!.text }
     }
@@ -59,7 +59,7 @@ class LinkCell: UITableViewCell {
         didSet {
             _delegate = delegate
             if !buttonEventAttached {
-                _button.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
+                _button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
                 buttonEventAttached = true
             }
         }
@@ -67,7 +67,7 @@ class LinkCell: UITableViewCell {
     
     @objc private func buttonPressed() {
         if let pressLink = _link {
-            _delegate?.onLinkClicked(pressLink)
+            _delegate?.onLinkClicked(link: pressLink)
         }
     }
 

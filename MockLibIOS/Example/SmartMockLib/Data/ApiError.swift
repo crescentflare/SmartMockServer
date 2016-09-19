@@ -15,7 +15,7 @@ class ApiError: Mappable {
     var code: String?
     var logEntry: String?
     
-    required init?(_ map: Map) {
+    required init?(map: Map) {
     }
     
     func mapping(map: Map) {

@@ -22,13 +22,13 @@ public class SmartMockHeaders {
         // Private constructor, use factory methods to create an instance
     }
     
-    public static func create(headers: [String: [String]]?) -> SmartMockHeaders {
+    public static func makeFromHeaders(_ headers: [String: [String]]?) -> SmartMockHeaders {
         let result = SmartMockHeaders()
         result.values = headers ?? [:]
         return result
     }
     
-    public static func createFromFlattenedMap(headers: [String: String]) -> SmartMockHeaders {
+    public static func makeFromFlattenedHeaderMap(_ headers: [String: String]) -> SmartMockHeaders {
         let result = SmartMockHeaders()
         for (key, value) in headers {
             let list: [String] = [ value ]
@@ -49,20 +49,20 @@ public class SmartMockHeaders {
     public func getFlattenedHeaderMap() -> [String: String] {
         var result: [String: String] = [:]
         for (key, _) in values {
-            result[key] = getHeaderValue(key)
+            result[key] = getHeaderValue(key: key)
         }
         return result
     }
 
-    public func overwriteHeaders(headers: SmartMockHeaders) {
+    public func overwriteHeaders(_ headers: SmartMockHeaders) {
         for (key, _) in headers.getHeaderMap() {
-            setHeader(key, value: headers.getHeaderValue(key) ?? "")
+            setHeader(key: key, value: headers.getHeaderValue(key: key) ?? "")
         }
     }
     
     public func getHeaderValue(key: String) -> String? {
         for (checkKey, checkValue) in values {
-            if checkKey.caseInsensitiveCompare(key) == NSComparisonResult.OrderedSame {
+            if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
                 var result = ""
                 for value in checkValue {
                     if result.characters.count > 0 {
@@ -78,24 +78,24 @@ public class SmartMockHeaders {
     
     public func setHeader(key: String, value: String) {
         let list: [String] = [ value ]
-        removeHeader(key)
+        removeHeader(key: key)
         values[key] = list
     }
     
     public func addHeader(key: String, value: String) {
         for (checkKey, _) in values {
-            if checkKey.caseInsensitiveCompare(key) == NSComparisonResult.OrderedSame {
+            if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
                 values[checkKey]?.append(value)
                 return
             }
         }
-        setHeader(key, value: value)
+        setHeader(key: key, value: value)
     }
     
     public func removeHeader(key: String) {
         for (checkKey, _) in values {
-            if checkKey.caseInsensitiveCompare(key) == NSComparisonResult.OrderedSame {
-                values.removeValueForKey(checkKey)
+            if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
+                values.removeValue(forKey: checkKey)
                 return
             }
         }

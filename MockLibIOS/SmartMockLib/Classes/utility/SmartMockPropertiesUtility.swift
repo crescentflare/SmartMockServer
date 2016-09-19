@@ -22,9 +22,9 @@ class SmartMockPropertiesUtility {
     
     static func readFile(requestPath: String, filePath: String) -> SmartMockProperties {
         let properties = SmartMockProperties()
-        if let responseStream = SmartMockFileUtility.open(filePath + "/properties.json") {
+        if let responseStream = SmartMockFileUtility.open(path: filePath + "/properties.json") {
             let result = SmartMockFileUtility.readFromInputStream(responseStream)
-            if let dictionary = SmartMockStringUtility.convertStringToDictionary(result) {
+            if let dictionary = SmartMockStringUtility.parseToDictionary(string: result) {
                 properties.parseJsonDictionary(dictionary)
             }
         }

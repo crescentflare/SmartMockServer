@@ -49,13 +49,21 @@ Make sure that jcenter is added as a repository. The library integrates well wit
 
 ### iOS integration guide
 
-The library is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+The library is available through [CocoaPods](http://cocoapods.org). To install it, simply add one of the following lines to your Podfile:
+
+Swift 3:
 
 ```ruby
-pod "SmartMockLib"
+pod "SmartMockLib", '~> 0.5.1'
 ```
 
-An example is available which shows how it can be integrated with Alamofire. Though it can also be used with other libraries or standalone.
+Swift 2.2:
+
+```ruby
+pod "SmartMockLib", '0.5.0'
+```
+
+An example is available which shows how it can be integrated with Alamofire. Though it can also be used with other libraries or separately.
 
 
 ### NodeJS module configuration

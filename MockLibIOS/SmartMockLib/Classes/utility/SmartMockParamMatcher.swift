@@ -26,7 +26,7 @@ class SmartMockParamMatcher {
             if !haveDictionary.keys.contains(key) {
                 return false
             } else if haveDictionary[key] is [String: AnyObject] && requireDictionary[key] is [String: AnyObject] {
-                if !deepEquals(requireDictionary[key] as! [String: AnyObject], haveDictionary: haveDictionary[key] as! [String: AnyObject]) {
+                if !deepEquals(requireDictionary: requireDictionary[key] as! [String: AnyObject], haveDictionary: haveDictionary[key] as! [String: AnyObject]) {
                     return false
                 }
             } else {
@@ -46,7 +46,7 @@ class SmartMockParamMatcher {
                 } else if haveDictionary[key] is Bool {
                     haveParam = String(haveDictionary[key] as! Bool)
                 }
-                if !paramEquals(requireParam, haveParam: haveParam) {
+                if !paramEquals(requireParam: requireParam, haveParam: haveParam) {
                     return false
                 }
             }
@@ -58,14 +58,14 @@ class SmartMockParamMatcher {
         if haveParam == nil {
             return false
         }
-        let patternSet = requireParam.characters.split(allowEmptySlices: true, isSeparator: { $0 == "*" }).map(String.init)
+        let patternSet = requireParam.characters.split(omittingEmptySubsequences: false, whereSeparator: { $0 == "*" }).map(String.init)
         if patternSet.count == 0 {
             return true
         }
-        if patternSet[0].characters.count > 0 && !patternEquals(safeSubstring(haveParam!, start: 0, end: patternSet[0].characters.count), pattern: patternSet[0]) {
+        if patternSet[0].characters.count > 0 && !patternEquals(value: safeSubstring(haveParam!, start: 0, end: patternSet[0].characters.count), pattern: patternSet[0]) {
             return false
         }
-        return searchPatternSet(haveParam!, paramPatternSet: patternSet) >= 0
+        return searchPatternSet(value: haveParam!, paramPatternSet: patternSet) >= 0
     }
 
     
@@ -86,7 +86,7 @@ class SmartMockParamMatcher {
         var searching = false
         repeat {
             searching = false
-            pos = searchPattern(safeSubstring(value, start: startPos), pattern: patternSet[0])
+            pos = searchPattern(value: safeSubstring(value, start: startPos), pattern: patternSet[0])
             if pos >= 0 {
                 if patternSet.count == 1 {
                     if startPos + pos + patternSet[0].characters.count == value.characters.count {
@@ -94,7 +94,7 @@ class SmartMockParamMatcher {
                     }
                 } else {
                     let nextPos = startPos + pos + patternSet[0].characters.count
-                    let setPos = searchPatternSet(safeSubstring(value, start: nextPos), paramPatternSet: Array(patternSet[1..<patternSet.count]))
+                    let setPos = searchPatternSet(value: safeSubstring(value, start: nextPos), paramPatternSet: Array(patternSet[1..<patternSet.count]))
                     if setPos >= 0 {
                         return startPos + pos
                     }
@@ -113,11 +113,11 @@ class SmartMockParamMatcher {
         var valueIndex = value.startIndex
         for i in 0..<value.characters.count {
             if pattern.characters[pattern.startIndex] == "?" || value.characters[valueIndex] == pattern.characters[pattern.startIndex] {
-                if patternEquals(safeSubstring(value, start: i, end: i + pattern.characters.count), pattern: pattern) {
+                if patternEquals(value: safeSubstring(value, start: i, end: i + pattern.characters.count), pattern: pattern) {
                     return i
                 }
             }
-            valueIndex = valueIndex.advancedBy(1)
+            valueIndex = value.index(valueIndex, offsetBy: 1)
         }
         return -1
     }
@@ -132,8 +132,8 @@ class SmartMockParamMatcher {
             if pattern.characters[patternIndex] != "?" && value.characters[valueIndex] != pattern.characters[patternIndex] {
                 return false
             }
-            patternIndex = patternIndex.advancedBy(1)
-            valueIndex = valueIndex.advancedBy(1)
+            patternIndex = pattern.index(patternIndex, offsetBy: 1)
+            valueIndex = value.index(valueIndex, offsetBy: 1)
         }
         return true
     }
@@ -143,14 +143,14 @@ class SmartMockParamMatcher {
     // MARK: String helper
     // --
     
-    private static func safeSubstring(string: String, start: Int) -> String {
+    private static func safeSubstring(_ string: String, start: Int) -> String {
         if start > string.characters.count {
             return ""
         }
-        return string.substringFromIndex(string.startIndex.advancedBy(start))
+        return string.substring(from: string.characters.index(string.startIndex, offsetBy: start))
     }
     
-    private static func safeSubstring(string: String, start: Int, end: Int) -> String {
+    private static func safeSubstring(_ string: String, start: Int, end: Int) -> String {
         var startPos = start
         var endPos = end
         if startPos > string.characters.count {
@@ -162,7 +162,7 @@ class SmartMockParamMatcher {
         if endPos <= startPos {
             return ""
         }
-        return string.substringWithRange(string.startIndex.advancedBy(startPos)..<string.startIndex.advancedBy(endPos))
+        return string.substring(with: string.characters.index(string.startIndex, offsetBy: startPos)..<string.characters.index(string.startIndex, offsetBy: endPos))
     }
     
 }

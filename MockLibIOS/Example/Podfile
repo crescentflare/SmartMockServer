@@ -2,9 +2,9 @@ use_frameworks!
 
 target 'SmartMockLib_Example' do
   pod 'SmartMockLib', :path => '../../'
-  pod 'Alamofire', '~> 3.4'
-  pod 'AlamofireObjectMapper', '~> 3.0'
-  pod 'AlamofireImage', '~> 2.0'
+  pod 'Alamofire', '~> 4.0'
+  pod 'AlamofireObjectMapper', '~> 4.0'
+  pod 'AlamofireImage', '~> 3.0'
 
   target 'SmartMockLib_Tests' do
     inherit! :search_paths

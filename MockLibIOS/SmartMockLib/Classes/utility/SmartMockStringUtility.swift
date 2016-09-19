@@ -20,20 +20,20 @@ public class SmartMockStringUtility {
     // MARK: String to (JSON) dictionary
     // --
     
-    public static func convertStringToDictionary(text: String) -> [String: AnyObject]? {
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+    public static func parseToDictionary(string: String) -> [String: AnyObject]? {
+        if let data = string.data(using: String.Encoding.utf8) {
             do {
-                return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
             } catch _ {
             }
         }
         return nil
     }
     
-    public static func convertStringToArray(text: String) -> [AnyObject]? {
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+    public static func parseToArray(string: String) -> [AnyObject]? {
+        if let data = string.data(using: String.Encoding.utf8) {
             do {
-                return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [AnyObject]
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject]
             } catch _ {
             }
         }
@@ -45,18 +45,18 @@ public class SmartMockStringUtility {
     // MARK: URL coding
     // --
     
-    public static func urlEncode(string: String) -> String {
-        let result = string.stringByReplacingOccurrencesOfString(" ", withString: "+")
-        let characters = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
-        guard let encodedString = result.stringByAddingPercentEncodingWithAllowedCharacters(characters) else {
+    public static func urlEncode(_ string: String) -> String {
+        let result = string.replacingOccurrences(of: " ", with: "+")
+        let characters = (CharacterSet.urlQueryAllowed as NSCharacterSet).mutableCopy() as! NSMutableCharacterSet
+        guard let encodedString = result.addingPercentEncoding(withAllowedCharacters: characters as CharacterSet) else {
             return result
         }
         return encodedString
     }
     
-    public static func urlDecode(string: String) -> String {
-        let result = string.stringByReplacingOccurrencesOfString("+", withString: " ")
-        return result.stringByRemovingPercentEncoding!
+    public static func urlDecode(_ string: String) -> String {
+        let result = string.replacingOccurrences(of: "+", with: " ")
+        return result.removingPercentEncoding!
     }
 
 }

@@ -24,14 +24,14 @@ public class SmartMockResponseBody {
         // Private constructor, use factory methods to create an instance
     }
     
-    public static func createFromString(body: String) -> SmartMockResponseBody {
+    public static func makeFromString(_ body: String) -> SmartMockResponseBody {
         let result = SmartMockResponseBody()
         result.stringContent = body
-        result.contentLength = body.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        result.contentLength = body.lengthOfBytes(using: String.Encoding.utf8)
         return result
     }
     
-    public static func createFromFile(path: String, fileLength: Int) -> SmartMockResponseBody {
+    public static func makeFromFile(path: String, fileLength: Int) -> SmartMockResponseBody {
         let result = SmartMockResponseBody()
         result.filePath = path
         result.contentLength = fileLength
@@ -56,20 +56,20 @@ public class SmartMockResponseBody {
         return ""
     }
     
-    public func getByteData() -> NSData? {
+    public func getByteData() -> Data? {
         if stringContent != nil {
-            return stringContent!.dataUsingEncoding(NSUTF8StringEncoding)
+            return stringContent!.data(using: String.Encoding.utf8)
         } else if filePath != nil {
-            return NSData(contentsOfFile: filePath!)
+            return (try? Data(contentsOf: URL(fileURLWithPath: filePath!)))
         }
         return nil
     }
     
-    public func getInputStream() -> NSInputStream? {
+    public func getInputStream() -> InputStream? {
         if stringContent != nil {
-            return NSInputStream(data: getByteData()!)
+            return InputStream(data: getByteData()!)
         } else if filePath != nil {
-            return NSInputStream(fileAtPath: filePath!)
+            return InputStream(fileAtPath: filePath!)
         }
         return nil
     }

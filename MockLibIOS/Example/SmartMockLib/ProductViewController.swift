@@ -26,8 +26,8 @@ class ProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Api.productService.loadProduct( productId ?? "", success: { product in
-            let URL = NSURL(string: Api.baseUrl + product.image!)!
+        Api.productService.loadProduct(productId: productId ?? "", success: { product in
+            let URL = Foundation.URL(string: Api.baseUrl + product.image!)!
             self._image.setMockableImageUrl(URL)
             self._title.text = product.name
             self._text.text = product.productDescription

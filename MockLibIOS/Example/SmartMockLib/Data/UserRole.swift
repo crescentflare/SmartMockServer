@@ -10,7 +10,7 @@ import ObjectMapper
 
 enum UserRole: String {
 
-    case User = "user"
-    case Admin = "admin"
+    case user = "user"
+    case admin = "admin"
 
 }

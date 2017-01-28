@@ -20,6 +20,25 @@ class SmartMockEndPointFinder {
     // MARK: Utility functions
     // --
     
+    private static func findFileServerPath(path: String) -> String? {
+        var traversePath = path
+        while let slashIndex = traversePath.range(of: "/", options: .backwards)?.lowerBound {
+            traversePath = traversePath.substring(to: slashIndex)
+            if let inputStream = SmartMockFileUtility.open(path: traversePath + "/properties.json") {
+                let jsonString = SmartMockFileUtility.readFromInputStream(inputStream)
+                if let jsonDict = SmartMockStringUtility.parseToDictionary(string: jsonString) {
+                    if jsonDict["generates"] as? String == "fileList" {
+                        return traversePath
+                    }
+                }
+            }
+            if traversePath.hasSuffix("//") {
+                break
+            }
+        }
+        return nil
+    }
+    
     static func findLocation(atRootPath: String, checkRequestPath: String) -> String? {
         // Return early if request path is empty
         if checkRequestPath.isEmpty || checkRequestPath == "/" {
@@ -47,8 +66,11 @@ class SmartMockEndPointFinder {
                         if i + 1 == pathComponents.count {
                             isFile = SmartMockFileUtility.getLength(ofPath: checkPath + "/" + pathComponent) > 0
                         }
-                        if !isFile {
-                            checkPath += "/" + pathComponent
+                        checkPath += "/" + pathComponent
+                        if isFile {
+                            if let fileServerPath = findFileServerPath(path: checkPath) {
+                                checkPath = fileServerPath
+                            }
                         }
                     } else if fileList.contains("any") {
                         checkPath += "/any"

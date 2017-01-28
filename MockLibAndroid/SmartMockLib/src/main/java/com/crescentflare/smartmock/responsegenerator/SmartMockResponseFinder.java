@@ -2,6 +2,7 @@ package com.crescentflare.smartmock.responsegenerator;
 
 import android.content.Context;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.crescentflare.smartmock.model.SmartMockHeaders;
 import com.crescentflare.smartmock.model.SmartMockProperties;
@@ -19,8 +20,10 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -162,7 +165,7 @@ public class SmartMockResponseFinder
         {
             if (properties.getGenerates().equals("fileList"))
             {
-                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath);
+                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath, properties);
                 if (fileResponse != null)
                 {
                     return fileResponse;
@@ -429,36 +432,129 @@ public class SmartMockResponseFinder
         return response;
     }
 
-    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath)
+    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath, SmartMockProperties properties)
     {
-        String requestEndPart = "";
-        String fileEndPart = "";
-        int lastRequestSlashIndex = requestPath.lastIndexOf('/');
-        int lastPathSlashIndex = filePath.lastIndexOf('/');
-        if (lastRequestSlashIndex >= 0)
+        // Check if the request path points to a file deeper in the tree of the file path
+        if (requestPath.startsWith("/"))
         {
-            requestEndPart = requestPath.substring(lastRequestSlashIndex + 1);
+            requestPath = requestPath.substring(1);
         }
-        if (lastPathSlashIndex >= 0)
+        String[] requestPathComponents = requestPath.split("/");
+        String[] filePathComponents = filePath.split("/");
+        String requestFile = "";
+        if (requestPathComponents.length > 0 && requestPathComponents[0].length() > 0)
         {
-            fileEndPart = filePath.substring(lastPathSlashIndex + 1);
-        }
-        if (!requestEndPart.isEmpty() && !requestEndPart.equals(fileEndPart))
-        {
-            String serveFile = filePath + "/" + requestEndPart;
-            SmartMockResponse response = new SmartMockResponse();
-            response.setCode(200);
-            response.setMimeType(getMimeType(serveFile));
-            if (SmartMockFileUtility.isAssetFile(serveFile))
+            for (int i = 0; i < filePathComponents.length; i++)
             {
-                response.setBody(SmartMockResponseBody.createFromAsset(context.getAssets(), SmartMockFileUtility.getRawPath(serveFile), SmartMockFileUtility.getLength(context, serveFile)));
+                if (filePathComponents[i].equals(requestPathComponents[0]))
+                {
+                    int overlapComponents = filePathComponents.length - i;
+                    for (int j = 0; j < overlapComponents; j++)
+                    {
+                        if (j < requestPathComponents.length && requestPathComponents[j].equals(filePathComponents[i + j]))
+                        {
+                            if (j == overlapComponents - 1)
+                            {
+                                String[] slicedComponents = Arrays.copyOfRange(requestPathComponents, overlapComponents, requestPathComponents.length);
+                                requestFile = TextUtils.join("/", slicedComponents);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    if (requestFile.length() > 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Serve a file when pointing to a file within the file server
+        if (!requestFile.isEmpty())
+        {
+            String serveFile = filePath + "/" + requestFile;
+            SmartMockResponse response = new SmartMockResponse();
+            if (SmartMockFileUtility.exists(context, serveFile))
+            {
+                response.setCode(200);
+                response.setMimeType(getMimeType(serveFile));
+                if (SmartMockFileUtility.isAssetFile(serveFile))
+                {
+                    response.setBody(SmartMockResponseBody.createFromAsset(context.getAssets(), SmartMockFileUtility.getRawPath(serveFile), SmartMockFileUtility.getLength(context, serveFile)));
+                }
+                else
+                {
+                    response.setBody(SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(serveFile), SmartMockFileUtility.getLength(context, serveFile)));
+                }
             }
             else
             {
-                response.setBody(SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(serveFile), SmartMockFileUtility.getLength(context, serveFile)));
+                response.setCode(404);
+                response.setMimeType("text/plain");
+                response.setStringBody("Unable to read file: " + requestFile);
             }
             return response;
         }
+
+        // Generate file list as JSON
+        if (properties.isGeneratesJson())
+        {
+            String[] files = SmartMockFileUtility.recursiveList(context, filePath);
+            if (files == null)
+            {
+                return null;
+            }
+            SmartMockResponse response = new SmartMockResponse();
+            if (properties.isIncludeMD5())
+            {
+                String jsonString = "{";
+                boolean firstFile = true;
+                for (String file : files)
+                {
+                    if (!file.startsWith(".") && !file.equals("properties.json"))
+                    {
+                        String md5 = SmartMockFileUtility.obtainMD5(context, filePath + "/" + file);
+                        if (!firstFile)
+                        {
+                            jsonString += ", ";
+                        }
+                        jsonString += "\"" + file + "\": \"" + md5 + "\"";
+                        firstFile = false;
+                    }
+                }
+                jsonString += "}";
+                response.setCode(200);
+                response.setMimeType("application/json");
+                response.setStringBody(jsonString);
+            }
+            else
+            {
+                String jsonString = "[";
+                boolean firstFile = true;
+                for (String file : files)
+                {
+                    if (!file.startsWith(".") && !file.equals("properties.json"))
+                    {
+                        if (!firstFile)
+                        {
+                            jsonString += ", ";
+                        }
+                        jsonString += "\"" + file + "\"";
+                        firstFile = false;
+                    }
+                }
+                jsonString += "]";
+                response.setCode(200);
+                response.setMimeType("application/json");
+                response.setStringBody(jsonString);
+            }
+            return response;
+        }
+
+        // Generated index page as HTML not supported in mock libraries, return nil
         return null;
     }
 

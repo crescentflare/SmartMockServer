@@ -91,7 +91,7 @@ class SmartMockResponseFinder {
         // Check for response generators, they are not supported (except for a file within the file list)
         if properties.generates != nil && (properties.generates == "indexPage" || properties.generates == "fileList") {
             if properties.generates == "fileList" {
-                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath) {
+                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath, properties: properties) {
                     return fileResponse
                 }
             }
@@ -272,23 +272,95 @@ class SmartMockResponseFinder {
         return response
     }
     
-    private static func responseFromFileGenerator(requestPath: String, filePath: String) -> SmartMockResponse? {
-        var requestEndPart = ""
-        var fileEndPart = ""
-        if let lastRequestSlashIndex = requestPath.range(of: "/", options: .backwards)?.lowerBound {
-            requestEndPart = requestPath.substring(from: requestPath.index(lastRequestSlashIndex, offsetBy: 1))
+    private static func responseFromFileGenerator(requestPath: String, filePath: String, properties: SmartMockProperties) -> SmartMockResponse? {
+        // Check if the request path points to a file deeper in the tree of the file path
+        var fixedRequestPath = requestPath
+        if fixedRequestPath.hasPrefix("/") {
+            fixedRequestPath = fixedRequestPath.substring(from: fixedRequestPath.index(after: fixedRequestPath.startIndex))
         }
-        if let lastPathSlashIndex = filePath.range(of: "/", options: .backwards)?.lowerBound {
-            fileEndPart = filePath.substring(from: filePath.index(lastPathSlashIndex, offsetBy: 1))
+        let requestPathComponents = fixedRequestPath.characters.split{ $0 == "/" }.map(String.init)
+        let filePathComponents = filePath.characters.split{ $0 == "/" }.map(String.init)
+        var requestFile = ""
+        if requestPathComponents.count > 0 && requestPathComponents[0].characters.count > 0 {
+            for i in 0..<filePathComponents.count {
+                if filePathComponents[i] == requestPathComponents[0] {
+                    let overlapComponents = filePathComponents.count - i
+                    for j in 0..<overlapComponents {
+                        if j < requestPathComponents.count && requestPathComponents[j] == filePathComponents[i + j] {
+                            if j == overlapComponents - 1 {
+                                let slicedComponents = Array(requestPathComponents[overlapComponents..<requestPathComponents.count])
+                                requestFile = slicedComponents.joined(separator: "/")
+                            }
+                        } else {
+                            break
+                        }
+                    }
+                    if requestFile.characters.count > 0 {
+                        break
+                    }
+                }
+            }
         }
-        if !requestEndPart.isEmpty && requestEndPart != fileEndPart {
-            let serveFile = filePath + "/" + requestEndPart
+
+        // Serve a file when pointing to a file within the file server
+        if !requestFile.isEmpty {
+            let serveFile = filePath + "/" + requestFile
             let response = SmartMockResponse()
-            response.code = 200
-            response.mimeType = getMimeType(fromFilename: serveFile)
-            response.body = SmartMockResponseBody.makeFromFile(path: SmartMockFileUtility.getRawPath(serveFile), fileLength: SmartMockFileUtility.getLength(ofPath: serveFile))
+            if SmartMockFileUtility.exists(path: serveFile) {
+                response.code = 200
+                response.mimeType = getMimeType(fromFilename: serveFile)
+                response.body = SmartMockResponseBody.makeFromFile(path: SmartMockFileUtility.getRawPath(serveFile), fileLength: SmartMockFileUtility.getLength(ofPath: serveFile))
+            } else {
+                response.code = 404
+                response.mimeType = "text/plain"
+                response.setStringBody("Unable to read file: " + requestFile)
+            }
             return response
         }
+        
+        // Generate file list as JSON
+        if properties.generatesJson {
+            if let files = SmartMockFileUtility.recursiveList(fromPath: filePath) {
+                let response = SmartMockResponse()
+                if properties.includeMD5 {
+                    var jsonString = "{"
+                    var firstFile = true
+                    for file in files {
+                        if !file.hasPrefix(".") && file != "properties.json" {
+                            let md5 = SmartMockFileUtility.obtainMD5(path: filePath + "/" + file)
+                            if !firstFile {
+                                jsonString += ", "
+                            }
+                            jsonString += "\"" + file + "\": \"" + md5 + "\""
+                            firstFile = false
+                        }
+                    }
+                    jsonString += "}"
+                    response.code = 200
+                    response.mimeType = "application/json"
+                    response.setStringBody(jsonString)
+                } else {
+                    var jsonString = "["
+                    var firstFile = true
+                    for file in files {
+                        if !file.hasPrefix(".") && file != "properties.json" {
+                            if !firstFile {
+                                jsonString += ", "
+                            }
+                            jsonString += "\"" + file + "\""
+                            firstFile = false
+                        }
+                    }
+                    jsonString += "]"
+                    response.code = 200
+                    response.mimeType = "application/json"
+                    response.setStringBody(jsonString)
+                }
+                return response
+            }
+        }
+
+        // Generated index page as HTML not supported in mock libraries, return nil
         return nil
     }
     

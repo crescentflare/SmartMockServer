@@ -8,7 +8,7 @@
 // NodeJS requires
 var fs = require('fs');
 
-//Other requires
+// Other requires
 var ResponsePropertiesHelper = require('./response-properties-helper');
 var HtmlGenerator = require('./html-generator');
 
@@ -26,78 +26,68 @@ function ResponseGenerators() {
 // Utility
 //////////////////////////////////////////////////
 
-// Read through a directory recursively
-ResponseGenerators.readDirRecursive = function(startDir, dir, callback) {
-    var files = [];
-    var dirs = [];
+// Read through a directory (and split between files/directories)
+ResponseGenerators.readDir = function(startDir, dir, callback) {
+    var checkFile = function(list, index, files, dirs, callback) {
+        if (index >= list.length) {
+            dirs.sort();
+            files.sort();
+            callback(null, files, dirs);
+            return;
+        }
+        var file = dir + "/" + list[index];
+        fs.stat(file, function(error, stat) {
+            if (stat) {
+                if (stat.isDirectory()) {
+                    dirs.push(file.replace(startDir + "/", ""));
+                } else {
+                    files.push(file.replace(startDir + "/", ""));
+                }
+                checkFile(list, index + 1, files, dirs, callback);
+            } else {
+                checkFile(list, index + 1, files, dirs, callback);
+            }
+        });
+    }
     fs.readdir(dir, function(error, list) {
         if (error) {
             callback(error, null, null);
+            return;
         }
-        var pending = list.length;
-        if (!pending) {
-            callback(null, files, dirs);
-        }
-        list.forEach(function(file) {
-            file = dir + '/' + file;
-            fs.stat(file, function(error, stat) {
-                if (stat) {
-                    if (stat.isDirectory()) {
-                        dirs.push(file.replace(startDir + "/", ""));
-                        ResponseGenerators.readDirRecursive(startDir, file, function(error, addedFiles, addedDirs) {
-                            files = files.concat(addedFiles);
-                            dirs = dirs.concat(addedDirs);
-                            if (!--pending) {
-                                callback(null, files, dirs);
-                            }
-                        });
-                    } else {
-                        files.push(file.replace(startDir + "/", ""));
-                        if (!--pending) {
-                            callback(null, files, dirs);
-                        }
-                    }
-                } else {
-                    if (!--pending) {
-                        callback(null, files, dirs);
-                    }
-                }
-            });
-        });
+        checkFile(list, 0, [], [], callback);
     });
 }
 
-// Read through a directory (but not within subdirectories)
-ResponseGenerators.readDir = function(startDir, dir, callback) {
-    var files = [];
-    var dirs = [];
-    fs.readdir(dir, function(error, list) {
+// Read through a directory recursively
+ResponseGenerators.readDirRecursive = function(startDir, dir, callback) {
+    var checkDir = function(fileList, dirList, index, files, dirs, callback) {
+        if (index >= dirList.length) {
+            files = files.concat(fileList);
+            dirs = dirs.concat(dirList);
+            callback(null, files, dirs);
+            return;
+        }
+        var scanDir = dir + "/" + dirList[index];
+        ResponseGenerators.readDirRecursive(startDir, scanDir, function(error, resultFiles, resultDirs) {
+            if (error) {
+                checkDir(fileList, dirList, index + 1, files, dirs, callback);
+                return;
+            }
+            for (var i = 0; i < resultDirs.length; i++) {
+                dirs.push(dirList[index] + "/" + resultDirs[i]);
+            }
+            for (var i = 0; i < resultFiles.length; i++) {
+                files.push(dirList[index] + "/" + resultFiles[i]);
+            }
+            checkDir(fileList, dirList, index + 1, files, dirs, callback);
+        });
+    }
+    ResponseGenerators.readDir(dir, dir, function(error, files, dirs) {
         if (error) {
             callback(error, null, null);
+            return;
         }
-        var pending = list.length;
-        if (!pending) {
-            callback(null, files, dirs);
-        }
-        list.forEach(function(file) {
-            file = dir + '/' + file;
-            fs.stat(file, function(error, stat) {
-                if (stat) {
-                    if (stat.isDirectory()) {
-                        dirs.push(file.replace(startDir + "/", ""));
-                    } else {
-                        files.push(file.replace(startDir + "/", ""));
-                        if (!--pending) {
-                            callback(null, files, dirs);
-                        }
-                    }
-                } else {
-                    if (!--pending) {
-                        callback(null, files, dirs);
-                    }
-                }
-            });
-        });
+        checkDir(files, dirs, 0, [], [], callback);
     });
 }
 
@@ -106,7 +96,7 @@ ResponseGenerators.readDir = function(startDir, dir, callback) {
 // Response generator: index page
 //////////////////////////////////////////////////
 
-//Recursive function to find requests and properties
+// Recursive function to find requests and properties
 ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, dirs, index, foundProperties, callback)
 {
     var arrayContains = function(array, element, alt1, alt2, alt3) {
@@ -173,7 +163,6 @@ ResponseGenerators.indexPageToHtml = function(categories, properties, insertPath
 ResponseGenerators.indexPage = function(req, res, requestPath, filePath, properties, insertPathExtra) {
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         if (dirs) {
-            dirs.sort();
             ResponseGenerators.indexPageRecursiveReadProperties(filePath, files, dirs, 0, [], function(foundProperties) {
                 if (foundProperties.length > 0) {
                     res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
@@ -228,25 +217,40 @@ ResponseGenerators.fileListGetMimeType = function(filename) {
 
 // Generates an html index page of all files found within the folder
 ResponseGenerators.fileList = function(req, res, requestPath, filePath, properties, insertPathExtra) {
-    var lastRequestSlashIndex = requestPath.lastIndexOf('/');
-    var lastPathSlashIndex = filePath.lastIndexOf('/');
-    var requestEndPart = "";
-    var fileEndPart = "";
-    if (lastRequestSlashIndex >= 0) {
-        requestEndPart = requestPath.substring(lastRequestSlashIndex + 1);
+    // Check if the request path points to a file deeper in the tree of the file path
+    var requestPathComponents = requestPath.startsWith("/") ? requestPath.substring(1).split("/") : requestPath.split("/");
+    var filePathComponents = filePath.split("/");
+    var requestFile = "";
+    if (requestPathComponents.length > 0 && requestPathComponents[0].length > 0) {
+        for (var i = 0; i < filePathComponents.length; i++) {
+            if (filePathComponents[i] == requestPathComponents[0]) {
+                var overlapComponents = filePathComponents.length - i;
+                for (var j = 0; j < overlapComponents; j++) {
+                    if (j < requestPathComponents.length && requestPathComponents[j] == filePathComponents[i + j]) {
+                        if (j == overlapComponents - 1) {
+                            requestFile = requestPathComponents.slice(overlapComponents).join("/");
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                if (requestFile.length > 0) {
+                    break;
+                }
+            }
+        }
     }
-    if (lastPathSlashIndex >= 0) {
-        fileEndPart = filePath.substring(lastPathSlashIndex + 1);
-    }
-    if (requestEndPart != "" && requestEndPart != fileEndPart) {
-        var serveFile = filePath + "/" + requestEndPart;
+
+    // Serve a file when pointing to a file within the file server
+    if (requestFile.length > 0) {
+        var serveFile = filePath + "/" + requestFile;
         fs.readFile(serveFile, function(error, data) {
             var response = null;
             if (data) {
                 response = data;
             } else {
-                res.writeHead(500, { "ContentType": "text/plain; charset=utf-8" });
-                res.end("Unable to read file: " + requestEndPart);
+                res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+                res.end("Unable to read file: " + requestFile);
                 return;
             }
             setTimeout(function() {
@@ -256,9 +260,11 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, properti
         });
         return;
     }
-    ResponseGenerators.readDir(filePath, filePath, function(error, files, dirs) {
-        if (files && files.length > 0) {
-            files.sort();
+
+    // Generate an index page of files when pointing to the server root
+    ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
+        files = files || []
+        if (files.length > 0) {
             res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
             res.end(ResponseGenerators.fileListToHtml(files, properties, insertPathExtra));
         } else {

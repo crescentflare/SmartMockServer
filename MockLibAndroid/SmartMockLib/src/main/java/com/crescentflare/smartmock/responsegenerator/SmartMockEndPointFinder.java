@@ -4,6 +4,11 @@ import android.content.Context;
 
 import com.crescentflare.smartmock.utility.SmartMockFileUtility;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+
 /**
  * Smart mock library response generator: find the end point based on the path (with wildcard matching)
  */
@@ -21,6 +26,39 @@ public class SmartMockEndPointFinder
     /**
      * Utility functions
      */
+
+    private static String findFileServerPath(Context context, String path)
+    {
+        int slashIndex = path.lastIndexOf('/');
+        while (slashIndex >= 0)
+        {
+            path = path.substring(0, slashIndex);
+            InputStream inputStream = SmartMockFileUtility.open(context, path + "/properties.json");
+            if (inputStream != null)
+            {
+                String jsonString = SmartMockFileUtility.readFromInputStream(inputStream);
+                JSONObject jsonObject = new JSONObject();
+                try
+                {
+                    jsonObject = new JSONObject(jsonString);
+                }
+                catch (JSONException ignored)
+                {
+                }
+                String generates = jsonObject.optString("generates", "");
+                if (generates.equals("fileList"))
+                {
+                    return path;
+                }
+            }
+            if (path.endsWith("//"))
+            {
+                break;
+            }
+            slashIndex = path.lastIndexOf('/');
+        }
+        return null;
+    }
 
     public static String findLocation(Context context, String rootPath, String requestPath)
     {
@@ -56,9 +94,14 @@ public class SmartMockEndPointFinder
                     {
                         isFile = SmartMockFileUtility.getLength(context, checkPath + "/" + pathComponent) > 0;
                     }
-                    if (!isFile)
+                    checkPath += "/" + pathComponent;
+                    if (isFile)
                     {
-                        checkPath += "/" + pathComponent;
+                        String fileServerPath = findFileServerPath(context, checkPath);
+                        if (fileServerPath != null)
+                        {
+                            checkPath = fileServerPath;
+                        }
                     }
                 }
                 else if (stringArrayContains(fileList, "any"))

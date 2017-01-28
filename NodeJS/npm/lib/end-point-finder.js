@@ -21,6 +21,36 @@ function EndPointFinder() {
 // Path checking
 //////////////////////////////////////////////////
 
+// Find the file server path for a file path
+EndPointFinder.findFileServerPath = function(checkPath, callback) {
+    var traversePath = function(path, callback) {
+        var slashPos = path.lastIndexOf("/");
+        if (slashPos >= 0) {
+            var subPath = path.substring(0, slashPos);
+            fs.readFile(
+                subPath + "/properties.json",
+                function(error, data) {
+                    if (data) {
+                        try {
+                            var json = JSON.parse(data);
+                            if (json && json["generates"] == "fileList") {
+                                callback(subPath);
+                            }
+                        } catch (exception) {
+                            traversePath(subPath, callback);
+                        }
+                    } else {
+                        traversePath(subPath, callback);
+                    }
+                }
+            );
+        } else {
+            callback(null);
+        }
+    }
+    traversePath(checkPath, callback);
+}
+
 // Recursive function to traverse the file system and find a path (including the wildcard "any" path)
 EndPointFinder.recursiveCheckPath = function(checkPath, checkPathComponents, componentIndex, callback) {
     var nextPath = checkPath + "/" + checkPathComponents[componentIndex];
@@ -32,7 +62,9 @@ EndPointFinder.recursiveCheckPath = function(checkPath, checkPathComponents, com
             } else {
                 fs.stat(nextPath, function(error, stat) {
                     if (stat && !stat.isDirectory()) {
-                        callback(checkPath);
+                        EndPointFinder.findFileServerPath(nextPath, function(serverPath) {
+                            callback(serverPath || nextPath);
+                        });
                     } else {
                         callback(nextPath);
                     }

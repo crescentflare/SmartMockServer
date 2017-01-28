@@ -91,7 +91,7 @@ class SmartMockResponseFinder {
         // Check for response generators, they are not supported (except for a file within the file list)
         if properties.generates != nil && (properties.generates == "indexPage" || properties.generates == "fileList") {
             if properties.generates == "fileList" {
-                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath) {
+                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath, properties: properties) {
                     return fileResponse
                 }
             }
@@ -272,7 +272,7 @@ class SmartMockResponseFinder {
         return response
     }
     
-    private static func responseFromFileGenerator(requestPath: String, filePath: String) -> SmartMockResponse? {
+    private static func responseFromFileGenerator(requestPath: String, filePath: String, properties: SmartMockProperties) -> SmartMockResponse? {
         // Check if the request path points to a file deeper in the tree of the file path
         var fixedRequestPath = requestPath
         if fixedRequestPath.hasPrefix("/") {
@@ -318,7 +318,49 @@ class SmartMockResponseFinder {
             return response
         }
         
-        // Generated index page not supported in mock libraries, return nil
+        // Generate file list as JSON
+        if properties.generatesJson {
+            if let files = SmartMockFileUtility.recursiveList(fromPath: filePath) {
+                let response = SmartMockResponse()
+                if properties.includeMD5 {
+                    var jsonString = "{"
+                    var firstFile = true
+                    for file in files {
+                        if !file.hasPrefix(".") && file != "properties.json" {
+                            let md5 = SmartMockFileUtility.obtainMD5(path: filePath + "/" + file)
+                            if !firstFile {
+                                jsonString += ", "
+                            }
+                            jsonString += "\"" + file + "\": \"" + md5 + "\""
+                            firstFile = false
+                        }
+                    }
+                    jsonString += "}"
+                    response.code = 200
+                    response.mimeType = "application/json"
+                    response.setStringBody(jsonString)
+                } else {
+                    var jsonString = "["
+                    var firstFile = true
+                    for file in files {
+                        if !file.hasPrefix(".") && file != "properties.json" {
+                            if !firstFile {
+                                jsonString += ", "
+                            }
+                            jsonString += "\"" + file + "\""
+                            firstFile = false
+                        }
+                    }
+                    jsonString += "]"
+                    response.code = 200
+                    response.mimeType = "application/json"
+                    response.setStringBody(jsonString)
+                }
+                return response
+            }
+        }
+
+        // Generated index page as HTML not supported in mock libraries, return nil
         return nil
     }
     

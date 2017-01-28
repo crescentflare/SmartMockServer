@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -164,7 +165,7 @@ public class SmartMockResponseFinder
         {
             if (properties.getGenerates().equals("fileList"))
             {
-                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath);
+                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath, properties);
                 if (fileResponse != null)
                 {
                     return fileResponse;
@@ -431,7 +432,7 @@ public class SmartMockResponseFinder
         return response;
     }
 
-    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath)
+    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath, SmartMockProperties properties)
     {
         // Check if the request path points to a file deeper in the tree of the file path
         if (requestPath.startsWith("/"))
@@ -498,7 +499,62 @@ public class SmartMockResponseFinder
             return response;
         }
 
-        // Generated index page not supported in mock libraries, return nil
+        // Generate file list as JSON
+        if (properties.isGeneratesJson())
+        {
+            String[] files = SmartMockFileUtility.recursiveList(context, filePath);
+            if (files == null)
+            {
+                return null;
+            }
+            SmartMockResponse response = new SmartMockResponse();
+            if (properties.isIncludeMD5())
+            {
+                String jsonString = "{";
+                boolean firstFile = true;
+                for (String file : files)
+                {
+                    if (!file.startsWith(".") && !file.equals("properties.json"))
+                    {
+                        String md5 = SmartMockFileUtility.obtainMD5(context, filePath + "/" + file);
+                        if (!firstFile)
+                        {
+                            jsonString += ", ";
+                        }
+                        jsonString += "\"" + file + "\": \"" + md5 + "\"";
+                        firstFile = false;
+                    }
+                }
+                jsonString += "}";
+                response.setCode(200);
+                response.setMimeType("application/json");
+                response.setStringBody(jsonString);
+            }
+            else
+            {
+                String jsonString = "[";
+                boolean firstFile = true;
+                for (String file : files)
+                {
+                    if (!file.startsWith(".") && !file.equals("properties.json"))
+                    {
+                        if (!firstFile)
+                        {
+                            jsonString += ", ";
+                        }
+                        jsonString += "\"" + file + "\"";
+                        firstFile = false;
+                    }
+                }
+                jsonString += "]";
+                response.setCode(200);
+                response.setMimeType("application/json");
+                response.setStringBody(jsonString);
+            }
+            return response;
+        }
+
+        // Generated index page as HTML not supported in mock libraries, return nil
         return null;
     }
 

@@ -5,6 +5,8 @@
 //  Main library utility: easily access files with file:/// or bundle:/// or document:///
 //
 
+import CryptoSwift
+
 class SmartMockFileUtility {
     
     // --
@@ -22,6 +24,26 @@ class SmartMockFileUtility {
     
     static func list(fromPath: String) -> [String]? {
         return try? FileManager.default.contentsOfDirectory(atPath: getRawPath(fromPath))
+    }
+    
+    static func recursiveList(fromPath: String) -> [String]? {
+        if let items = list(fromPath: fromPath) {
+            var files: [String] = []
+            for item in items {
+                let isFile = SmartMockFileUtility.getLength(ofPath: fromPath + "/" + item) > 0
+                if !isFile {
+                    if let dirFiles = recursiveList(fromPath: fromPath + "/" + item) {
+                        for dirFile in dirFiles {
+                            files.append(item + "/" + dirFile)
+                        }
+                    }
+                } else {
+                    files.append(item)
+                }
+            }
+            return files
+        }
+        return nil
     }
     
     static func open(path: String) -> InputStream? {
@@ -64,6 +86,27 @@ class SmartMockFileUtility {
         let result = String(data: data as Data, encoding: String.Encoding.utf8) ?? ""
         stream.close()
         return result
+    }
+    
+    static func obtainMD5(path: String) -> String {
+        if let inputStream = open(path: path) {
+            var digest = MD5()
+            var buffer = [UInt8](repeating: 0, count: 4096)
+            while inputStream.hasBytesAvailable {
+                let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
+                if bytesRead < buffer.count {
+                    let smallBuffer = Array(buffer[0..<bytesRead])
+                    try? digest.update(withBytes: smallBuffer)
+                } else {
+                    try? digest.update(withBytes: buffer)
+                }
+            }
+            inputStream.close()
+            if let result = try? digest.finish() {
+                return result.toHexString()
+            }
+        }
+        return ""
     }
     
     static func getRawPath(_ path: String) -> String {

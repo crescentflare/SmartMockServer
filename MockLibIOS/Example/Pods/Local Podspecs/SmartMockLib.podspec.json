@@ -18,5 +18,10 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "MockLibIOS/SmartMockLib/Classes/**/*"
+  "source_files": "MockLibIOS/SmartMockLib/Classes/**/*",
+  "dependencies": {
+    "CryptoSwift": [
+      "~> 0.6.7"
+    ]
+  }
 }

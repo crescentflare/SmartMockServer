@@ -7,6 +7,7 @@
 
 // NodeJS requires
 var fs = require('fs');
+var crypto = require('crypto');
 
 // Other requires
 var ResponsePropertiesHelper = require('./response-properties-helper');
@@ -192,6 +193,46 @@ ResponseGenerators.fileListToHtml = function(files, properties, insertPathExtra)
     return HtmlGenerator.formatAsHtml(components, properties);
 }
 
+// Convert all found files into JSON
+ResponseGenerators.endWithFileListJson = function(res, files, properties, insertPathExtra) {
+    // Function to traverse files and get their MD5
+    var traverseFiles = function(fileList, files, index, callback) {
+        if (index >= files.length) {
+            callback(fileList);
+            return;
+        }
+        if (files[index].indexOf(".") == 0 || files[index] == "properties.json") {
+            traverseFiles(fileList, files, index + 1, callback);
+            return;
+        }
+        var fd = fs.createReadStream(insertPathExtra + "/" + files[index]);
+        var hash = crypto.createHash("md5");
+        hash.setEncoding("hex");
+        fd.on("end", function() {
+            hash.end();
+            fileList[files[index]] = hash.read();
+            traverseFiles(fileList, files, index + 1, callback);
+        });
+        fd.pipe(hash);
+    }
+
+    // Process file list and convert to JSON
+    if (properties["includeMD5"]) {
+        traverseFiles({}, files, 0, function(fileList) {
+            res.end(JSON.stringify(fileList, null, "  "));
+        });
+    } else {
+        var fileList = [];
+        for (var i = 0; i < files.length; i++) {
+            if (files[i].indexOf(".") == 0 || files[i] == "properties.json") {
+                continue;
+            }
+            fileList.push(files[i]);
+        }
+        res.end(JSON.stringify(fileList, null, "  "));
+    }
+}
+
 // Find the MIME-type for the given extension
 ResponseGenerators.fileListGetMimeType = function(filename) {
     var extension = "";
@@ -265,8 +306,13 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, properti
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         files = files || []
         if (files.length > 0) {
-            res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-            res.end(ResponseGenerators.fileListToHtml(files, properties, insertPathExtra));
+            if (properties["generatesJson"]) {
+                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
+                ResponseGenerators.endWithFileListJson(res, files, properties, filePath);
+            } else {
+                res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
+                res.end(ResponseGenerators.fileListToHtml(files, properties, insertPathExtra));
+            }
         } else {
             res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
             res.end("No index to generate, no files at: " + filePath);

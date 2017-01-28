@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Smart mock library utility: easily access files with file:/// or assets:/// prefix
@@ -44,6 +49,36 @@ public class SmartMockFileUtility
         else
         {
             return new File(getRawPath(path)).list();
+        }
+        return null;
+    }
+
+    public static String[] recursiveList(Context context, String path)
+    {
+        String[] items = list(context, path);
+        if (items != null)
+        {
+            List<String> files = new ArrayList<>();
+            for (String item : items)
+            {
+                boolean isFile = SmartMockFileUtility.getLength(context, path + "/" + item) > 0;
+                if (!isFile)
+                {
+                    String[] dirFiles = recursiveList(context, path + "/" + item);
+                    if (dirFiles != null)
+                    {
+                        for (String dirFile : dirFiles)
+                        {
+                            files.add(item + "/" + dirFile);
+                        }
+                    }
+                }
+                else
+                {
+                    files.add(item);
+                }
+            }
+            return files.toArray(new String[files.size()]);
         }
         return null;
     }
@@ -137,6 +172,43 @@ public class SmartMockFileUtility
         {
         }
         return result;
+    }
+
+    public static String obtainMD5(Context context, String path)
+    {
+        InputStream inputStream = open(context, path);
+        if (inputStream != null)
+        {
+            String result = "";
+            MessageDigest digest;
+            try
+            {
+                digest = MessageDigest.getInstance("MD5");
+            }
+            catch (NoSuchAlgorithmException exception)
+            {
+                return "";
+            }
+            byte[] buffer = new byte[8192];
+            int read;
+            try
+            {
+                while ((read = inputStream.read(buffer)) > 0)
+                {
+                    digest.update(buffer, 0, read);
+                }
+                byte[] md5sum = digest.digest();
+                BigInteger bigInt = new BigInteger(1, md5sum);
+                String output = bigInt.toString(16);
+                result = String.format("%32s", output).replace(' ', '0');
+                inputStream.close();
+            }
+            catch (IOException ignored)
+            {
+            }
+            return result;
+        }
+        return "";
     }
 
     public static boolean isAssetFile(String path)

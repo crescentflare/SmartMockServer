@@ -22,6 +22,8 @@ class SmartMockProperties {
     var generates: String?
     var delay: Int = -1
     var responseCode: Int = -1
+    var generatesJson = false
+    var includeMD5 = false
 
     
     // --
@@ -52,6 +54,8 @@ class SmartMockProperties {
         generates = jsonDictionary["generates"] as? String
         delay = jsonDictionary["delay"] as? Int ?? -1
         responseCode = jsonDictionary["responseCode"] as? Int ?? -1
+        generatesJson = jsonDictionary["generatesJson"] as? Bool ?? false
+        includeMD5 = jsonDictionary["includeMD5"] as? Bool ?? false
     }
     
     

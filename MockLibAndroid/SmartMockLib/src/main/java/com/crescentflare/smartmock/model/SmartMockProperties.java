@@ -29,6 +29,8 @@ public class SmartMockProperties
     private String generates = null;
     private int delay = -1;
     private int responseCode = -1;
+    private boolean generatesJson = false;
+    private boolean includeMD5 = false;
 
 
     /**
@@ -67,6 +69,8 @@ public class SmartMockProperties
         generates = jsonObject.optString("generates", null);
         delay = jsonObject.optInt("delay", -1);
         responseCode = jsonObject.optInt("responseCode", -1);
+        generatesJson = jsonObject.optBoolean("generatesJson", false);
+        includeMD5 = jsonObject.optBoolean("includeMD5", false);
     }
 
 
@@ -212,6 +216,26 @@ public class SmartMockProperties
         this.responseCode = responseCode;
     }
 
+    public boolean isGeneratesJson()
+    {
+        return generatesJson;
+    }
+
+    public void setGeneratesJson(boolean generatesJson)
+    {
+        this.generatesJson = generatesJson;
+    }
+
+    public boolean isIncludeMD5()
+    {
+        return includeMD5;
+    }
+
+    public void setIncludeMD5(boolean includeMD5)
+    {
+        this.includeMD5 = includeMD5;
+    }
+
     @Override
     public String toString()
     {
@@ -227,6 +251,8 @@ public class SmartMockProperties
                 ", generates='" + generates + '\'' +
                 ", delay=" + delay +
                 ", responseCode=" + responseCode +
+                ", generatesJson=" + generatesJson +
+                ", includeMD5=" + includeMD5 +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ Easily set up a mock server, either by running NodeJS, or by using an internal m
 * Fully data-driven, endpoints can be created easily by creating folders and placing response JSON (or other formats like HTML) files, most of it can be done without even restarting the server
 * Create alternative responses on a single endpoint using get parameter or post body filters (with wildcard support), header filters are also supported
 * Easily set up an index page. It will automatically list all endpoints inside (including documentation and alternative responses)
-* Be able to set up an endpoint as a folder to serve any kind of file (like images)
+* Be able to set up an endpoint as a folder to serve any kind of file (like images), includes an index page in html or json to list the files being served
 
 
 ### NodeJS integration guide
@@ -41,7 +41,7 @@ The \_\_dirname parameter is the directory in which the javascript file is locat
 When using gradle, the library can easily be imported into the build.gradle file of your project. Add the following dependency:
 
 ```
-compile 'com.crescentflare.smartmock:SmartMockLib:0.5.0'
+compile 'com.crescentflare.smartmock:SmartMockLib:0.6.0'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
@@ -54,7 +54,7 @@ The library is available through [CocoaPods](http://cocoapods.org). To install i
 Swift 3:
 
 ```ruby
-pod "SmartMockLib", '~> 0.5.1'
+pod "SmartMockLib", '~> 0.6.0'
 ```
 
 Swift 2.2:
@@ -97,6 +97,11 @@ Use **responseHeaders.json** to add specific response headers, each key/value in
 - **postJson:** a JSON structure for requests requiring JSON in the body data
 - **alternatives:** provide alternative responses when certain conditions are met (based on parameters), explained further in the chapter below
 - **generates:** use this to automatically set up things like an index page or a file server. Supported values: indexPage and fileList
+
+Extra settings for file servers (using fileList):
+
+- **generatesJson:** this will generate the file list as a json response when visiting the index page
+- **includeMD5:** generate an md5 hash of each file being listed in the json response of the file server
 
 All data can be changed realtime without restarting the server. The server will attempt to parse the JSON file before sending it through the response. If it fails, it returns with a parse error text and a 500 response code.
 

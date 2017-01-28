@@ -96,9 +96,9 @@ class SmartMockFileUtility {
                 let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
                 if bytesRead < buffer.count {
                     let smallBuffer = Array(buffer[0..<bytesRead])
-                    try? digest.update(withBytes: smallBuffer)
+                    _ = try? digest.update(withBytes: smallBuffer)
                 } else {
-                    try? digest.update(withBytes: buffer)
+                    _ = try? digest.update(withBytes: buffer)
                 }
             }
             inputStream.close()

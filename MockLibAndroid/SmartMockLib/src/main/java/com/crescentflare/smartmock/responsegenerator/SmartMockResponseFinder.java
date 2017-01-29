@@ -514,7 +514,7 @@ public class SmartMockResponseFinder
                 boolean firstFile = true;
                 for (String file : files)
                 {
-                    if (!file.startsWith(".") && !file.equals("properties.json"))
+                    if (!file.equals("properties.json"))
                     {
                         String md5 = SmartMockFileUtility.obtainMD5(context, filePath + "/" + file);
                         if (!firstFile)
@@ -536,7 +536,7 @@ public class SmartMockResponseFinder
                 boolean firstFile = true;
                 for (String file : files)
                 {
-                    if (!file.startsWith(".") && !file.equals("properties.json"))
+                    if (!file.equals("properties.json"))
                     {
                         if (!firstFile)
                         {

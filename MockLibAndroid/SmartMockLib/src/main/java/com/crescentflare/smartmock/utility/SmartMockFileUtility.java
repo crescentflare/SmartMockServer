@@ -36,11 +36,12 @@ public class SmartMockFileUtility
 
     public static String[] list(Context context, String path)
     {
+        String[] fileList = null;
         if (isAssetFile(path))
         {
             try
             {
-                return context.getAssets().list(getRawPath(path));
+                fileList = context.getAssets().list(getRawPath(path));
             }
             catch (IOException ignored)
             {
@@ -48,7 +49,19 @@ public class SmartMockFileUtility
         }
         else
         {
-            return new File(getRawPath(path)).list();
+            fileList = new File(getRawPath(path)).list();
+        }
+        if (fileList != null)
+        {
+            List<String> filteredList = new ArrayList<>();
+            for (String fileItem : fileList)
+            {
+                if (!fileItem.toLowerCase().equals("thumbs.db") && !fileItem.toLowerCase().equals(".ds_store"))
+                {
+                    filteredList.add(fileItem);
+                }
+            }
+            return filteredList.toArray(new String[filteredList.size()]);
         }
         return null;
     }

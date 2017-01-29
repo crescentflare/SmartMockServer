@@ -23,7 +23,16 @@ class SmartMockFileUtility {
     // --
     
     static func list(fromPath: String) -> [String]? {
-        return try? FileManager.default.contentsOfDirectory(atPath: getRawPath(fromPath))
+        if let fileList = try? FileManager.default.contentsOfDirectory(atPath: getRawPath(fromPath)) {
+            var filteredList: [String] = []
+            for fileItem in fileList {
+                if fileItem.lowercased() != "thumbs.db" && fileItem.lowercased() != ".ds_store" {
+                    filteredList.append(fileItem)
+                }
+            }
+            return filteredList
+        }
+        return nil
     }
     
     static func recursiveList(fromPath: String) -> [String]? {

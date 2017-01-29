@@ -36,6 +36,10 @@ ResponseGenerators.readDir = function(startDir, dir, callback) {
             callback(null, files, dirs);
             return;
         }
+        if (list[index].toLowerCase() == "thumbs.db" || list[index].toLowerCase() == ".ds_store") {
+            checkFile(list, index + 1, files, dirs, callback);
+            return;
+        }
         var file = dir + "/" + list[index];
         fs.stat(file, function(error, stat) {
             if (stat) {
@@ -201,7 +205,7 @@ ResponseGenerators.endWithFileListJson = function(res, files, properties, insert
             callback(fileList);
             return;
         }
-        if (files[index].indexOf(".") == 0 || files[index] == "properties.json") {
+        if (files[index] == "properties.json") {
             traverseFiles(fileList, files, index + 1, callback);
             return;
         }
@@ -224,7 +228,7 @@ ResponseGenerators.endWithFileListJson = function(res, files, properties, insert
     } else {
         var fileList = [];
         for (var i = 0; i < files.length; i++) {
-            if (files[i].indexOf(".") == 0 || files[i] == "properties.json") {
+            if (files[i] == "properties.json") {
                 continue;
             }
             fileList.push(files[i]);

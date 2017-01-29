@@ -87,6 +87,10 @@ public class SmartMockEndPointFinder
             {
                 String pathComponent = pathComponents[i];
                 String[] fileList = SmartMockFileUtility.list(context, checkPath);
+                if (fileList == null)
+                {
+                    return null;
+                }
                 if (stringArrayContains(fileList, pathComponent))
                 {
                     boolean isFile = false;

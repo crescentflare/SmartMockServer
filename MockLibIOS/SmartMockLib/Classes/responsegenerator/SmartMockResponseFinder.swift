@@ -326,7 +326,7 @@ class SmartMockResponseFinder {
                     var jsonString = "{"
                     var firstFile = true
                     for file in files {
-                        if !file.hasPrefix(".") && file != "properties.json" {
+                        if file != "properties.json" {
                             let md5 = SmartMockFileUtility.obtainMD5(path: filePath + "/" + file)
                             if !firstFile {
                                 jsonString += ", "
@@ -343,7 +343,7 @@ class SmartMockResponseFinder {
                     var jsonString = "["
                     var firstFile = true
                     for file in files {
-                        if !file.hasPrefix(".") && file != "properties.json" {
+                        if file != "properties.json" {
                             if !firstFile {
                                 jsonString += ", "
                             }

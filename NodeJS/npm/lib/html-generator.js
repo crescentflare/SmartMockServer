@@ -165,7 +165,7 @@ HtmlParamBlock.prototype.render = function() {
 function HtmlFilesBlock(files, insertPathExtra) {
     this.subComponents = [];
     for (var i = 0; i < files.length; i++) {
-        if (files[i].indexOf(".") == 0 || files[i] == "properties.json") {
+        if (files[i] == "properties.json") {
             continue;
         }
         this.subComponents.push(new HtmlLink(null, insertPathExtra + files[i], files[i]));

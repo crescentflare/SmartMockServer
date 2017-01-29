@@ -41,7 +41,7 @@ The \_\_dirname parameter is the directory in which the javascript file is locat
 When using gradle, the library can easily be imported into the build.gradle file of your project. Add the following dependency:
 
 ```
-compile 'com.crescentflare.smartmock:SmartMockLib:0.6.0'
+compile 'com.crescentflare.smartmock:SmartMockLib:0.6.1'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
@@ -54,7 +54,7 @@ The library is available through [CocoaPods](http://cocoapods.org). To install i
 Swift 3:
 
 ```ruby
-pod "SmartMockLib", '~> 0.6.0'
+pod "SmartMockLib", '~> 0.6.1'
 ```
 
 Swift 2.2:

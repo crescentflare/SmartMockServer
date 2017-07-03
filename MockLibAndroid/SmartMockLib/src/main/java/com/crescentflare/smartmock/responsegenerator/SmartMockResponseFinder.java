@@ -122,6 +122,11 @@ public class SmartMockResponseFinder
             {
             }
         }
+        if (properties.getRedirect() != null)
+        {
+            requestPath += "/" + properties.getRedirect();
+            filePath += "/" + properties.getRedirect();
+        }
         return collectResponse(context, requestPath, filePath, useProperties);
     }
 

@@ -18,7 +18,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   SmartMockLib:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
   Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
@@ -30,4 +30,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 81c05cac0c314eb2e7e496b30ea076e59c1a6a2e
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1

@@ -97,6 +97,7 @@ Use **responseHeaders.json** to add specific response headers, each key/value in
 - **postJson:** a JSON structure for requests requiring JSON in the body data
 - **alternatives:** provide alternative responses when certain conditions are met (based on parameters), explained further in the chapter below
 - **generates:** use this to automatically set up things like an index page or a file server. Supported values: indexPage and fileList
+- **redirect:** a path to redirect to. Uses properties, responseBody and other files from the relative path specified by this property
 
 Extra settings for file servers (using fileList):
 

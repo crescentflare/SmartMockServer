@@ -294,6 +294,10 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
             }
             setTimeout(
                 function() {
+                    if (properties.redirect) {
+                        requestPath += "/" + properties.redirect;
+                        filePath += "/" + properties.redirect;
+                    }
                     ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
                 },
                 useProperties.delay || 0

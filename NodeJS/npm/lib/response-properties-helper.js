@@ -63,10 +63,26 @@ ResponsePropertiesHelper.readFile = function(requestPath, filePath, callback) {
                 }
             }
             properties = properties || {};
-            properties.category = properties.category || "Uncategorized";
-            properties.responseCode = properties.responseCode || 200;
-            properties.responsePath = properties.responsePath || "response";
-            callback(properties, error);
+            if (properties.redirect) {
+                ResponsePropertiesHelper.readFile(requestPath + "/" + properties.redirect, filePath + "/" + properties.redirect, function(redirectProperties, error) {
+                    if (redirectProperties) {
+                        for (var key in properties) {
+                            redirectProperties[key] = properties[key];
+                        }
+                    } else {
+                        redirectProperties = properties;
+                    }
+                    redirectProperties.category = redirectProperties.category || "Uncategorized";
+                    redirectProperties.responseCode = redirectProperties.responseCode || 200;
+                    redirectProperties.responsePath = redirectProperties.responsePath || "response";
+                    callback(redirectProperties, error);
+                });
+            } else {
+                properties.category = properties.category || "Uncategorized";
+                properties.responseCode = properties.responseCode || 200;
+                properties.responsePath = properties.responsePath || "response";
+                callback(properties, error);
+            }
         }
     );
 }

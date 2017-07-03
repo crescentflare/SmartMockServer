@@ -70,6 +70,9 @@ class SmartMockResponseFinder {
         if useProperties.delay > 0 && !Thread.isMainThread {
             usleep(UInt32(useProperties.delay) * 1000)
         }
+        if let redirect = properties.redirect {
+            return collectResponse(requestPath: requestPath + "/" + redirect, filePath: filePath + "/" + redirect, properties: useProperties)
+        }
         return collectResponse(requestPath: requestPath, filePath: filePath, properties: useProperties)
     }
     

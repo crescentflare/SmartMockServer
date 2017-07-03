@@ -27,6 +27,7 @@ public class SmartMockProperties
     private String method = null;
     private String responsePath = null;
     private String generates = null;
+    private String redirect = null;
     private int delay = -1;
     private int responseCode = -1;
     private boolean generatesJson = false;
@@ -67,10 +68,76 @@ public class SmartMockProperties
         method = jsonObject.optString("method", null);
         responsePath = jsonObject.optString("responsePath", null);
         generates = jsonObject.optString("generates", null);
+        redirect = jsonObject.optString("redirect", null);
         delay = jsonObject.optInt("delay", -1);
         responseCode = jsonObject.optInt("responseCode", -1);
         generatesJson = jsonObject.optBoolean("generatesJson", false);
         includeMD5 = jsonObject.optBoolean("includeMD5", false);
+    }
+
+    public void fallbackToProperties(SmartMockProperties fallbackProperties)
+    {
+        // Parameters, body and header filters
+        if (getParameters == null)
+        {
+            getParameters = fallbackProperties.getGetParameters();
+        }
+        if (postParameters == null)
+        {
+            postParameters = fallbackProperties.getPostParameters();
+        }
+        if (checkHeaders == null)
+        {
+            checkHeaders = fallbackProperties.getCheckHeaders();
+        }
+        if (postJson == null)
+        {
+            postJson = fallbackProperties.getPostJson();
+        }
+
+        // Alternatives
+        if (alternatives == null)
+        {
+            alternatives = fallbackProperties.getAlternatives();
+        }
+
+        // Basic fields
+        if (name == null)
+        {
+            name = fallbackProperties.getName();
+        }
+        if (method == null)
+        {
+            method = fallbackProperties.getMethod();
+        }
+        if (responsePath == null)
+        {
+            responsePath = fallbackProperties.getResponsePath();
+        }
+        if (generates == null)
+        {
+            generates = fallbackProperties.getGenerates();
+        }
+        if (redirect == null)
+        {
+            redirect = fallbackProperties.getRedirect();
+        }
+        if (delay < 0)
+        {
+            delay = fallbackProperties.getDelay();
+        }
+        if (responseCode < 0)
+        {
+            responseCode = fallbackProperties.getResponseCode();
+        }
+        if (!generatesJson)
+        {
+            generatesJson = fallbackProperties.isGeneratesJson();
+        }
+        if (!includeMD5)
+        {
+            includeMD5 = fallbackProperties.isIncludeMD5();
+        }
     }
 
 
@@ -196,6 +263,16 @@ public class SmartMockProperties
         this.generates = generates;
     }
 
+    public String getRedirect()
+    {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect)
+    {
+        this.redirect = redirect;
+    }
+
     public int getDelay()
     {
         return delay;
@@ -249,6 +326,7 @@ public class SmartMockProperties
                 ", method='" + method + '\'' +
                 ", responsePath='" + responsePath + '\'' +
                 ", generates='" + generates + '\'' +
+                ", redirect='" + redirect + '\'' +
                 ", delay=" + delay +
                 ", responseCode=" + responseCode +
                 ", generatesJson=" + generatesJson +

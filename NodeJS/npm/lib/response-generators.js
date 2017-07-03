@@ -155,7 +155,7 @@ ResponseGenerators.indexPageToHtml = function(categories, properties, insertPath
     var components = [];
     components.push(HtmlGenerator.createHeading(properties.name || "Found end points"));
     for (var i = 0; i < categories.length; i++) {
-        var identifier = categories[i].name.toLowerCase();
+        var identifier = categories[i].name.toLowerCase().replace(/ /g, "_");
         components.push(HtmlGenerator.createSubHeading(categories[i].name, identifier));
         for (var j = 0; j < categories[i].properties.length; j++) {
             components.push(HtmlGenerator.createRequestBlock(categories[i].properties[j], identifier + (j + 1), insertPathExtra));

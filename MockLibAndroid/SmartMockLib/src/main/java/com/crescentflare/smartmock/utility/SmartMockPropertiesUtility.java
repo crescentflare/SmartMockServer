@@ -41,6 +41,15 @@ public class SmartMockPropertiesUtility
                     JSONObject propertiesJson = new JSONObject(result);
                     properties = new SmartMockProperties();
                     properties.parseJson(propertiesJson);
+                    if (properties.getRedirect() != null)
+                    {
+                        SmartMockProperties redirectProperties = readFile(context, requestPath, filePath + "/" + properties.getRedirect());
+                        if (redirectProperties != null)
+                        {
+                            redirectProperties.fallbackToProperties(properties);
+                            properties = redirectProperties;
+                        }
+                    }
                 }
                 catch (JSONException ignored)
                 {

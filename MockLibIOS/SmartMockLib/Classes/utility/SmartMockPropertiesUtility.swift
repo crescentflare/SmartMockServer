@@ -26,6 +26,12 @@ class SmartMockPropertiesUtility {
             let result = SmartMockFileUtility.readFromInputStream(responseStream)
             if let dictionary = SmartMockStringUtility.parseToDictionary(string: result) {
                 properties.parseJsonDictionary(dictionary)
+                if let redirect = properties.redirect {
+                    let redirectProperties = readFile(requestPath: requestPath, filePath: filePath + "/" + redirect)
+                    redirectProperties.fallbackTo(properties: properties)
+                    redirectProperties.forceDefaults()
+                    return redirectProperties
+                }
             }
         }
         properties.forceDefaults()

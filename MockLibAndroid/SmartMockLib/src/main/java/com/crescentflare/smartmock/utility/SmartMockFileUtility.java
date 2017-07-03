@@ -231,10 +231,37 @@ public class SmartMockFileUtility
 
     public static String getRawPath(String path)
     {
-        if (isAssetFile(path))
+        // First get base path without identifier
+        String basePath = path.replace(isAssetFile(path) ? "assets:///" : "file:///", "");;
+
+        // Split in path components and apply relative path markers
+        List<String> finalPathComponents = new ArrayList<>();
+        String[] pathComponents = basePath.split("/");
+        for (String pathComponent : pathComponents)
         {
-            return path.replace("assets:///", "");
+            if (pathComponent.equals(".."))
+            {
+                if (finalPathComponents.size() > 0)
+                {
+                    finalPathComponents.remove(finalPathComponents.size() - 1);
+                }
+            }
+            else if (!pathComponent.equals("."))
+            {
+                finalPathComponents.add(pathComponent);
+            }
         }
-        return path.replace("file:///", "");
+
+        // Reconstruct path and return
+        String reconstructedPath = "";
+        for (String finalPathComponent : finalPathComponents)
+        {
+            if (reconstructedPath.length() > 0)
+            {
+                reconstructedPath += "/";
+            }
+            reconstructedPath += finalPathComponent;
+        }
+        return reconstructedPath;
     }
 }

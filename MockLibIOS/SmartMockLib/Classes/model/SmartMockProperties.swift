@@ -20,6 +20,7 @@ class SmartMockProperties {
     var method: String?
     var responsePath: String?
     var generates: String?
+    var redirect: String?
     var delay: Int = -1
     var responseCode: Int = -1
     var generatesJson = false
@@ -52,10 +53,41 @@ class SmartMockProperties {
         method = jsonDictionary["method"] as? String
         responsePath = jsonDictionary["responsePath"] as? String
         generates = jsonDictionary["generates"] as? String
+        redirect = jsonDictionary["redirect"] as? String
         delay = jsonDictionary["delay"] as? Int ?? -1
         responseCode = jsonDictionary["responseCode"] as? Int ?? -1
         generatesJson = jsonDictionary["generatesJson"] as? Bool ?? false
         includeMD5 = jsonDictionary["includeMD5"] as? Bool ?? false
+    }
+    
+    func fallbackTo(properties: SmartMockProperties) {
+        // Parameters, body and header filters
+        getParameters = getParameters ?? properties.getParameters
+        postParameters = postParameters ?? properties.postParameters
+        checkHeaders = checkHeaders ?? properties.checkHeaders
+        postJson = postJson ?? properties.postJson
+        
+        // Alternatives
+        alternatives = alternatives ?? properties.alternatives
+        
+        // Basic fields
+        name = name ?? properties.name
+        method = method ?? properties.method
+        responsePath = responsePath ?? properties.responsePath
+        generates = generates ?? properties.generates
+        redirect = redirect ?? properties.redirect
+        if delay < 0 {
+            delay = properties.delay
+        }
+        if responseCode < 0 {
+            responseCode = properties.responseCode
+        }
+        if !generatesJson {
+            generatesJson = properties.generatesJson
+        }
+        if !includeMD5 {
+            includeMD5 = properties.includeMD5
+        }
     }
     
     

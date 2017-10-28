@@ -23,7 +23,7 @@ class SmartMockEndPointFinder {
     private static func findFileServerPath(path: String) -> String? {
         var traversePath = path
         while let slashIndex = traversePath.range(of: "/", options: .backwards)?.lowerBound {
-            traversePath = traversePath.substring(to: slashIndex)
+            traversePath = String(traversePath[..<slashIndex])
             if let inputStream = SmartMockFileUtility.open(path: traversePath + "/properties.json") {
                 let jsonString = SmartMockFileUtility.readFromInputStream(inputStream)
                 if let jsonDict = SmartMockStringUtility.parseToDictionary(string: jsonString) {
@@ -48,10 +48,10 @@ class SmartMockEndPointFinder {
         // Determine path to traverse
         var requestPath = checkRequestPath
         if requestPath.characters[requestPath.startIndex] == "/" {
-            requestPath = requestPath.substring(from: requestPath.characters.index(requestPath.startIndex, offsetBy: 1))
+            requestPath = String(requestPath[requestPath.characters.index(requestPath.startIndex, offsetBy: 1)...])
         }
         if requestPath.characters[requestPath.characters.index(requestPath.startIndex, offsetBy: requestPath.characters.count - 1)] == "/" {
-            requestPath = requestPath.substring(to: requestPath.characters.index(requestPath.startIndex, offsetBy: requestPath.characters.count - 1))
+            requestPath = String(requestPath[..<requestPath.characters.index(requestPath.startIndex, offsetBy: requestPath.characters.count - 1)])
         }
         let pathComponents = requestPath.characters.split{ $0 == "/" }.map(String.init)
         

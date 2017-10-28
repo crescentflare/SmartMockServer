@@ -279,7 +279,7 @@ class SmartMockResponseFinder {
         // Check if the request path points to a file deeper in the tree of the file path
         var fixedRequestPath = requestPath
         if fixedRequestPath.hasPrefix("/") {
-            fixedRequestPath = fixedRequestPath.substring(from: fixedRequestPath.index(after: fixedRequestPath.startIndex))
+            fixedRequestPath = String(fixedRequestPath[fixedRequestPath.index(after: fixedRequestPath.startIndex)...])
         }
         let requestPathComponents = fixedRequestPath.characters.split{ $0 == "/" }.map(String.init)
         let filePathComponents = filePath.characters.split{ $0 == "/" }.map(String.init)
@@ -370,7 +370,7 @@ class SmartMockResponseFinder {
     private static func getMimeType(fromFilename: String) -> String {
         var fileExt = ""
         if let dotPos = fromFilename.range(of: ".", options: .backwards)?.lowerBound {
-            fileExt = fromFilename.substring(from: fromFilename.index(dotPos, offsetBy: 1))
+            fileExt = String(fromFilename[fromFilename.index(dotPos, offsetBy: 1)...])
         }
         if fileExt == "png" {
             return "image/png"

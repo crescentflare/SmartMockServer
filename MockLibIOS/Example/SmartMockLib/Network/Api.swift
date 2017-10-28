@@ -56,12 +56,12 @@ class MockableAlamofire {
     func request(_ url: URLConvertible, method: HTTPMethod = .get, parameters: Parameters? = nil, encoding: ParameterEncoding = URLEncoding.default, headers: HTTPHeaders? = nil) -> MockedRequest {
         var path = baseUrl
         var addPath = ""
-        if baseUrl.substring(from: baseUrl.characters.index(baseUrl.endIndex, offsetBy: -1)) != "/" {
+        if baseUrl[baseUrl.characters.index(baseUrl.endIndex, offsetBy: -1)...] != "/" {
             path += "/"
         }
         if let urlString = try? url.asURL().absoluteString {
-            if urlString.substring(to: urlString.characters.index(urlString.startIndex, offsetBy: 1)) == "/" {
-                addPath = urlString.substring(from: urlString.characters.index(urlString.startIndex, offsetBy: 1))
+            if urlString[..<urlString.characters.index(urlString.startIndex, offsetBy: 1)] == "/" {
+                addPath = String(urlString[urlString.characters.index(urlString.startIndex, offsetBy: 1)...])
             } else {
                 addPath = urlString
             }

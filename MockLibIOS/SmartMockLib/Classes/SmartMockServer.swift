@@ -48,14 +48,14 @@ public class SmartMockServer: UIViewController {
         // Fetch parameters from path
         var parameters: [String: String] = [:]
         if let paramMark = path.characters.index(of: "?") {
-            let parameterStrings = path.substring(from: path.index(paramMark, offsetBy: 1)).characters.split{ $0 == "&"}.map(String.init)
+            let parameterStrings = path[path.index(paramMark, offsetBy: 1)...].characters.split{ $0 == "&"}.map(String.init)
             for parameterString in parameterStrings {
                 let parameterPair = parameterString.characters.split{ $0 == "=" }.map(String.init)
                 if parameterPair.count > 1 {
                     parameters[SmartMockStringUtility.urlDecode(parameterPair[0])] = SmartMockStringUtility.urlDecode(parameterPair[1])
                 }
             }
-            path = path.substring(to: paramMark)
+            path = String(path[..<paramMark])
         }
         if !path.hasPrefix("/") {
             path = "/" + path

@@ -147,7 +147,7 @@ class SmartMockParamMatcher {
         if start > string.characters.count {
             return ""
         }
-        return string.substring(from: string.characters.index(string.startIndex, offsetBy: start))
+        return String(string[string.characters.index(string.startIndex, offsetBy: start)...])
     }
     
     private static func safeSubstring(_ string: String, start: Int, end: Int) -> String {
@@ -162,7 +162,7 @@ class SmartMockParamMatcher {
         if endPos <= startPos {
             return ""
         }
-        return string.substring(with: string.characters.index(string.startIndex, offsetBy: startPos)..<string.characters.index(string.startIndex, offsetBy: endPos))
+        return String(string[string.characters.index(string.startIndex, offsetBy: startPos)..<string.characters.index(string.startIndex, offsetBy: endPos)])
     }
     
 }

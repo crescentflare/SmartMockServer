@@ -1,5 +1,5 @@
-[![Platform](https://img.shields.io/badge/Platforms-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-4E4E4E.svg?colorA=EF5138)](http://cocoadocs.org/docsets/CryptoSwift)
-[![Swift support](https://img.shields.io/badge/Swift-3.1%20%7C%203.2%20%7C%204.0-lightgrey.svg?colorA=EF5138&colorB=4E4E4E)](#swift-versions-support)
+[![Platform](https://img.shields.io/badge/Platforms-iOS%20%7C%20macOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20Linux-4E4E4E.svg?colorA=28a745)](#installation)
+[![Swift support](https://img.shields.io/badge/Swift-3.1%20%7C%203.2%20%7C%204.0-lightgrey.svg?colorA=28a745&colorB=4E4E4E)](#swift-versions-support)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CryptoSwift.svg?style=flat&label=CocoaPods)](https://cocoapods.org/pods/CryptoSwift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat&colorB=64A5DE)](https://github.com/apple/swift-package-manager)
 [![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-brightgreen.svg?style=flat&colorB=64A5DE)](https://github.com/apple/swift-package-manager)
@@ -29,6 +29,9 @@ Good mood
 - Convenient extensions for String and Data
 - Support for incremental updates (stream, ...)
 - iOS, macOS, AppleTV, watchOS, Linux support
+
+## Donation
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=92Z6U3LBHF9J4) to make the CryptoSwift awesome! Thank you.
 
 #### Hash (Digest)
 - [MD5](http://tools.ietf.org/html/rfc1321)
@@ -64,6 +67,7 @@ Good mood
 #### Password-Based Key Derivation Function
 - [PBKDF1](http://tools.ietf.org/html/rfc2898#section-5.1) (Password-Based Key Derivation Function 1)
 - [PBKDF2](http://tools.ietf.org/html/rfc2898#section-5.2) (Password-Based Key Derivation Function 2)
+- [HKDF](https://tools.ietf.org/html/rfc5869) (HMAC-based Extract-and-Expand Key Derivation Function)
 
 #### Data padding
 - PKCS#5
@@ -143,7 +147,7 @@ Specify in Cartfile:
 github "krzyzanowskim/CryptoSwift"
 ```
 
-Run `carthage` to build the framework and drag the built CryptoSwift.framework into your Xcode project. Follow [build instructions](https://github.com/Carthage/Carthage#getting-started)
+Run `carthage` to build the framework and drag the built CryptoSwift.framework into your Xcode project. Follow [build instructions](https://github.com/Carthage/Carthage#getting-started). [Common issues](https://github.com/krzyzanowskim/CryptoSwift/issues/492#issuecomment-330822874).
 
 #### Swift Package Manager
 
@@ -151,7 +155,7 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 
 ```swift
 dependencies: [
-    .Package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", majorVersion: 0)
+    .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .upToNextMinor(from: "0.8.0"))
 ]
 ```
 
@@ -159,7 +163,7 @@ or more strict
 
 ```swift
 dependencies: [
-    .Package(url: "ttps://github.com/krzyzanowskim/CryptoSwift.git", "0.7.2"),
+    .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .exact("0.8.0"))
 ]
 ```
 
@@ -171,6 +175,7 @@ See: [Package.swift - manual](http://blog.krzyzanowskim.com/2016/08/09/package-s
 * [Digest (MD5, SHA...)](#calculate-digest)
 * [Message authenticators (HMAC...)](#message-authenticators-1)
 * [Password-Based Key Derivation Function (PBKDF2, ...)](#password-based-key-derivation-functions)
+* [HMAC-based Key Derivation Function (HKDF)](#hmac-based-key-derivation-function)
 * [Data Padding](#data-padding)
 * [ChaCha20](#chacha20)
 * [Rabbit](#rabbit)
@@ -186,11 +191,11 @@ also check [Playground](/CryptoSwift.playground/Contents.swift)
 import CryptoSwift
 ```
 
-CryptoSwift uses array of bytes aka `Array<UInt8>` as a base type for all operations. Every data may be converted to a stream of bytes. You will find convenience functions that accept String or NSData, and it will be internally converted to the array of bytes.
+CryptoSwift uses array of bytes aka `Array<UInt8>` as a base type for all operations. Every data may be converted to a stream of bytes. You will find convenience functions that accept `String` or `Data`, and it will be internally converted to the array of bytes.
 
 ##### Data types conversion
 
-For you convenience **CryptoSwift** provides two functions to easily convert array of bytes to NSData and another way around:
+For you convenience **CryptoSwift** provides two functions to easily convert array of bytes to `Data` and another way around:
 
 Data from bytes:
 
@@ -213,7 +218,7 @@ let hex   = bytes.toHexString()            // "010203"
 
 Build bytes out of `String`
 ```swift
-let bytes = Array("string".utf8)
+let bytes: Array<UInt8> = "password".bytes  // Array("password".utf8)
 ```
 
 Also... check out helpers that work with **Base64** encoded data:
@@ -255,7 +260,7 @@ do {
 Hashing a String and printing result
 
 ```swift
-let hash = "123".md5()
+let hash = "123".md5() // "123".bytes.md5()
 ```
 
 ##### Calculate CRC
@@ -287,6 +292,15 @@ let salt: Array<UInt8> = Array("nacllcan".utf8)
 try PKCS5.PBKDF2(password: password, salt: salt, iterations: 4096, variant: .sha256).calculate()
 ```
 
+##### HMAC-based Key Derivation Function
+
+```swift
+let password: Array<UInt8> = Array("s33krit".utf8)
+let salt: Array<UInt8> = Array("nacllcan".utf8)
+
+try HKDF(password: password, salt: salt, variant: .sha256).calculate()
+```
+
 ##### Data Padding
     
 Some content-encryption algorithms assume the input length is a multiple of `k` octets, where `k` is greater than one. For such algorithms, the input shall be padded.
@@ -312,8 +326,8 @@ let decrypted = try Rabbit(key: key, iv: iv).decrypt(encrypted)
 ##### Blowfish
 
 ```swift
-let encrypted = try Blowfish(key: key, iv: iv, blockMode: .CBC, padding: .pkcs7).encrypt(message)
-let decrypted = try Blowfish(key: key, iv: iv, blockMode: .CBC, padding: .pkcs7).decrypt(encrypted)
+let encrypted = try Blowfish(key: key, blockMode: .CBC(iv: iv), padding: .pkcs7).encrypt(message)
+let decrypted = try Blowfish(key: key, blockMode: .CBC(iv: iv), padding: .pkcs7).decrypt(encrypted)
 ```
 
 ##### AES
@@ -328,7 +342,7 @@ Variant of AES encryption (AES-128, AES-192, AES-256) depends on given key lengt
 
 AES-256 example
 ```swift
-try AES(key: [1,2,3,...,32], iv: [1,2,3,...,16], blockMode: .CBC, padding: .pkcs7)
+try AES(key: [1,2,3,...,32], blockMode: .CBC(iv: [1,2,3,...,16]), padding: .pkcs7)
 ```
  
 ###### All at once
@@ -371,8 +385,8 @@ let key: Array<UInt8> = [0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
 
 do {
-    let encrypted = try AES(key: key, iv: iv, blockMode: .CBC, padding: .pkcs7).encrypt(input)
-    let decrypted = try AES(key: key, iv: iv, blockMode: .CBC, padding: .pkcs7).decrypt(encrypted)
+    let encrypted = try AES(key: key, blockMode: .CBC(iv: iv), padding: .pkcs7).encrypt(input)
+    let decrypted = try AES(key: key, blockMode: .CBC(iv: iv), padding: .pkcs7).decrypt(encrypted)
 } catch {
     print(error)
 }    
@@ -382,7 +396,7 @@ AES without data padding
 
 ```swift
 let input: Array<UInt8> = [0,1,2,3,4,5,6,7,8,9]
-let encrypted: Array<UInt8> = try! AES(key: "secret0key000000", iv:"0123456789012345", blockMode: .CBC, padding: .noPadding).encrypt(input)
+let encrypted: Array<UInt8> = try! AES(key: Array("secret0key000000".utf8), blockMode: .CBC(iv: Array("0123456789012345".utf8)), padding: .noPadding).encrypt(input)
 ```
 
 Using convenience extensions
@@ -411,6 +425,7 @@ Permission is granted to anyone to use this software for any purpose, including 
 - The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, **an acknowledgment in the product documentation is required**.
 - Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 - This notice may not be removed or altered from any source or binary distribution.
+- Redistributions of any form whatsoever must retain the following acknowledgment: 'This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/).'
 
 ## Changelog
 

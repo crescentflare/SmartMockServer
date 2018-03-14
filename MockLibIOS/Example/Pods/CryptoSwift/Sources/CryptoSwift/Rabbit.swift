@@ -1,5 +1,4 @@
 //
-//  Rabbit.swift
 //  CryptoSwift
 //
 //  Copyright (C) 2014-2017 Marcin Krzyżanowski <marcin@krzyzanowskim.com>
@@ -13,8 +12,6 @@
 //  - Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 //  - This notice may not be removed or altered from any source or binary distribution.
 //
-
-private typealias Key = SecureBytes
 
 public final class Rabbit: BlockCipher {
 

@@ -187,7 +187,7 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
     };
     var continueWithResponse = function(files, headers) {
         // Check for response generators
-        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, properties.generates, properties)) {
+        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, getParameters, properties.generates, properties)) {
             return;
         }
         

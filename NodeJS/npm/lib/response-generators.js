@@ -198,7 +198,7 @@ ResponseGenerators.fileListToHtml = function(files, properties, insertPathExtra)
 }
 
 // Convert all found files into JSON
-ResponseGenerators.endWithFileListJson = function(res, files, properties, insertPathExtra) {
+ResponseGenerators.endWithFileListJson = function(res, files, properties, insertPathExtra, getParameters) {
     // Function to traverse files and get their MD5
     var traverseFiles = function(fileList, files, index, callback) {
         if (index >= files.length) {
@@ -221,7 +221,7 @@ ResponseGenerators.endWithFileListJson = function(res, files, properties, insert
     }
 
     // Process file list and convert to JSON
-    if (properties["includeMD5"]) {
+    if (properties["includeMD5"] || getParameters["includeMD5"]) {
         traverseFiles({}, files, 0, function(fileList) {
             res.end(JSON.stringify(fileList, null, "  "));
         });
@@ -261,7 +261,7 @@ ResponseGenerators.fileListGetMimeType = function(filename) {
 }
 
 // Generates an html index page of all files found within the folder
-ResponseGenerators.fileList = function(req, res, requestPath, filePath, properties, insertPathExtra) {
+ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParameters, properties, insertPathExtra) {
     // Check if the request path points to a file deeper in the tree of the file path
     var requestPathComponents = requestPath.startsWith("/") ? requestPath.substring(1).split("/") : requestPath.split("/");
     var filePathComponents = filePath.split("/");
@@ -310,9 +310,9 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, properti
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         files = files || []
         if (files.length > 0) {
-            if (properties["generatesJson"]) {
+            if (properties["generatesJson"] || getParameters["generatesJson"]) {
                 res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-                ResponseGenerators.endWithFileListJson(res, files, properties, filePath);
+                ResponseGenerators.endWithFileListJson(res, files, properties, filePath, getParameters);
             } else {
                 res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
                 res.end(ResponseGenerators.fileListToHtml(files, properties, insertPathExtra));
@@ -330,7 +330,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, properti
 //////////////////////////////////////////////////
 
 // Generates a custom page based on the supported generators
-ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, generator, properties) {
+ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, getParameters, generator, properties) {
     var lastSlashIndex = requestPath.lastIndexOf('/');
     var insertPathExtra = "";
     if (lastSlashIndex >= 0 && lastSlashIndex < requestPath.length - 1 && requestPath.length > 1) {
@@ -341,7 +341,7 @@ ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, gen
         return true;
     }
     if (generator == "fileList") {
-        ResponseGenerators.fileList(req, res, requestPath, filePath, properties, insertPathExtra);
+        ResponseGenerators.fileList(req, res, requestPath, filePath, getParameters, properties, insertPathExtra);
         return true;
     }
     return false;

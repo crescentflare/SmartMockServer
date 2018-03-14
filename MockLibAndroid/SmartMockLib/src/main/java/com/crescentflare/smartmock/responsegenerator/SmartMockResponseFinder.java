@@ -127,10 +127,10 @@ public class SmartMockResponseFinder
             requestPath += "/" + properties.getRedirect();
             filePath += "/" + properties.getRedirect();
         }
-        return collectResponse(context, requestPath, filePath, useProperties);
+        return collectResponse(context, requestPath, filePath, getParameters, useProperties);
     }
 
-    private static SmartMockResponse collectResponse(Context context, String requestPath, String filePath, SmartMockProperties properties)
+    private static SmartMockResponse collectResponse(Context context, String requestPath, String filePath, Map<String, String> getParameters, SmartMockProperties properties)
     {
         // First collect headers to return
         SmartMockHeaders returnHeaders = SmartMockHeaders.create(null);
@@ -170,7 +170,7 @@ public class SmartMockResponseFinder
         {
             if (properties.getGenerates().equals("fileList"))
             {
-                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath, properties);
+                SmartMockResponse fileResponse = responseFromFileGenerator(context, requestPath, filePath, getParameters, properties);
                 if (fileResponse != null)
                 {
                     return fileResponse;
@@ -437,7 +437,7 @@ public class SmartMockResponseFinder
         return response;
     }
 
-    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath, SmartMockProperties properties)
+    private static SmartMockResponse responseFromFileGenerator(Context context, String requestPath, String filePath, Map<String, String> getParameters, SmartMockProperties properties)
     {
         // Check if the request path points to a file deeper in the tree of the file path
         if (requestPath.startsWith("/"))
@@ -505,7 +505,7 @@ public class SmartMockResponseFinder
         }
 
         // Generate file list as JSON
-        if (properties.isGeneratesJson())
+        if (properties.isGeneratesJson() || getParameters.get("generatesJson") != null)
         {
             String[] files = SmartMockFileUtility.recursiveList(context, filePath);
             if (files == null)
@@ -513,7 +513,7 @@ public class SmartMockResponseFinder
                 return null;
             }
             SmartMockResponse response = new SmartMockResponse();
-            if (properties.isIncludeMD5())
+            if (properties.isIncludeMD5() || getParameters.get("includeMD5") != null)
             {
                 String jsonString = "{";
                 boolean firstFile = true;

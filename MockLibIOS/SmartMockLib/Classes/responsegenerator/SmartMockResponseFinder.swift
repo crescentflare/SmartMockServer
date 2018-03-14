@@ -71,12 +71,12 @@ class SmartMockResponseFinder {
             usleep(UInt32(useProperties.delay) * 1000)
         }
         if let redirect = properties.redirect {
-            return collectResponse(requestPath: requestPath + "/" + redirect, filePath: filePath + "/" + redirect, properties: useProperties)
+            return collectResponse(requestPath: requestPath + "/" + redirect, filePath: filePath + "/" + redirect, requestGetParameters: requestGetParameters, properties: useProperties)
         }
-        return collectResponse(requestPath: requestPath, filePath: filePath, properties: useProperties)
+        return collectResponse(requestPath: requestPath, filePath: filePath, requestGetParameters: requestGetParameters, properties: useProperties)
     }
     
-    private static func collectResponse(requestPath: String, filePath: String, properties: SmartMockProperties) -> SmartMockResponse {
+    private static func collectResponse(requestPath: String, filePath: String, requestGetParameters: [String: String], properties: SmartMockProperties) -> SmartMockResponse {
         // First collect headers to return
         let returnHeaders = SmartMockHeaders.makeFromHeaders(nil)
         let files = SmartMockFileUtility.list(fromPath: filePath) ?? []
@@ -94,7 +94,7 @@ class SmartMockResponseFinder {
         // Check for response generators, they are not supported (except for a file within the file list)
         if properties.generates != nil && (properties.generates == "indexPage" || properties.generates == "fileList") {
             if properties.generates == "fileList" {
-                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath, properties: properties) {
+                if let fileResponse = responseFromFileGenerator(requestPath: requestPath, filePath: filePath, requestGetParameters: requestGetParameters, properties: properties) {
                     return fileResponse
                 }
             }
@@ -171,9 +171,9 @@ class SmartMockResponseFinder {
                 // Third pass: POST parameters
                 if alternative.postParameters != nil {
                     var postParameters: [String: String] = [:]
-                    let bodySplit = body.characters.split{ $0 == "&" }.map(String.init)
+                    let bodySplit = body.split{ $0 == "&" }.map(String.init)
                     for j in 0..<bodySplit.count {
-                        let bodyParamSplit = bodySplit[j].characters.split{ $0 == "=" }.map(String.init)
+                        let bodyParamSplit = bodySplit[j].split{ $0 == "=" }.map(String.init)
                         if bodyParamSplit.count == 2 {
                             postParameters[SmartMockStringUtility.urlDecode(bodyParamSplit[0].trimmingCharacters(in: CharacterSet.whitespaces))] = SmartMockStringUtility.urlDecode(bodyParamSplit[1].trimmingCharacters(in: CharacterSet.whitespaces))
                         }
@@ -275,16 +275,16 @@ class SmartMockResponseFinder {
         return response
     }
     
-    private static func responseFromFileGenerator(requestPath: String, filePath: String, properties: SmartMockProperties) -> SmartMockResponse? {
+    private static func responseFromFileGenerator(requestPath: String, filePath: String, requestGetParameters: [String: String], properties: SmartMockProperties) -> SmartMockResponse? {
         // Check if the request path points to a file deeper in the tree of the file path
         var fixedRequestPath = requestPath
         if fixedRequestPath.hasPrefix("/") {
             fixedRequestPath = String(fixedRequestPath[fixedRequestPath.index(after: fixedRequestPath.startIndex)...])
         }
-        let requestPathComponents = fixedRequestPath.characters.split{ $0 == "/" }.map(String.init)
-        let filePathComponents = filePath.characters.split{ $0 == "/" }.map(String.init)
+        let requestPathComponents = fixedRequestPath.split{ $0 == "/" }.map(String.init)
+        let filePathComponents = filePath.split{ $0 == "/" }.map(String.init)
         var requestFile = ""
-        if requestPathComponents.count > 0 && requestPathComponents[0].characters.count > 0 {
+        if requestPathComponents.count > 0 && requestPathComponents[0].count > 0 {
             for i in 0..<filePathComponents.count {
                 if filePathComponents[i] == requestPathComponents[0] {
                     let overlapComponents = filePathComponents.count - i
@@ -298,7 +298,7 @@ class SmartMockResponseFinder {
                             break
                         }
                     }
-                    if requestFile.characters.count > 0 {
+                    if requestFile.count > 0 {
                         break
                     }
                 }
@@ -322,10 +322,10 @@ class SmartMockResponseFinder {
         }
         
         // Generate file list as JSON
-        if properties.generatesJson {
+        if properties.generatesJson || requestGetParameters["generatesJson"] != nil {
             if let files = SmartMockFileUtility.recursiveList(fromPath: filePath) {
                 let response = SmartMockResponse()
-                if properties.includeMD5 {
+                if properties.includeMD5 || requestGetParameters["includeMD5"] != nil {
                     var jsonString = "{"
                     var firstFile = true
                     for file in files {

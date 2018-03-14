@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SmartMockLib'
-  s.version          = '0.6.3'
+  s.version          = '0.6.4'
   s.summary          = 'All features of the smart mock server locally accessible.'
 
 # This description is used to generate tags and improve search results.
@@ -38,5 +38,5 @@ Be able to fetch the endpoints responses used by the NodeJS smart mock server mo
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'CryptoSwift', '~> 0.7.1'
+  s.dependency 'CryptoSwift', '~> 0.8.3'
 end

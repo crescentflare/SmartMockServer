@@ -58,11 +58,11 @@ class SmartMockParamMatcher {
         if haveParam == nil {
             return false
         }
-        let patternSet = requireParam.characters.split(omittingEmptySubsequences: false, whereSeparator: { $0 == "*" }).map(String.init)
+        let patternSet = requireParam.split(omittingEmptySubsequences: false, whereSeparator: { $0 == "*" }).map(String.init)
         if patternSet.count == 0 {
             return true
         }
-        if patternSet[0].characters.count > 0 && !patternEquals(value: safeSubstring(haveParam!, start: 0, end: patternSet[0].characters.count), pattern: patternSet[0]) {
+        if patternSet[0].count > 0 && !patternEquals(value: safeSubstring(haveParam!, start: 0, end: patternSet[0].count), pattern: patternSet[0]) {
             return false
         }
         return searchPatternSet(value: haveParam!, paramPatternSet: patternSet) >= 0
@@ -75,7 +75,7 @@ class SmartMockParamMatcher {
     
     private static func searchPatternSet(value: String, paramPatternSet: [String]) -> Int {
         var patternSet = paramPatternSet
-        while patternSet.count > 0 && patternSet[0].characters.count == 0 {
+        while patternSet.count > 0 && patternSet[0].count == 0 {
             patternSet = Array(patternSet[1..<patternSet.count])
         }
         if patternSet.count == 0 {
@@ -89,11 +89,11 @@ class SmartMockParamMatcher {
             pos = searchPattern(value: safeSubstring(value, start: startPos), pattern: patternSet[0])
             if pos >= 0 {
                 if patternSet.count == 1 {
-                    if startPos + pos + patternSet[0].characters.count == value.characters.count {
+                    if startPos + pos + patternSet[0].count == value.count {
                         return startPos + pos
                     }
                 } else {
-                    let nextPos = startPos + pos + patternSet[0].characters.count
+                    let nextPos = startPos + pos + patternSet[0].count
                     let setPos = searchPatternSet(value: safeSubstring(value, start: nextPos), paramPatternSet: Array(patternSet[1..<patternSet.count]))
                     if setPos >= 0 {
                         return startPos + pos
@@ -107,13 +107,13 @@ class SmartMockParamMatcher {
     }
 
     private static func searchPattern(value: String, pattern: String) -> Int {
-        if pattern.characters.count == 0 {
+        if pattern.count == 0 {
             return 0
         }
         var valueIndex = value.startIndex
-        for i in 0..<value.characters.count {
-            if pattern.characters[pattern.startIndex] == "?" || value.characters[valueIndex] == pattern.characters[pattern.startIndex] {
-                if patternEquals(value: safeSubstring(value, start: i, end: i + pattern.characters.count), pattern: pattern) {
+        for i in 0..<value.count {
+            if pattern[pattern.startIndex] == "?" || value[valueIndex] == pattern[pattern.startIndex] {
+                if patternEquals(value: safeSubstring(value, start: i, end: i + pattern.count), pattern: pattern) {
                     return i
                 }
             }
@@ -123,13 +123,13 @@ class SmartMockParamMatcher {
     }
 
     private static func patternEquals(value: String, pattern: String) -> Bool {
-        if value.characters.count != pattern.characters.count {
+        if value.count != pattern.count {
             return false
         }
         var patternIndex = pattern.startIndex
         var valueIndex = value.startIndex
-        for _ in 0..<pattern.characters.count {
-            if pattern.characters[patternIndex] != "?" && value.characters[valueIndex] != pattern.characters[patternIndex] {
+        for _ in 0..<pattern.count {
+            if pattern[patternIndex] != "?" && value[valueIndex] != pattern[patternIndex] {
                 return false
             }
             patternIndex = pattern.index(patternIndex, offsetBy: 1)
@@ -144,25 +144,25 @@ class SmartMockParamMatcher {
     // --
     
     private static func safeSubstring(_ string: String, start: Int) -> String {
-        if start > string.characters.count {
+        if start > string.count {
             return ""
         }
-        return String(string[string.characters.index(string.startIndex, offsetBy: start)...])
+        return String(string[string.index(string.startIndex, offsetBy: start)...])
     }
     
     private static func safeSubstring(_ string: String, start: Int, end: Int) -> String {
         var startPos = start
         var endPos = end
-        if startPos > string.characters.count {
-            startPos = string.characters.count
+        if startPos > string.count {
+            startPos = string.count
         }
-        if endPos > string.characters.count {
-            endPos = string.characters.count
+        if endPos > string.count {
+            endPos = string.count
         }
         if endPos <= startPos {
             return ""
         }
-        return String(string[string.characters.index(string.startIndex, offsetBy: startPos)..<string.characters.index(string.startIndex, offsetBy: endPos)])
+        return String(string[string.index(string.startIndex, offsetBy: startPos)..<string.index(string.startIndex, offsetBy: endPos)])
     }
     
 }

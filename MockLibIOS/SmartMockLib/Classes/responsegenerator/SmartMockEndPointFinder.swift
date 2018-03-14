@@ -47,13 +47,13 @@ class SmartMockEndPointFinder {
 
         // Determine path to traverse
         var requestPath = checkRequestPath
-        if requestPath.characters[requestPath.startIndex] == "/" {
-            requestPath = String(requestPath[requestPath.characters.index(requestPath.startIndex, offsetBy: 1)...])
+        if requestPath[requestPath.startIndex] == "/" {
+            requestPath = String(requestPath[requestPath.index(requestPath.startIndex, offsetBy: 1)...])
         }
-        if requestPath.characters[requestPath.characters.index(requestPath.startIndex, offsetBy: requestPath.characters.count - 1)] == "/" {
-            requestPath = String(requestPath[..<requestPath.characters.index(requestPath.startIndex, offsetBy: requestPath.characters.count - 1)])
+        if requestPath[requestPath.index(requestPath.startIndex, offsetBy: requestPath.count - 1)] == "/" {
+            requestPath = String(requestPath[..<requestPath.index(requestPath.startIndex, offsetBy: requestPath.count - 1)])
         }
-        let pathComponents = requestPath.characters.split{ $0 == "/" }.map(String.init)
+        let pathComponents = requestPath.split{ $0 == "/" }.map(String.init)
         
         // Start going through the file tree until a path is found
         if pathComponents.count > 0 {

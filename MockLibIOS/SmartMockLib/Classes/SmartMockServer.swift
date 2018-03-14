@@ -47,10 +47,10 @@ public class SmartMockServer: UIViewController {
         
         // Fetch parameters from path
         var parameters: [String: String] = [:]
-        if let paramMark = path.characters.index(of: "?") {
-            let parameterStrings = path[path.index(paramMark, offsetBy: 1)...].characters.split{ $0 == "&"}.map(String.init)
+        if let paramMark = path.index(of: "?") {
+            let parameterStrings = path[path.index(paramMark, offsetBy: 1)...].split{ $0 == "&"}.map(String.init)
             for parameterString in parameterStrings {
-                let parameterPair = parameterString.characters.split{ $0 == "=" }.map(String.init)
+                let parameterPair = parameterString.split{ $0 == "=" }.map(String.init)
                 if parameterPair.count > 1 {
                     parameters[SmartMockStringUtility.urlDecode(parameterPair[0])] = SmartMockStringUtility.urlDecode(parameterPair[1])
                 }
@@ -73,7 +73,7 @@ public class SmartMockServer: UIViewController {
             let response = SmartMockResponseFinder.generateResponse(headers: headers, requestMethod: method, requestPath: path, filePath: filePath, requestGetParameters: parameters, requestBody: body)
             if cookiesEnabled {
                 if let cookieValue = response.headers.getHeaderValue(key: "Set-Cookie") {
-                    if cookieValue.characters.count > 0 {
+                    if cookieValue.count > 0 {
                         applyToCookies(value: cookieValue)
                     }
                 }
@@ -101,13 +101,13 @@ public class SmartMockServer: UIViewController {
     }
     
     private func applyToCookies(value: String) {
-        let splitValues = value.characters.split{ $0 == ";"}.map(String.init)
+        let splitValues = value.split{ $0 == ";"}.map(String.init)
         for splitValue in splitValues {
-            let valueSet = splitValue.characters.split{ $0 == "=" }.map(String.init)
+            let valueSet = splitValue.split{ $0 == "=" }.map(String.init)
             if valueSet.count > 0 {
                 var foundAtIndex = -1
                 for i in 0..<cookieValues.count {
-                    let checkValueSet = cookieValues[i].characters.split{ $0 == "=" }.map(String.init)
+                    let checkValueSet = cookieValues[i].split{ $0 == "=" }.map(String.init)
                     if checkValueSet.count > 0 && checkValueSet[0] == valueSet[0] {
                         foundAtIndex = i
                         break

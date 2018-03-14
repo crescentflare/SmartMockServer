@@ -65,7 +65,7 @@ public class SmartMockHeaders {
             if checkKey.caseInsensitiveCompare(key) == ComparisonResult.orderedSame {
                 var result = ""
                 for value in checkValue {
-                    if result.characters.count > 0 {
+                    if result.count > 0 {
                         result += "; "
                     }
                     result += value

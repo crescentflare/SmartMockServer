@@ -171,9 +171,9 @@ class SmartMockResponseFinder {
                 // Third pass: POST parameters
                 if alternative.postParameters != nil {
                     var postParameters: [String: String] = [:]
-                    let bodySplit = body.characters.split{ $0 == "&" }.map(String.init)
+                    let bodySplit = body.split{ $0 == "&" }.map(String.init)
                     for j in 0..<bodySplit.count {
-                        let bodyParamSplit = bodySplit[j].characters.split{ $0 == "=" }.map(String.init)
+                        let bodyParamSplit = bodySplit[j].split{ $0 == "=" }.map(String.init)
                         if bodyParamSplit.count == 2 {
                             postParameters[SmartMockStringUtility.urlDecode(bodyParamSplit[0].trimmingCharacters(in: CharacterSet.whitespaces))] = SmartMockStringUtility.urlDecode(bodyParamSplit[1].trimmingCharacters(in: CharacterSet.whitespaces))
                         }
@@ -281,10 +281,10 @@ class SmartMockResponseFinder {
         if fixedRequestPath.hasPrefix("/") {
             fixedRequestPath = String(fixedRequestPath[fixedRequestPath.index(after: fixedRequestPath.startIndex)...])
         }
-        let requestPathComponents = fixedRequestPath.characters.split{ $0 == "/" }.map(String.init)
-        let filePathComponents = filePath.characters.split{ $0 == "/" }.map(String.init)
+        let requestPathComponents = fixedRequestPath.split{ $0 == "/" }.map(String.init)
+        let filePathComponents = filePath.split{ $0 == "/" }.map(String.init)
         var requestFile = ""
-        if requestPathComponents.count > 0 && requestPathComponents[0].characters.count > 0 {
+        if requestPathComponents.count > 0 && requestPathComponents[0].count > 0 {
             for i in 0..<filePathComponents.count {
                 if filePathComponents[i] == requestPathComponents[0] {
                     let overlapComponents = filePathComponents.count - i
@@ -298,7 +298,7 @@ class SmartMockResponseFinder {
                             break
                         }
                     }
-                    if requestFile.characters.count > 0 {
+                    if requestFile.count > 0 {
                         break
                     }
                 }

@@ -38,5 +38,5 @@ Be able to fetch the endpoints responses used by the NodeJS smart mock server mo
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'CryptoSwift', '~> 0.7.1'
+  s.dependency 'CryptoSwift', '~> 0.8.3'
 end

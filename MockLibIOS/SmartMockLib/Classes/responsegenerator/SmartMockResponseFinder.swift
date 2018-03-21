@@ -387,9 +387,14 @@ class SmartMockResponseFinder {
     }
     
     private static func fileArraySearch(_ stringArray: [String], element: String, alt1: String?, alt2: String?, alt3: String?) -> String? {
-        for check in stringArray {
-            if check == element || check == alt1 || check == alt2 || check == alt3 {
-                return check
+        let checkOrderedArray = [element, alt1, alt2, alt3]
+        for orderedItem in checkOrderedArray {
+            if let compareOrderedItem = orderedItem {
+                for stringItem in stringArray {
+                    if compareOrderedItem == stringItem {
+                        return compareOrderedItem
+                    }
+                }
             }
         }
         return nil

@@ -173,17 +173,17 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
 // Output the response data based on the given properties
 ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, properties) {
     var arrayContains = function(array, element, alt1, alt2, alt3) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] == element) {
-                return element;
-            } else if (alt1 && array[i] == alt1) {
-                return alt1;
-            } else if (alt2 && array[i] == alt2) {
-                return alt2;
-            } else if (alt3 && array[i] == alt3) {
-                return alt3;
+        var checkOrderedArray = [element, alt1, alt2, alt3];
+        for (var i = 0; i < checkOrderedArray.length; i++) {
+            if (checkOrderedArray[i]) {
+                for (var j = 0; j < array.length; j++) {
+                    if (checkOrderedArray[i] == array[j]) {
+                        return checkOrderedArray[i];
+                    }
+                }
             }
         }
+        return null;
     };
     var continueWithResponse = function(files, headers) {
         // Check for response generators

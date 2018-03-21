@@ -599,11 +599,18 @@ public class SmartMockResponseFinder
 
     private static String fileArraySearch(String[] stringArray, String element, String alt1, String alt2, String alt3)
     {
-        for (String check : stringArray)
+        String[] checkOrderedArray = new String[]{ element, alt1, alt2, alt3 };
+        for (String orderedItem : checkOrderedArray)
         {
-            if (check.equals(element) || (alt1 != null && check.equals(alt1)) || (alt2 != null && check.equals(alt2)) || (alt3 != null && check.equals(alt3)))
+            if (orderedItem != null)
             {
-                return check;
+                for (String stringItem : stringArray)
+                {
+                    if (orderedItem.equals(stringItem))
+                    {
+                        return orderedItem;
+                    }
+                }
             }
         }
         return null;

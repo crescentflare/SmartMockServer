@@ -41,7 +41,7 @@ The \_\_dirname parameter is the directory in which the javascript file is locat
 When using gradle, the library can easily be imported into the build.gradle file of your project. Add the following dependency:
 
 ```
-compile 'com.crescentflare.smartmock:SmartMockLib:0.6.4'
+compile 'com.crescentflare.smartmock:SmartMockLib:1.0.0'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
@@ -51,35 +51,26 @@ Make sure that jcenter is added as a repository. The library integrates well wit
 
 The library is available through [CocoaPods](http://cocoapods.org). To install it, simply add one of the following lines to your Podfile:
 
-Swift 4:
-
 ```ruby
-pod "SmartMockLib", '~> 0.6.4'
+pod "SmartMockLib", '~> 1.0.0'
 ```
 
-Swift 3:
-
-```ruby
-pod "SmartMockLib", '~> 0.6.2'
-```
-
-Swift 2.2:
-
-```ruby
-pod "SmartMockLib", '0.5.0'
-```
+The above version is for Swift 4.1. For older Swift versions use the following:
+- Swift 4.0: SmartMockLib 0.6.4
+- Swift 3: SmartMockLib 0.6.2
+- Swift 2.2: SmartMockLib 0.5.0
 
 An example is available which shows how it can be integrated with Alamofire. Though it can also be used with other libraries or separately.
 
 
 ### NodeJS module configuration
 
-The server can be configured, like starting with a custom port and IP address. The following things can be configured:
+The server can be configured, like starting with a custom port and IP address. By default it will run on all external IP addresses and 127.0.0.1. The following things can be configured:
 
 - **port:** Run on a specific port, some ports (like port 80) are rejected by NodeJS (defaults to: 2143)
-- **externalIp:** Search for another IP address, instead of 127.0.0.1 (defaults to: false)
-- **secureConnection:** Start an https server, needs certificates ssl.key and ssl.cert in the root path (defaults to: false)
+- **externalIp:** Seach for an external IP address (except 127.0.0.1), the server will run on the first address that it finds (defaults to: false)
 - **manualIp:** A string to manually configure a specific IP address (defaults to: empty)
+- **secureConnection:** Start an https server, needs certificates ssl.key and ssl.cert in the root path (defaults to: false)
 - **endPoints:** A relative path to the root path to locate the response endpoints (defaults to: empty)
 
 These can be specified by creating a **config.json** file within the root path. Additionally these can be overridden by using commandline parameters, like:

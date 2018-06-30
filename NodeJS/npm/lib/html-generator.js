@@ -161,7 +161,7 @@ HtmlParamBlock.prototype.concatLink = function(link, param) {
 
 HtmlParamBlock.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="padding-left:12px; white-space: font-family: monospace; font-size:0.9em">';
+    renderText += '<div style="padding-left:12px; white-space: pre; white-space: font-family: monospace; font-size:0.9em">';
     for (var i = 0; i < this.subComponents.length; i++) {
         renderText += this.subComponents[i].render();
     }

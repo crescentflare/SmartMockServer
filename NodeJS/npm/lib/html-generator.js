@@ -394,12 +394,13 @@ HtmlGenerator.createSubHeading = function(text, identifier) {
 // Read through a directory recursively
 HtmlGenerator.formatAsHtml = function(components, properties) {
     var htmlText = '<html>';
+    htmlText += '<head>';
     if (properties.name) {
-        htmlText += '<head>';
         htmlText += '<title>' + properties.name + '</title>';
         htmlText += new HtmlExpandableSubHeadingScript().render();
-        htmlText += '</head>';
     }
+    htmlText += '<meta name=viewport content="width=device-width,initial-scale=1">';
+    htmlText += '</head>';
     htmlText += '<body leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 leftPadding=0 rightPadding=0 topPadding=0 bottomPadding=0 bgColor="#E8E8E8">';
     for (var i = 0; i < components.length; i++) {
         var component = components[i];

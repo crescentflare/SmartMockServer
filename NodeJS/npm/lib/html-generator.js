@@ -161,7 +161,7 @@ HtmlParamBlock.prototype.concatLink = function(link, param) {
 
 HtmlParamBlock.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="padding-left:12px; white-space: pre; white-space: font-family: monospace; font-size:0.9em">';
+    renderText += '<div style="padding-left:12px; white-space: pre-wrap; white-space: font-family: monospace; font-size:0.9em; overflow-wrap: break-word">';
     for (var i = 0; i < this.subComponents.length; i++) {
         renderText += this.subComponents[i].render();
     }
@@ -248,7 +248,7 @@ function HtmlLink(method, link, text) {
 
 HtmlLink.prototype.render = function() {
     var renderText = "";
-    renderText += '<div>';
+    renderText += '<div style="overflow-wrap: break-word">';
     if (this.method) {
         renderText += this.method + " ";
     }

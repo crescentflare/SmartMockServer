@@ -14,7 +14,8 @@ var ResponseFinder = require('./response-finder');
 
 // Server configuration
 var serverConfig = {};
-var cachedIps = null;
+var cachedExternalIps = null;
+var cachedLocalIps = null;
 
 
 //////////////////////////////////////////////////
@@ -66,10 +67,8 @@ function SmartMockServer(serverDir, ip, port) {
             key: fs.readFileSync(serverDir + "/ssl.key"),
             cert: fs.readFileSync(serverDir + "/ssl.cert")
         };
-        this.listeningAtAddress = "https://" + ip + ":" + port;
         https.createServer(sslCertificate, connectFunction).listen(port, ip);
     } else {
-        this.listeningAtAddress = "http://" + ip + ":" + port;
         http.createServer(connectFunction).listen(port, ip);
     }
 }
@@ -106,26 +105,52 @@ SmartMockServer.start = function(serverDir) {
             serverConfig.port = serverConfig.port || "2143";
                 
             // Start
-            if (serverConfig.externalIp && !serverConfig.manualIp) {
+            if (!serverConfig.manualIp) {
                 SmartMockServer.getNetworkIPs(
-                    function (error, ip) {
-                        if (ip.length == 0) {
-                            ip.push("127.0.0.1");
-                            console.log('No network, falling back to localhost');
+                    function (error, externalIps, localIps) {
+                        var startIp = null;
+                        var runningIps = [];
+                        if (serverConfig.externalIp) {
+                            if (externalIps.length > 0) {
+                                startIp = externalIps[0];
+                            } else if (localIps.length > 0) {
+                                startIp = localIps[0];
+                                console.log('No external ip, falling back to internal ip');
+                            } else {
+                                startIp = "127.0.0.1";
+                                console.log('No network, falling back to localhost');
+                            }
+                            runningIps.push(startIp);
+                        } else {
+                            runningIps = runningIps.concat(localIps);
+                            runningIps = runningIps.concat(externalIps);
                         }
-                        if (ip.length > 0) {
-                            var foundIp = "";
-                            for (var i = 0; i < ip.length; i++) {
-                                if (ip.indexOf("127.") != 0) {
-                                    foundIp = ip[i];
+                        if (startIp != null && startIp.length > 0) {
+                            var showStartIp = startIp;
+                            if (showStartIp == "127.0.0.1") {
+                                showStartIp += ":" + serverConfig.port + " (or localhost:" + serverConfig.port + ")";
+                            } else {
+                                showStartIp += ":" + serverConfig.port;
+                            }
+                            console.log('Server running at:', showStartIp);
+                            console.log('Connect to server in your browser and add the configured endpoints to view their responses');
+                            new SmartMockServer(serverDir, startIp, serverConfig.port);
+                        } else if (runningIps.length > 0) {
+                            var showStartIp = runningIps[0];
+                            if (showStartIp == "127.0.0.1") {
+                                showStartIp += ":" + serverConfig.port + " (or localhost:" + serverConfig.port + ")";
+                            } else {
+                                showStartIp += ":" + serverConfig.port;
+                            }
+                            console.log('Server running at:', showStartIp);
+                            console.log('Connect to server in your browser and add the configured endpoints to view their responses');
+                            if (runningIps.length > 1) {
+                                console.log('\nServer also reachable at:');
+                                for (var i = 1; i < runningIps.length; i++) {
+                                    console.log(runningIps[i] + ":" + serverConfig.port);
                                 }
                             }
-                            if (foundIp.length == 0) {
-                                foundIp = ip[0];
-                            }
-                            console.log('Server running at:', foundIp + ":" + serverConfig.port);
-                            console.log('Connect to server in your browser and add the configured endpoints to view their responses');
-                            new SmartMockServer(serverDir, foundIp, serverConfig.port);
+                            new SmartMockServer(serverDir, null, serverConfig.port);
                         }
                         if (error) {
                             console.log('IP address fetch error: ', error);
@@ -136,7 +161,13 @@ SmartMockServer.start = function(serverDir) {
                 );
             } else {
                 var startIp = serverConfig.manualIp || "127.0.0.1";
-                console.log('Server running at:', startIp + ":" + serverConfig.port);
+                var showStartIp = startIp;
+                if (showStartIp == "127.0.0.1") {
+                    showStartIp += ":" + serverConfig.port + " (or localhost:" + serverConfig.port + ")";
+                } else {
+                    showStartIp += ":" + serverConfig.port;
+                }
+                console.log('Server running at:', showStartIp);
                 console.log('Connect to server in your browser and add the configured endpoints to view their responses');
                 new SmartMockServer(serverDir, startIp, serverConfig.port);
             }
@@ -152,15 +183,15 @@ SmartMockServer.start = function(serverDir) {
 // Utility to get network IP addresses (ignoring local host), to show user the IP it should connect to
 SmartMockServer.getNetworkIPs = function(callback, bypassCache, ipv6) {
     // Return early if already cached
-    if (cachedIps && !bypassCache) {
-        callback(null, cached);
+    if (cachedExternalIps && cachedLocalIps && !bypassCache) {
+        callback(null, cachedExternalIps, cachedLocalIps);
         return;
     }
 
     // Determine command to run
     var ignoreRE = /^(127\.0\.0\.1|::1|fe80(:1)?::1(%.*)?)$/i;
     var exec = require('child_process').exec;
-    var cached, command, filterRE;
+    var command, filterRE;
     switch (process.platform) {
         case 'win32':
         case 'win64':
@@ -187,18 +218,21 @@ SmartMockServer.getNetworkIPs = function(callback, bypassCache, ipv6) {
     exec(
         command,
         function(error, stdout, sterr) {
-            cached = [];
+            var externalIps = [];
+            var internalIps = [];
             var ip;
             var matches = stdout.match(filterRE) || [];
             if (!error) {
                 for (var i = 0; i < matches.length; i++) {
                     ip = matches[i].replace(filterRE, '$1');
                     if (!ignoreRE.test(ip)) {
-                        cached.push(ip);
+                        externalIps.push(ip);
+                    } else {
+                        internalIps.push(ip);
                     }
                 }
             }
-            callback(error, cached);
+            callback(error, externalIps, internalIps);
          }
     );
 }

@@ -22,7 +22,7 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
         this.subComponents.push(new HtmlText(properties.description));
     }
     if (properties.postJson || properties.postParameters) {
-        this.subComponents.push(new HtmlParamBlock(properties, false, insertPathExtra));
+        this.subComponents.push(new HtmlParamBlock(properties, false, insertPathExtra, false));
     }
     if (properties.alternatives) {
         for (var i = 0; i < properties.alternatives.length; i++) {
@@ -31,20 +31,22 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
                 alternative.path = alternative.path || properties.path;
                 alternative.method = alternative.method || properties.method;
                 alternative.getParameters = alternative.getParameters || properties.getParameters;
-                this.subComponents.push(new HtmlParamBlock(alternative, true, insertPathExtra));
+                this.subComponents.push(new HtmlParamBlock(alternative, true, insertPathExtra, alternative.method != (properties.method || "GET")));
             }
         }
     }
     var link = properties.path;
+    var showLink = properties.path;
     if (properties.method && properties.method.toUpperCase() != "GET") {
         link = this.concatLink(link, "methodOverride=" + properties.method);
     }
     if (properties.getParameters) {
         for (var key in properties.getParameters) {
             link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+            showLink = this.concatLink(showLink, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
         }
     }
-    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, properties.path));
+    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, showLink));
 }
 
 HtmlRequestBlock.prototype.concatLink = function(link, param) {
@@ -86,13 +88,16 @@ HtmlRequestBlock.prototype.render = function() {
 // Parameter block component
 //////////////////////////////////////////////////
 
-function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
+function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativeMethod) {
     this.subComponents = [];
     if (isAlternative) {
         var name = "Alternative";
         var link = properties.path;
         if (properties.name) {
             name += ": " + properties.name;
+        }
+        if (isAlternativeMethod) {
+            name += " (" + (properties.method || "GET") + ")";
         }
         if (properties.method && properties.method.toUpperCase() != "GET") {
             link = this.concatLink(link, "methodOverride=" + properties.method);
@@ -124,6 +129,13 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
         }
         this.subComponents.push(new HtmlLink(null, insertPathExtra + link, name));
     }
+    if (properties.getParameters && isAlternative) {
+        var paramString = properties.path;
+        for (var key in properties.getParameters) {
+            paramString = this.concatLink(paramString, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+        }
+        this.subComponents.push(new HtmlText(paramString));
+    }
     if (properties.postParameters) {
         for (var key in properties.postParameters) {
             this.subComponents.push(new HtmlText(key + '=' + properties.postParameters[key]));
@@ -149,7 +161,7 @@ HtmlParamBlock.prototype.concatLink = function(link, param) {
 
 HtmlParamBlock.prototype.render = function() {
     var renderText = "";
-    renderText += '<div style="padding-left:12px; white-space: font-family: monospace; font-size:0.9em">';
+    renderText += '<div style="padding-left:12px; white-space: pre-wrap; white-space: font-family: monospace; font-size:0.9em; overflow-wrap: break-word">';
     for (var i = 0; i < this.subComponents.length; i++) {
         renderText += this.subComponents[i].render();
     }
@@ -236,7 +248,7 @@ function HtmlLink(method, link, text) {
 
 HtmlLink.prototype.render = function() {
     var renderText = "";
-    renderText += '<div>';
+    renderText += '<div style="overflow-wrap: break-word">';
     if (this.method) {
         renderText += this.method + " ";
     }
@@ -382,12 +394,13 @@ HtmlGenerator.createSubHeading = function(text, identifier) {
 // Read through a directory recursively
 HtmlGenerator.formatAsHtml = function(components, properties) {
     var htmlText = '<html>';
+    htmlText += '<head>';
     if (properties.name) {
-        htmlText += '<head>';
         htmlText += '<title>' + properties.name + '</title>';
         htmlText += new HtmlExpandableSubHeadingScript().render();
-        htmlText += '</head>';
     }
+    htmlText += '<meta name=viewport content="width=device-width,initial-scale=1">';
+    htmlText += '</head>';
     htmlText += '<body leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 leftPadding=0 rightPadding=0 topPadding=0 bottomPadding=0 bgColor="#E8E8E8">';
     for (var i = 0; i < components.length; i++) {
         var component = components[i];

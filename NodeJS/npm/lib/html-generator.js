@@ -22,7 +22,7 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
         this.subComponents.push(new HtmlText(properties.description));
     }
     if (properties.postJson || properties.postParameters) {
-        this.subComponents.push(new HtmlParamBlock(properties, false, insertPathExtra));
+        this.subComponents.push(new HtmlParamBlock(properties, false, insertPathExtra, false));
     }
     if (properties.alternatives) {
         for (var i = 0; i < properties.alternatives.length; i++) {
@@ -31,20 +31,22 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
                 alternative.path = alternative.path || properties.path;
                 alternative.method = alternative.method || properties.method;
                 alternative.getParameters = alternative.getParameters || properties.getParameters;
-                this.subComponents.push(new HtmlParamBlock(alternative, true, insertPathExtra));
+                this.subComponents.push(new HtmlParamBlock(alternative, true, insertPathExtra, alternative.method != (properties.method || "GET")));
             }
         }
     }
     var link = properties.path;
+    var showLink = properties.path;
     if (properties.method && properties.method.toUpperCase() != "GET") {
         link = this.concatLink(link, "methodOverride=" + properties.method);
     }
     if (properties.getParameters) {
         for (var key in properties.getParameters) {
             link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+            showLink = this.concatLink(showLink, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
         }
     }
-    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, properties.path));
+    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, showLink));
 }
 
 HtmlRequestBlock.prototype.concatLink = function(link, param) {
@@ -86,13 +88,16 @@ HtmlRequestBlock.prototype.render = function() {
 // Parameter block component
 //////////////////////////////////////////////////
 
-function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
+function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativeMethod) {
     this.subComponents = [];
     if (isAlternative) {
         var name = "Alternative";
         var link = properties.path;
         if (properties.name) {
             name += ": " + properties.name;
+        }
+        if (isAlternativeMethod) {
+            name += " (" + (properties.method || "GET") + ")";
         }
         if (properties.method && properties.method.toUpperCase() != "GET") {
             link = this.concatLink(link, "methodOverride=" + properties.method);
@@ -123,6 +128,13 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra) {
             }
         }
         this.subComponents.push(new HtmlLink(null, insertPathExtra + link, name));
+    }
+    if (properties.getParameters && isAlternative) {
+        var paramString = properties.path;
+        for (var key in properties.getParameters) {
+            paramString = this.concatLink(paramString, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+        }
+        this.subComponents.push(new HtmlText(paramString));
     }
     if (properties.postParameters) {
         for (var key in properties.postParameters) {

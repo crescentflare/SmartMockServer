@@ -5,10 +5,10 @@ PODS:
   - AlamofireObjectMapper (5.0.0):
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 3.0)
-  - CryptoSwift (0.8.3)
+  - CryptoSwift (0.9.0)
   - ObjectMapper (3.1.0)
   - SmartMockLib (1.0.0):
-    - CryptoSwift (~> 0.8.3)
+    - CryptoSwift (~> 0.9.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7.0)
@@ -24,9 +24,9 @@ SPEC CHECKSUMS:
   Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   AlamofireObjectMapper: 5fafc816351cbbc0d486611aaeba7461c0cbad49
-  CryptoSwift: 033efc3523865d19cc6ab6612fa17a62613b5dfa
+  CryptoSwift: bca8c5b653dcc2d9734409242a070ff53bafac86
   ObjectMapper: 20505058f54e5c3ca69e1d6de9897d152a5369a6
-  SmartMockLib: 2c84b271fa38d110c37c31e781a118a6dc34dc70
+  SmartMockLib: fadb5a36c1d460520a243d2a2c62f6d79aae6b95
 
 PODFILE CHECKSUM: 1bebb168804697e77e49731461886844f3370fb0
 

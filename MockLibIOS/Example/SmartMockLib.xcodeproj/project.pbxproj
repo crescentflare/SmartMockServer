@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04044E20216FCC9B005395CA /* SmartMockParamMatcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4C6501D7A07C0009C8526 /* SmartMockParamMatcherTest.swift */; };
 		043B6BBC1D776DDE008C4663 /* EndPoints in Resources */ = {isa = PBXBuildFile; fileRef = 043B6BBB1D776DDE008C4663 /* EndPoints */; };
 		046806DC1D7610680024A648 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046806DB1D7610680024A648 /* ProductViewController.swift */; };
 		046806DE1D761C880024A648 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046806DD1D761C880024A648 /* ServiceViewController.swift */; };
@@ -27,26 +28,25 @@
 		04A9C0A51D74E00C0003FCE3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C0A41D74E00C0003FCE3 /* User.swift */; };
 		04A9C0A71D74E0780003FCE3 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C0A61D74E0780003FCE3 /* UserRole.swift */; };
 		04AABE001D6A3AC60078EFFE /* SmartMockLib.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 04AABDFF1D6A3AC60078EFFE /* SmartMockLib.podspec */; };
-		04F4C6511D7A07C0009C8526 /* SmartMockParamMatcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4C6501D7A07C0009C8526 /* SmartMockParamMatcherTest.swift */; };
-		570C76F59CDAA7B62DBE96E9 /* Pods_SmartMockLib_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9A33803A813CBAFA79061A1 /* Pods_SmartMockLib_Example.framework */; };
+		09DE2928B6E9210E8CF809DB /* Pods_SmartMockLib_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B7CAB82526FF2938CB9A17E /* Pods_SmartMockLib_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		888BAA30D0DCCDB17B9832D1 /* Pods_SmartMockLib_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0E9001627FBDE058C473ABB /* Pods_SmartMockLib_Tests.framework */; };
+		71CF7AC039051C1B4B1B4FFF /* Pods_SmartMockLib_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31BF5476CE1859BC1CB5983F /* Pods_SmartMockLib_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
+		04044E1B216FCC39005395CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = SmartMockLib;
+			remoteInfo = SmartMockLib_Example;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		019BD931D4B2185723E0CBDF /* Pods-SmartMockLib_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		04044E16216FCC39005395CA /* SmartMockLib_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartMockLib_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		043B6BBB1D776DDE008C4663 /* EndPoints */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EndPoints; sourceTree = "<group>"; };
 		046806DB1D7610680024A648 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		046806DD1D761C880024A648 /* ServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
@@ -68,36 +68,36 @@
 		04A9C0A61D74E0780003FCE3 /* UserRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		04AABDFF1D6A3AC60078EFFE /* SmartMockLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SmartMockLib.podspec; path = ../../SmartMockLib.podspec; sourceTree = "<group>"; };
 		04F4C6501D7A07C0009C8526 /* SmartMockParamMatcherTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartMockParamMatcherTest.swift; sourceTree = "<group>"; };
-		05C1628D31B3A0E1587C7787 /* Pods-SmartMockLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		40438CA3D9544409B3E74BD1 /* Pods-SmartMockLib_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Example/Pods-SmartMockLib_Example.release.xcconfig"; sourceTree = "<group>"; };
+		31BF5476CE1859BC1CB5983F /* Pods_SmartMockLib_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartMockLib_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		409F5A9A18B53F0CF1CA6677 /* Pods-SmartMockLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Example/Pods-SmartMockLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		4B7CAB82526FF2938CB9A17E /* Pods_SmartMockLib_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartMockLib_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* SmartMockLib_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartMockLib_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* SmartMockLib_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartMockLib_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B0E9001627FBDE058C473ABB /* Pods_SmartMockLib_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartMockLib_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9A33803A813CBAFA79061A1 /* Pods_SmartMockLib_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartMockLib_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CDAFCEB55BBE27194C69F9F /* Pods-SmartMockLib_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Example/Pods-SmartMockLib_Example.release.xcconfig"; sourceTree = "<group>"; };
+		885FA28730956486535F9516 /* Pods-SmartMockLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BC8676DDB18642E21D5B3740 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		EA232A3741F273243AD190A4 /* Pods-SmartMockLib_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F0064AC33AF7A8E7EFD20E79 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		FFC8675F3F43410A75EA606E /* Pods-SmartMockLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartMockLib_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SmartMockLib_Example/Pods-SmartMockLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		04044E13216FCC39005395CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71CF7AC039051C1B4B1B4FFF /* Pods_SmartMockLib_Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCD1AFB9204008FA782 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				570C76F59CDAA7B62DBE96E9 /* Pods_SmartMockLib_Example.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		607FACE21AFB9204008FA782 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				888BAA30D0DCCDB17B9832D1 /* Pods_SmartMockLib_Tests.framework in Frameworks */,
+				09DE2928B6E9210E8CF809DB /* Pods_SmartMockLib_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +139,17 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		3D03B65752E10CAC0D7B0620 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				409F5A9A18B53F0CF1CA6677 /* Pods-SmartMockLib_Example.debug.xcconfig */,
+				6CDAFCEB55BBE27194C69F9F /* Pods-SmartMockLib_Example.release.xcconfig */,
+				EA232A3741F273243AD190A4 /* Pods-SmartMockLib_Tests.debug.xcconfig */,
+				885FA28730956486535F9516 /* Pods-SmartMockLib_Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -146,8 +157,8 @@
 				607FACD21AFB9204008FA782 /* Example for SmartMockLib */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
-				AA4B569CCAA060F47C2D0D82 /* Pods */,
-				D645080E119F07F235912F3E /* Frameworks */,
+				3D03B65752E10CAC0D7B0620 /* Pods */,
+				EFB5331B66BC8255C31D2757 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,7 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD01AFB9204008FA782 /* SmartMockLib_Example.app */,
-				607FACE51AFB9204008FA782 /* SmartMockLib_Tests.xctest */,
+				04044E16216FCC39005395CA /* SmartMockLib_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,22 +227,11 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		AA4B569CCAA060F47C2D0D82 /* Pods */ = {
+		EFB5331B66BC8255C31D2757 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FFC8675F3F43410A75EA606E /* Pods-SmartMockLib_Example.debug.xcconfig */,
-				40438CA3D9544409B3E74BD1 /* Pods-SmartMockLib_Example.release.xcconfig */,
-				019BD931D4B2185723E0CBDF /* Pods-SmartMockLib_Tests.debug.xcconfig */,
-				05C1628D31B3A0E1587C7787 /* Pods-SmartMockLib_Tests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		D645080E119F07F235912F3E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B9A33803A813CBAFA79061A1 /* Pods_SmartMockLib_Example.framework */,
-				B0E9001627FBDE058C473ABB /* Pods_SmartMockLib_Tests.framework */,
+				4B7CAB82526FF2938CB9A17E /* Pods_SmartMockLib_Example.framework */,
+				31BF5476CE1859BC1CB5983F /* Pods_SmartMockLib_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -239,16 +239,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		04044E15216FCC39005395CA /* SmartMockLib_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04044E1D216FCC39005395CA /* Build configuration list for PBXNativeTarget "SmartMockLib_Tests" */;
+			buildPhases = (
+				D4F6291563BC4E7F91ECE47A /* [CP] Check Pods Manifest.lock */,
+				04044E12216FCC39005395CA /* Sources */,
+				04044E13216FCC39005395CA /* Frameworks */,
+				04044E14216FCC39005395CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04044E1C216FCC39005395CA /* PBXTargetDependency */,
+			);
+			name = SmartMockLib_Tests;
+			productName = SmartMockLib_Tests;
+			productReference = 04044E16216FCC39005395CA /* SmartMockLib_Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		607FACCF1AFB9204008FA782 /* SmartMockLib_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SmartMockLib_Example" */;
 			buildPhases = (
-				3EBECA8A15DA49A16606CD43 /* [CP] Check Pods Manifest.lock */,
+				26AF47C5FB7C2C3696CEFCB4 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				22005604D4A45D665030BA3D /* [CP] Embed Pods Frameworks */,
-				A0B874FDC697A996746DF0DB /* [CP] Copy Pods Resources */,
+				D548673E5D105F9BC3E7F898 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -259,45 +277,24 @@
 			productReference = 607FACD01AFB9204008FA782 /* SmartMockLib_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* SmartMockLib_Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SmartMockLib_Tests" */;
-			buildPhases = (
-				037F5D125FB5F6601A4110B3 /* [CP] Check Pods Manifest.lock */,
-				607FACE11AFB9204008FA782 /* Sources */,
-				607FACE21AFB9204008FA782 /* Frameworks */,
-				607FACE31AFB9204008FA782 /* Resources */,
-				4DEC1853B28B3FFA193620F1 /* [CP] Embed Pods Frameworks */,
-				6E642BB3AB151ACC108AF738 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
-			);
-			name = SmartMockLib_Tests;
-			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* SmartMockLib_Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
+					04044E15216FCC39005395CA = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 607FACCF1AFB9204008FA782;
+					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-					};
-					607FACE41AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-						TestTargetID = 607FACCF1AFB9204008FA782;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -315,12 +312,19 @@
 			projectRoot = "";
 			targets = (
 				607FACCF1AFB9204008FA782 /* SmartMockLib_Example */,
-				607FACE41AFB9204008FA782 /* SmartMockLib_Tests */,
+				04044E15216FCC39005395CA /* SmartMockLib_Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		04044E14216FCC39005395CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCE1AFB9204008FA782 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -333,17 +337,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE31AFB9204008FA782 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		037F5D125FB5F6601A4110B3 /* [CP] Check Pods Manifest.lock */ = {
+		26AF47C5FB7C2C3696CEFCB4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SmartMockLib_Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4F6291563BC4E7F91ECE47A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -361,7 +376,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		22005604D4A45D665030BA3D /* [CP] Embed Pods Frameworks */ = {
+		D548673E5D105F9BC3E7F898 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -389,77 +404,17 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartMockLib_Example/Pods-SmartMockLib_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3EBECA8A15DA49A16606CD43 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SmartMockLib_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4DEC1853B28B3FFA193620F1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SmartMockLib/SmartMockLib.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SmartMockLib.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E642BB3AB151ACC108AF738 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartMockLib_Tests/Pods-SmartMockLib_Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A0B874FDC697A996746DF0DB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SmartMockLib_Example/Pods-SmartMockLib_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		04044E12216FCC39005395CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04044E20216FCC9B005395CA /* SmartMockParamMatcherTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCC1AFB9204008FA782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -485,21 +440,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE11AFB9204008FA782 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				04F4C6511D7A07C0009C8526 /* SmartMockParamMatcherTest.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
+		04044E1C216FCC39005395CA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* SmartMockLib_Example */;
-			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
+			targetProxy = 04044E1B216FCC39005395CA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -515,6 +462,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		04044E1E216FCC39005395CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA232A3741F273243AD190A4 /* Pods-SmartMockLib_Tests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.crescentflare.SmartMockLib-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartMockLib_Example.app/SmartMockLib_Example";
+			};
+			name = Debug;
+		};
+		04044E1F216FCC39005395CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 885FA28730956486535F9516 /* Pods-SmartMockLib_Tests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.crescentflare.SmartMockLib-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartMockLib_Example.app/SmartMockLib_Example";
+			};
+			name = Release;
+		};
 		607FACED1AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -622,7 +623,7 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFC8675F3F43410A75EA606E /* Pods-SmartMockLib_Example.debug.xcconfig */;
+			baseConfigurationReference = 409F5A9A18B53F0CF1CA6677 /* Pods-SmartMockLib_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SmartMockLib/Info.plist;
@@ -631,14 +632,13 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 40438CA3D9544409B3E74BD1 /* Pods-SmartMockLib_Example.release.xcconfig */;
+			baseConfigurationReference = 6CDAFCEB55BBE27194C69F9F /* Pods-SmartMockLib_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SmartMockLib/Info.plist;
@@ -647,52 +647,22 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		607FACF31AFB9204008FA782 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 019BD931D4B2185723E0CBDF /* Pods-SmartMockLib_Tests.debug.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		607FACF41AFB9204008FA782 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05C1628D31B3A0E1587C7787 /* Pods-SmartMockLib_Tests.release.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		04044E1D216FCC39005395CA /* Build configuration list for PBXNativeTarget "SmartMockLib_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04044E1E216FCC39005395CA /* Debug */,
+				04044E1F216FCC39005395CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "SmartMockLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -707,15 +677,6 @@
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
 				607FACF11AFB9204008FA782 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SmartMockLib_Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

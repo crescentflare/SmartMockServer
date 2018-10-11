@@ -43,7 +43,7 @@ class LinkCell: UITableViewCell {
     
     var buttonText: String? {
         set {
-            _button!.setTitle(newValue, for: UIControlState())
+            _button!.setTitle(newValue, for: UIControl.State())
         }
         get { return _button!.titleLabel!.text }
     }

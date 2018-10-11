@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
+               BlueprintIdentifier = "04044E15216FCC39005395CA"
                BuildableName = "SmartMockLib_Tests.xctest"
                BlueprintName = "SmartMockLib_Tests"
                ReferencedContainer = "container:SmartMockLib.xcodeproj">
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
+               BlueprintIdentifier = "04044E15216FCC39005395CA"
                BuildableName = "SmartMockLib_Tests.xctest"
                BlueprintName = "SmartMockLib_Tests"
                ReferencedContainer = "container:SmartMockLib.xcodeproj">

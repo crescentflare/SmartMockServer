@@ -291,7 +291,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
         var serveFile = filePath + "/" + requestFile;
         fs.readFile(serveFile, function(error, data) {
             // Function to finalize serving data after all other checks are done
-            var outputFileData = function(data) {
+            var outputFileData = function(data, dataMD5) {
                 var response = null;
                 if (data) {
                     response = data;
@@ -301,15 +301,15 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
                     return;
                 }
                 setTimeout(function() {
-                    res.writeHead(properties.responseCode, { "ContentType": ResponseGenerators.fileListGetMimeType(serveFile) + "; charset=utf-8" });
+                    res.writeHead(properties.responseCode, { "ContentType": ResponseGenerators.fileListGetMimeType(serveFile) + "; charset=utf-8", "X-Mock-File-Hash": dataMD5 });
                     res.end(response);
                 }, properties["delay"] || 0);
             };
 
             // Function to wait for file changes (until timeout) before continuing with output
             var waitFileChange = function(currentData, currentMD5, checkMD5, timeout) {
-                if (currentMD5 != checkMD5.toLowerCase()) {
-                    outputFileData(currentData);
+                if (currentMD5 != checkMD5) {
+                    outputFileData(currentData, currentMD5);
                 } else {
                     // Wait for file changes
                     var fsWait = false;
@@ -330,10 +330,10 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
                                 } else {
                                     hash.end();
                                 }
-                                if (currentMD5 != checkMD5.toLowerCase()) {
+                                if (currentMD5 != checkMD5) {
                                     watcher.close();
                                     watcher = null;
-                                    outputFileData(data);
+                                    outputFileData(data, currentMD5);
                                 } else {
                                     fsWait = false;
                                 }
@@ -346,22 +346,23 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
                         if (watcher) {
                             watcher.close();
                             watcher = null;
-                            outputFileData(currentData);
+                            outputFileData(currentData, currentMD5);
                         }
                     }, timeout * 1000);
                 }
             }
             
             // When waiting for a file change, get the MD5 hash of the file and wait, otherwise just continue
-            if (data && headers['X-Wait-Change-Hash']) {
-                var hash = crypto.createHash("md5");
-                var timeoutString = headers['X-Wait-Change-Timeout'];
-                hash.setEncoding("hex");
-                hash.update(data);
-                hash.end();
-                waitFileChange(data, hash.read(), headers['X-Wait-Change-Hash'], parseInt(timeoutString || "", 10) || 10);
+            var waitChangeHash = headers['X-Mock-Wait-Change-Hash'];
+            var hash = crypto.createHash("md5");
+            hash.setEncoding("hex");
+            hash.update(data);
+            hash.end();
+            if (data && waitChangeHash) {
+                var timeoutString = headers['X-Mock-Wait-Change-Timeout'];
+                waitFileChange(data, hash.read(), waitChangeHash.toLowerCase(), parseInt(timeoutString || "", 10) || 10);
             } else {
-                outputFileData(data);
+                outputFileData(data, hash.read());
             }
         });
         return;

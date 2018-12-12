@@ -17,7 +17,7 @@ Easily set up a mock server, either by running NodeJS, or by using an internal m
 * Fully data-driven, endpoints can be created easily by creating folders and placing response JSON (or other formats like HTML) files, most of it can be done without even restarting the server
 * Create alternative responses on a single endpoint using get parameter or post body filters (with wildcard support), header filters are also supported
 * Easily set up an index page. It will automatically list all endpoints inside (including documentation and alternative responses)
-* Be able to set up an endpoint as a folder to serve any kind of file (like images), includes an index page in html or json to list the files being served
+* Be able to set up an endpoint as a folder to serve any kind of file (like images), includes an index page in html or json to list the files being served (with optional long polling to wait for a change on a single file using MD5)
 
 
 ### NodeJS integration guide
@@ -105,6 +105,8 @@ Extra settings for file servers (using fileList):
 All data can be changed realtime without restarting the server. The server will attempt to parse the JSON file before sending it through the response. If it fails, it returns with a parse error text and a 500 response code.
 
 It's recommended to place a properties file with the 'generates: indexPage' value in the root of the endpoint folder.
+
+When using a file server it's possible to use long polling on a single file, the server will wait responding until the file is changed or when the poll expires. Supply the X-Mock-Wait-Change-Hash header to enable this. This header should contain the last known MD5 hash of the file (which may have been returned by an earlier call in the X-Mock-File-Hash header). The timeout is 10 seconds by default, to customize this use the X-Mock-Wait-Change-Timeout header.
 
 
 ### Alternative responses for the same request

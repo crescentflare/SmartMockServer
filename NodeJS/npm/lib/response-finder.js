@@ -171,7 +171,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
 //////////////////////////////////////////////////
 
 // Output the response data based on the given properties
-ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, properties) {
+ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, headers, properties) {
     var arrayContains = function(array, element, alt1, alt2, alt3) {
         var checkOrderedArray = [element, alt1, alt2, alt3];
         for (var i = 0; i < checkOrderedArray.length; i++) {
@@ -185,37 +185,37 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         }
         return null;
     };
-    var continueWithResponse = function(files, headers) {
+    var continueWithResponse = function(files, sendHeaders) {
         // Check for response generators
-        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, getParameters, properties.generates, properties)) {
+        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, getParameters, properties.generates, headers, properties)) {
             return;
         }
         
         // Check for executable javascript
         var foundJavascriptFile = arrayContains(files, properties.responsePath + "Body.js", properties.responsePath + ".js", "responseBody.js", "response.js");
         if (foundJavascriptFile) {
-            require(filePath + "/" + foundJavascriptFile).handleResponse(req, res, requestPath, filePath, getParameters, rawBody, properties, headers);
+            require(filePath + "/" + foundJavascriptFile).handleResponse(req, res, requestPath, filePath, getParameters, rawBody, properties, sendHeaders);
             return;
         }
 
         // Check for JSON
         var foundJsonFile = arrayContains(files, properties.responsePath + "Body.json", properties.responsePath + ".json", "responseBody.json", "response.json");
         if (foundJsonFile) {
-            ResponseFinder.sendFileResponse(res, "application/json", filePath + "/" + foundJsonFile, properties.responseCode, headers);
+            ResponseFinder.sendFileResponse(res, "application/json", filePath + "/" + foundJsonFile, properties.responseCode, sendHeaders);
             return;
         }
         
         // Check for HTML
         var foundHtmlFile = arrayContains(files, properties.responsePath + "Body.html", properties.responsePath + ".html", "responseBody.html", "response.html");
         if (foundHtmlFile) {
-            ResponseFinder.sendFileResponse(res, "text/html", filePath + "/" + foundHtmlFile, properties.responseCode, headers);
+            ResponseFinder.sendFileResponse(res, "text/html", filePath + "/" + foundHtmlFile, properties.responseCode, sendHeaders);
             return;
         }
         
         // Check for plain text
         var foundTextFile = arrayContains(files, properties.responsePath + "Body.txt", properties.responsePath + ".txt", "responseBody.txt", "response.txt");
         if (foundTextFile) {
-            ResponseFinder.sendFileResponse(res, "text/plain", filePath + "/" + foundTextFile, properties.responseCode, headers);
+            ResponseFinder.sendFileResponse(res, "text/plain", filePath + "/" + foundTextFile, properties.responseCode, sendHeaders);
             return;
         }
 
@@ -230,14 +230,14 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
             fs.readFile(
                 filePath + "/" + foundFile,
                 function(error, data) {
-                    var headers = null;
+                    var sendHeaders = null;
                     if (!error && data) {
                         try {
-                            headers = JSON.parse(data);
+                            sendHeaders = JSON.parse(data);
                         } catch (ignored) { }
                     }
-                    headers = headers || {};
-                    continueWithResponse(files, headers);
+                    sendHeaders = sendHeaders || {};
+                    continueWithResponse(files, sendHeaders);
                 }
             );
         } else {
@@ -298,7 +298,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
                         requestPath += "/" + properties.redirect;
                         filePath += "/" + properties.redirect;
                     }
-                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
+                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, headers, useProperties);
                 },
                 useProperties.delay || 0
             );

@@ -261,7 +261,7 @@ ResponseGenerators.fileListGetMimeType = function(filename) {
 }
 
 // Generates an html index page of all files found within the folder
-ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParameters, properties, insertPathExtra) {
+ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
     // Check if the request path points to a file deeper in the tree of the file path
     var requestPathComponents = requestPath.startsWith("/") ? requestPath.substring(1).split("/") : requestPath.split("/");
     var filePathComponents = filePath.split("/");
@@ -290,18 +290,80 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
     if (requestFile.length > 0) {
         var serveFile = filePath + "/" + requestFile;
         fs.readFile(serveFile, function(error, data) {
-            var response = null;
-            if (data) {
-                response = data;
-            } else {
-                res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                res.end("Unable to read file: " + requestFile);
-                return;
+            // Function to finalize serving data after all other checks are done
+            var outputFileData = function(data, dataMD5) {
+                var response = null;
+                if (data) {
+                    response = data;
+                } else {
+                    res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+                    res.end("Unable to read file: " + requestFile);
+                    return;
+                }
+                setTimeout(function() {
+                    res.writeHead(properties.responseCode, { "ContentType": ResponseGenerators.fileListGetMimeType(serveFile) + "; charset=utf-8", "X-Mock-File-Hash": dataMD5 });
+                    res.end(response);
+                }, properties["delay"] || 0);
+            };
+
+            // Function to wait for file changes (until timeout) before continuing with output
+            var waitFileChange = function(currentData, currentMD5, checkMD5, timeout) {
+                if (currentMD5 != checkMD5) {
+                    outputFileData(currentData, currentMD5);
+                } else {
+                    // Wait for file changes
+                    var fsWait = false;
+                    var watcher = fs.watch(serveFile, function(event, filename) {
+                        if (filename) {
+                            if (fsWait) {
+                                return;
+                            }
+                            fsWait = setTimeout(function() {
+                                var data = fs.readFileSync(serveFile);
+                                var hash = crypto.createHash("md5");
+                                currentMD5 = "";
+                                hash.setEncoding("hex");
+                                if (data) {
+                                    hash.update(data);
+                                    hash.end();
+                                    currentMD5 = hash.read();
+                                } else {
+                                    hash.end();
+                                }
+                                if (currentMD5 != checkMD5) {
+                                    watcher.close();
+                                    watcher = null;
+                                    outputFileData(data, currentMD5);
+                                } else {
+                                    fsWait = false;
+                                }
+                            }, 100);
+                        }
+                    });
+
+                    // Wait for timeout to abort waiting
+                    setTimeout(function() {
+                        if (watcher) {
+                            watcher.close();
+                            watcher = null;
+                            outputFileData(currentData, currentMD5);
+                        }
+                    }, timeout * 1000);
+                }
             }
-            setTimeout(function() {
-                res.writeHead(properties.responseCode, { "ContentType": ResponseGenerators.fileListGetMimeType(serveFile) + "; charset=utf-8" });
-                res.end(response);
-            }, properties["delay"] || 0);
+            
+            // When waiting for a file change, get the MD5 hash of the file and wait, otherwise just continue
+            var waitChangeHash = headers['X-Mock-Wait-Change-Hash'];
+            var hash = crypto.createHash("md5");
+            hash.setEncoding("hex");
+            hash.update(data);
+            hash.end();
+            if (data && waitChangeHash) {
+                var timeoutString = headers['X-Mock-Wait-Change-Timeout'];
+                waitFileChange(data, hash.read(), waitChangeHash.toLowerCase(), parseInt(timeoutString || "", 10) || 10);
+            } else {
+                outputFileData(data, hash.read());
+            }
         });
         return;
     }
@@ -330,7 +392,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
 //////////////////////////////////////////////////
 
 // Generates a custom page based on the supported generators
-ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, getParameters, generator, properties) {
+ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, getParameters, generator, headers, properties) {
     var lastSlashIndex = requestPath.lastIndexOf('/');
     var insertPathExtra = "";
     if (lastSlashIndex >= 0 && lastSlashIndex < requestPath.length - 1 && requestPath.length > 1) {
@@ -341,7 +403,7 @@ ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, get
         return true;
     }
     if (generator == "fileList") {
-        ResponseGenerators.fileList(req, res, requestPath, filePath, getParameters, properties, insertPathExtra);
+        ResponseGenerators.fileList(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
         return true;
     }
     return false;

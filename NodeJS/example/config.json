@@ -1,5 +1,4 @@
 {
   "endPoints": "../../EndPoints",
-  "port": 2143,
-  "externalIp": true
+  "port": 2143
 }

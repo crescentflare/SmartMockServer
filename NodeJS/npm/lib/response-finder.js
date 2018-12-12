@@ -171,7 +171,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
 //////////////////////////////////////////////////
 
 // Output the response data based on the given properties
-ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, properties) {
+ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, headers, properties) {
     var arrayContains = function(array, element, alt1, alt2, alt3) {
         var checkOrderedArray = [element, alt1, alt2, alt3];
         for (var i = 0; i < checkOrderedArray.length; i++) {
@@ -187,7 +187,7 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
     };
     var continueWithResponse = function(files, headers) {
         // Check for response generators
-        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, getParameters, properties.generates, properties)) {
+        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, getParameters, properties.generates, headers, properties)) {
             return;
         }
         
@@ -298,7 +298,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
                         requestPath += "/" + properties.redirect;
                         filePath += "/" + properties.redirect;
                     }
-                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, useProperties);
+                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, headers, useProperties);
                 },
                 useProperties.delay || 0
             );

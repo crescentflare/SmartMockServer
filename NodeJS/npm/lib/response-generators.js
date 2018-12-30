@@ -324,6 +324,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
                 } else {
                     // Wait for file changes
                     var fsWait = false;
+                    var hitTimeout = false;
                     var watcher = fs.watch(serveFile, function(event, filename) {
                         if (filename) {
                             if (fsWait) {
@@ -341,7 +342,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
                                 } else {
                                     hash.end();
                                 }
-                                if (currentMD5 != checkMD5) {
+                                if (currentMD5 != checkMD5 || hitTimeout) {
                                     watcher.close();
                                     watcher = null;
                                     outputFileData(data, currentMD5);
@@ -355,9 +356,13 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
                     // Wait for timeout to abort waiting
                     setTimeout(function() {
                         if (watcher) {
-                            watcher.close();
-                            watcher = null;
-                            outputFileData(currentData, currentMD5);
+                            if (fsWait) {
+                                hitTimeout = true;
+                            } else {
+                                watcher.close();
+                                watcher = null;
+                                outputFileData(currentData, currentMD5);
+                            }
                         }
                     }, timeout * 1000);
                 }

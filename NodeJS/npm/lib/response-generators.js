@@ -96,6 +96,17 @@ ResponseGenerators.readDirRecursive = function(startDir, dir, callback) {
     });
 }
 
+// Obtain a dictionary value using a case insensitive key
+ResponseGenerators.dictionaryValueIgnoringCase = function(dict, key)
+{
+    for (var k in dict) {
+        if (k.toUpperCase() === key.toUpperCase()) {
+            return dict[k];
+        }
+    }
+    return null;
+}
+
 
 //////////////////////////////////////////////////
 // Response generator: index page
@@ -353,13 +364,13 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
             }
             
             // When waiting for a file change, get the MD5 hash of the file and wait, otherwise just continue
-            var waitChangeHash = headers['X-Mock-Wait-Change-Hash'];
+            var waitChangeHash = ResponseGenerators.dictionaryValueIgnoringCase(headers, 'X-Mock-Wait-Change-Hash');
             var hash = crypto.createHash("md5");
             hash.setEncoding("hex");
             hash.update(data);
             hash.end();
             if (data && waitChangeHash) {
-                var timeoutString = headers['X-Mock-Wait-Change-Timeout'];
+                var timeoutString = ResponseGenerators.dictionaryValueIgnoringCase(headers, 'X-Mock-Wait-Change-Timeout');
                 waitFileChange(data, hash.read(), waitChangeHash.toLowerCase(), parseInt(timeoutString || "", 10) || 10);
             } else {
                 outputFileData(data, hash.read());

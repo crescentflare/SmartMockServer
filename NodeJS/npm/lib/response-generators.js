@@ -414,7 +414,18 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
 ResponseGenerators.commandConsole = function(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
     var waitUpdate = Number(getParameters["waitUpdate"]);
     var name = getParameters["name"];
-    if (req.method == "POST") {
+    if (getParameters["ui"]) {
+        var path = __dirname + "/command-console/ui-template.html";
+        fs.readFile(path, function(error, data) {
+            if (data) {
+                res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
+                res.end(data);
+            } else {
+                res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+                res.end("Could not read file: " + path);
+            }
+        });
+    } else if (req.method == "POST") {
         var token = getParameters["token"] || "";
         var client = commandClients.findClient(token)
         if (client) {

@@ -114,11 +114,12 @@
         indexItem.appendChild(contentItem);
 
         // Add listener
-        indexItem.onclick = function() {
+        indexItem.onclick = function(event) {
           var index = document.getElementsByClassName('index')[0];
           if (index) {
             selectItem(indexItem.id);
           }
+          return false;
         }
         return indexItem;
       }

@@ -18,6 +18,7 @@ Easily set up a mock server, either by running NodeJS, or by using an internal m
 * Create alternative responses on a single endpoint using get parameter or post body filters (with wildcard support), header filters are also supported
 * Easily set up an index page. It will automatically list all endpoints inside (including documentation and alternative responses)
 * Be able to set up an endpoint as a folder to serve any kind of file (like images), includes an index page in html or json to list the files being served (with optional long polling to wait for a change on a single file using MD5)
+* Use an endpoint as a command console, clients can connect to it and poll for commands (with a long polling mechanism). Includes a UI to select a client and send commands to them
 
 
 ### NodeJS integration guide
@@ -94,7 +95,7 @@ Use **responseHeaders.json** to add specific response headers, each key/value in
 - **postParameters:** same as getParameters, but then used for requests with a body (the parameters will be part of the request body)
 - **postJson:** a JSON structure for requests requiring JSON in the body data
 - **alternatives:** provide alternative responses when certain conditions are met (based on parameters), explained further in the chapter below
-- **generates:** use this to automatically set up things like an index page or a file server. Supported values: indexPage and fileList
+- **generates:** use this to automatically set up things like an index page or a file server. Supported values: indexPage, fileList and commandConsole
 - **redirect:** a path to redirect to. Uses properties, responseBody and other files from the relative path specified by this property
 
 Extra settings for file servers (using fileList):
@@ -107,6 +108,8 @@ All data can be changed realtime without restarting the server. The server will 
 It's recommended to place a properties file with the 'generates: indexPage' value in the root of the endpoint folder.
 
 When using a file server it's possible to use long polling on a single file, the server will wait responding until the file is changed or when the poll expires. Supply the X-Mock-Wait-Change-Hash header to enable this. This header should contain the last known MD5 hash of the file (which may have been returned by an earlier call in the X-Mock-File-Hash header). The timeout is 10 seconds by default, to customize this use the X-Mock-Wait-Change-Timeout header.
+
+When using the command console, a client should send its name through a GET parameter to start a session. It will return a token which can be sent on new requests to obtain new commands. Use the waitUpdate GET parameter to use long polling (which has a 10 second timeout).
 
 
 ### Alternative responses for the same request

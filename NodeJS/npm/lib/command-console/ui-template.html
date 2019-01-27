@@ -1,0 +1,343 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Command console</title>
+    <style type="text/css">
+      * { margin: 0; padding: 0; }
+      body { overflow-x: hidden; font-size: 0; }
+      
+      .loader { display: inline-block; border: 3px solid #f0f0f0; border-top: 3px solid #606060; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+      
+      .container { width: 100%; height: 100%; }
+      .index, .content { display: inline-block; *display: inline; height: 100%; font-size: 14pt; }
+      .index { width: 250px; background-color: #E8E8E8; color: #000000; overflow-y: scroll; }
+      .content { width:calc(100% - 250px); overflow-y: hidden; }
+      .contentInfo { height:calc(100% - 50px); padding: 16px; box-sizing: border-box; overflow-y: scroll; }
+      
+      .indexitem, .selectedindexitem { display: inline-block; width: 100%; text-decoration: none; font-size: 0; padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; box-sizing: border-box; }
+      .indexitem { color: #404040; }
+      .indexitem:hover { background-color: #f4f4f4; }
+      .selectedindexitem { color: #000000; pointer-events: none; font-weight: bold; }
+      .indexitemdot { display: inline-block; vertical-align: middle; width: 14px; padding-right: 4px; font-size: 14pt; text-align: center; }
+      .indexitemcontent { display: inline-block; vertical-align: middle; width: calc(100% - 18px); }
+      .indexitemname { font-size: 14pt; }
+      .indexitemsummary { font-size: 12pt; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .commanditemsender { margin-bottom: 2px; font-weight: bold; }
+      .commanditemsenderindent { margin-bottom: 2px; margin-left: 10px; font-weight: bold; }
+      .commanditemtext { margin-bottom: 10px; color: #202020; }
+      .commanditemtextindent { margin-bottom: 10px; margin-left: 10px; color: #202020; }
+      
+      .contentloading { display: block; }
+      .contentempty { display: none; }
+      .contenterror { display: none; }
+      .contentcommands { display: none; }
+      .contentinput { width:calc(100% - 250px); height: 50px; padding: 12px 20px; font-size: 14pt; position: absolute; bottom: 0; }
+      
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    <script type="text/javascript">
+      // --
+      // Globals
+      // --
+      
+      var clientList = null;
+      var lastUpdateTime = 0;
+      var isLoading = true;
+      var selectedIndex = -1;
+
+
+      // --
+      // Helpers
+      // --
+
+      // Get API from address bar
+      function getApi() {
+        var url = window.location.href;
+        var urlSplit = url.split('?');
+        return urlSplit[0].replace("/commands", "");
+      }
+
+      // Change selection state of an index item
+      function setIndexItemSelected(element, selected) {
+        var dotItem = element.firstChild;
+        element.className = selected ? "selectedindexitem" : "indexitem";
+        if (dotItem) {
+          var dotText = dotItem.firstChild;
+          if (dotText) {
+            dotText.nodeValue = selected ? "•" : "○";
+          }
+        }
+      }
+
+      // Select a new index item
+      function selectIndexItem(element) {
+        if (element.className == "indexitem") {
+          var elements = document.getElementsByClassName('selectedindexitem');
+          for (var i = 0; i < elements.length; i++) {
+            var selectedElement = elements[i];
+            setIndexItemSelected(selectedElement, false);
+          }
+          setIndexItemSelected(element, true);
+        }
+      }
+
+
+      // --
+      // Item creation
+      // --
+
+      // Create an index item
+      function createIndexItem(id, name, summary) {
+        // Create index item element
+        var indexItem = document.createElement("a");
+        indexItem.id = id;
+        indexItem.href = "#";
+        indexItem.className = "indexitem";
+
+        // Add dot to it
+        var dotItem = document.createElement("div");
+        dotItem.className = "indexitemdot";
+        dotItem.appendChild(document.createTextNode(name == "Add chat" ? "+" : "○"));
+        indexItem.appendChild(dotItem);
+
+        // Add content item
+        var contentItem = document.createElement("div");
+        var contentItemName = document.createElement("div");
+        var contentItemSummary = document.createElement("div");
+        contentItem.className = "indexitemcontent";
+        contentItemName.className = "indexitemname";
+        contentItemName.appendChild(document.createTextNode(name));
+        contentItemSummary.className = "indexitemsummary";
+        contentItemSummary.appendChild(document.createTextNode(summary));
+        contentItem.appendChild(contentItemName);
+        contentItem.appendChild(contentItemSummary);
+        indexItem.appendChild(contentItem);
+
+        // Add listener
+        indexItem.onclick = function(event) {
+          var index = document.getElementsByClassName('index')[0];
+          if (index) {
+            selectItem(indexItem.id);
+          }
+          return false;
+        }
+        return indexItem;
+      }
+
+
+      // --
+      // Fill info panel
+      // --
+
+      // Fill chat log
+      function fillClientCommands(client) {
+        var commandContainer = document.getElementsByClassName('contentcommands')[0];
+        if (commandContainer) {
+          commandContainer.style.display = client != null ? "block" : "none";
+        }
+        if (client != null) {
+          // Empty commands
+          var commandList = document.getElementById('commandlist');
+          var addedItem = false;
+          if (commandList) {
+            while (commandList.firstChild) {
+              commandList.removeChild(commandList.firstChild);
+            }
+          }
+
+          // Add commands
+          for (var i = 0; i < client.commands.length; i++) {
+            var commandItem = document.createElement("div");
+            var isReceived = client.commands[i].received;
+            commandItem.className = "commanditemtext";
+            commandItem.appendChild(document.createTextNode((isReceived ? "✓ " : "... ") + client.commands[i].command));
+            commandList.appendChild(commandItem);
+            addedItem = true;
+          }
+
+          // Empty state
+          if (!addedItem) {
+            var commandItem = document.createElement("div");
+            commandItem.className = "commanditemtext";
+            commandItem.appendChild(document.createTextNode("No commands yet, enter one below..."));
+            commandList.appendChild(commandItem);
+          }
+        }
+      }
+
+      // Main info refresher, delegates to different types
+      function refreshInfo(client) {
+        fillClientCommands(client);
+      }
+
+
+      // --
+      // Selection
+      // --
+
+      // Select an item, set index item selected and update info panel
+      function selectItem(itemIndex) {
+        var index = document.getElementsByClassName('index')[0];
+        if (index) {
+          var client = clientList.clients[Math.min(clientList.clients.length - 1, itemIndex)];
+          selectIndexItem(index.children[Math.min(index.children.length - 1, itemIndex)]);
+          refreshInfo(client);
+        }
+        selectedIndex = itemIndex;
+      }
+
+
+      // --
+      // Loading
+      // --
+
+      // Load data through API
+      function loadData() {
+        var request = new XMLHttpRequest();
+        request.open('GET', getApi() + '/commands?waitUpdate=' + lastUpdateTime, true);
+        request.onreadystatechange = function() {
+          if (this.readyState == this.DONE) {
+            if (this.status == 200) {
+              clientList = JSON.parse(this.responseText);
+              lastUpdateTime = clientList["lastUpdate"];
+            }
+            if (isLoading || this.status == 200) {
+              refreshItems();
+            }
+            if (this.status >= 200 && this.status < 300) {
+              loadData();
+            } else {
+              setTimeout(function() {
+                loadData();
+              }, 1000);
+            }
+          }
+        };
+        request.send();
+      }
+
+      // Refresh screen based on API data
+      function refreshItems() {
+        // Hide all info containers
+        var infoContainers = [
+          document.getElementsByClassName('contentloading')[0],
+          document.getElementsByClassName('contentempty')[0],
+          document.getElementsByClassName('contenterror')[0],
+          document.getElementsByClassName('contentcommands')[0]
+        ];
+        for (var i = 0; i < infoContainers.length; i++) {
+          if (infoContainers[i]) {
+            infoContainers[i].style.display = "none";
+          }
+        }
+        isLoading = false;
+
+        // Empty index
+        var wasLastSelectedIndex = true;
+        var index = document.getElementsByClassName('index')[0];
+        if (index) {
+          wasLastSelectedIndex = selectedIndex >= index.children.length - 1;
+          while (index.firstChild) {
+            index.removeChild(index.firstChild);
+          }
+        }
+
+        // Display clients or error
+        var lastSelectedIndex = selectedIndex;
+        selectedIndex = -1;
+        if (clientList != null && clientList.clients != null && clientList.clients.length > 0) {
+          var clients = clientList["clients"];
+          if (index && clients) {
+            // Add items
+            for (var i = 0; i < clients.length; i++) {
+              var client = clients[i];
+              var name = client.name.charAt(0).toUpperCase() + client.name.slice(1);
+              var summary = "Inactive";
+              if (client.active) {
+                summary = "No commands...";
+                if (client.commands && client.commands.length > 0) {
+                  summary = client.commands[client.commands.length - 1].command;
+                }
+              }
+              index.appendChild(createIndexItem(i, name, summary));
+            }
+            
+            // Select item
+            var wantSelectIndex = lastSelectedIndex >= 0 && lastSelectedIndex < clients.length && !wasLastSelectedIndex ? lastSelectedIndex : clients.length - 1;
+            selectItem(wantSelectIndex);
+            if (wantSelectIndex == clients.length - 1) {
+              index.scrollTop = index.scrollHeight;
+            }
+          }
+        } else if (clientList != null) {
+          var empty = document.getElementsByClassName('contentempty')[0];
+          if (empty) {
+            empty.style.display = "block";
+          }
+        } else {
+          var error = document.getElementsByClassName('contenterror')[0];
+          if (error) {
+            error.style.display = "block";
+          }
+        }
+      }
+
+
+      // --
+      // Events
+      // --
+
+      function inputKey(event) {
+        if (event.keyCode == 13) {
+          var commandInput = document.getElementById('commandinput');
+          if (commandInput) {
+            var command = commandInput.value;
+            commandInput.value = "";
+            if (selectedIndex >= 0 && selectedIndex < clientList.clients.length) {
+              var request = new XMLHttpRequest();
+              request.open('POST', getApi() + '/commands?token=' + clientList.clients[selectedIndex].token + "&command=" + encodeURIComponent(command), true);
+              request.send();
+            }
+          }
+        }
+      }
+
+      // Main load event
+      window.onload = function() {
+        loadData();
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="index"></div>
+      <div class="content">
+        <div class="contentinfo">
+          <div class="contentloading">
+            <h2>Loading</h2><br/>
+            <hr/><br/>
+            Preparing the console...<br/>&nbsp;<br/>
+            <div class="loader"></div>
+          </div>
+          <div class="contentempty">
+            <h2>No clients</h2><br/>
+            <hr/><br/>
+            No clients are connected yet to receive commands...
+          </div>
+          <div class="contenterror">
+            <h2>Error</h2><br/>
+            <hr/><br/>
+            Connection lost, refresh or restart the server and try again...
+          </div>
+          <div class="contentcommands">
+            <h2>Sent commands</h2><br/>
+            <hr/><br/>
+            <div id="commandlist">No commands yet, enter one below...</div><br/>
+          </div>
+        </div>
+        <input class="contentinput" id="commandinput" placeholder="Enter command..." onkeydown="inputKey(event)">
+        </input>
+      </div>
+    </div>
+  </body>
+</html>

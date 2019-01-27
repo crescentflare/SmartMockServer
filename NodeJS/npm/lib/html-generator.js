@@ -24,6 +24,10 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
     if (properties.postJson || properties.postParameters) {
         this.subComponents.push(new HtmlParamBlock(properties, false, insertPathExtra, false));
     }
+    if (properties.generates == "commandConsole") { // Special case
+        this.generateCommandConsoleComponents(properties, insertPathExtra);
+        return;
+    }
     if (properties.alternatives) {
         for (var i = 0; i < properties.alternatives.length; i++) {
             var alternative = properties.alternatives[i];
@@ -47,6 +51,13 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
         }
     }
     this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, showLink));
+}
+
+HtmlRequestBlock.prototype.generateCommandConsoleComponents = function(properties, insertPathExtra) {
+    this.subComponents.push(new HtmlLink("GET", insertPathExtra + properties.path + "?ui=1", properties.path + "?ui=1"));
+    this.subComponents.push(new HtmlLink("GET", insertPathExtra + properties.path, properties.path));
+    this.subComponents.push(new HtmlLink("GET", insertPathExtra + properties.path + "?name=device_name", properties.path + "?name=device_name"));
+    this.subComponents.push(new HtmlLink("GET", insertPathExtra + properties.path + "?name=device_name&token=1", properties.path + "?name=device_name&token=1"));
 }
 
 HtmlRequestBlock.prototype.concatLink = function(link, param) {

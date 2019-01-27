@@ -12,6 +12,10 @@ var crypto = require('crypto');
 // Other requires
 var ResponsePropertiesHelper = require('./response-properties-helper');
 var HtmlGenerator = require('./html-generator');
+var CommandClientList = require('./command-console/command-client-list');
+
+// Connected clients to the command console
+var commandClients = new CommandClientList()
 
 
 //////////////////////////////////////////////////
@@ -404,8 +408,85 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
 
 
 //////////////////////////////////////////////////
+// Response generator: command console
+//////////////////////////////////////////////////
+
+ResponseGenerators.commandConsole = function(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
+    var waitUpdate = Number(getParameters["waitUpdate"]);
+    var name = getParameters["name"];
+    if (getParameters["ui"]) {
+        var path = __dirname + "/command-console/ui-template.html";
+        fs.readFile(path, function(error, data) {
+            if (data) {
+                res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
+                res.end(data);
+            } else {
+                res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+                res.end("Could not read file: " + path);
+            }
+        });
+    } else if (req.method == "POST") {
+        var token = getParameters["token"] || "";
+        var client = commandClients.findClient(token)
+        if (client) {
+            var commandString = getParameters["command"];
+            if (commandString == null || commandString.length == 0) {
+                res.writeHead(400, { "ContentType": "text/plain; charset=utf-8" });
+                res.end("Missing parameter: command");
+            } else {
+                var command = client.addCommand(getParameters["command"]);
+                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
+                res.end(JSON.stringify(command.toJson()));
+            }
+        } else {
+            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+            res.end("Client with token " + token + " not found");
+        }
+    } else if (name) {
+        var token = getParameters["token"] || "";
+        var client = commandClients.findClient(token)
+        var needsWait = false;
+        if (client) {
+            client.updateCheck()
+            needsWait = waitUpdate && client.getLastUpdate() <= waitUpdate;
+        } else {
+            client = commandClients.newClient(name)
+        }
+        if (needsWait) {
+            client.waitUpdate(function(success) {
+                var clientJson = client.toJson();
+                client.setAllCommandsReceived();
+                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
+                res.end(JSON.stringify(clientJson));
+            }, 10000)
+        } else {
+            var clientJson = client.toJson();
+            client.setAllCommandsReceived();
+            res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
+            res.end(JSON.stringify(clientJson));
+        }
+    } else {
+        if (waitUpdate && commandClients.getLastUpdate() <= waitUpdate) {
+            commandClients.waitUpdate(function(success) {
+                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
+                res.end(JSON.stringify(commandClients.toJson()));
+            }, 10000)
+        } else {
+            res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
+            res.end(JSON.stringify(commandClients.toJson()));
+        }
+    }
+}
+
+
+//////////////////////////////////////////////////
 // Check for supported response generators
 //////////////////////////////////////////////////
+
+// Returns whether the generator supports multiple methods like GET and POST
+ResponseGenerators.supportsMultipleMethods = function(generator) {
+    return generator == "commandConsole";
+}
 
 // Generates a custom page based on the supported generators
 ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, getParameters, generator, headers, properties) {
@@ -420,6 +501,10 @@ ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, get
     }
     if (generator == "fileList") {
         ResponseGenerators.fileList(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
+        return true;
+    }
+    if (generator == "commandConsole") {
+        ResponseGenerators.commandConsole(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
         return true;
     }
     return false;

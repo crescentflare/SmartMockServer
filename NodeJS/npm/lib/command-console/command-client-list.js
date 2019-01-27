@@ -7,6 +7,7 @@
 
 // Requires
 var CommandClient = require('./command-client');
+var UpdateStamp = require('./update-stamp')
 
 
 // --
@@ -17,7 +18,7 @@ var CommandClient = require('./command-client');
 function CommandClientList() {
     this.curTokenIndex = 0;
     this.clients = [];
-    this.lastUpdate = new Date().getTime();
+    this.lastUpdate = UpdateStamp.generateValue();
     this.waitCallbacks = [];
 }
 
@@ -79,11 +80,12 @@ CommandClientList.prototype.toJson = function() {
 
 // Set last updated time stamp and inform waiting callbacks
 CommandClientList.prototype.setUpdated = function() {
-    this.lastUpdate = new Date().getTime();
-    for (var i = 0; i < this.waitCallbacks.length; i++) {
-        this.waitCallbacks[i](true);
-    }
+    var executeCallbacks = this.waitCallbacks;
     this.waitCallbacks = [];
+    this.lastUpdate = UpdateStamp.generateValue();
+    for (var i = 0; i < executeCallbacks.length; i++) {
+        executeCallbacks[i](true);
+    }
 }
 
 // Wait for an update
@@ -93,8 +95,8 @@ CommandClientList.prototype.waitUpdate = function(callback, timeout) {
     setTimeout(function() {
         for (var i = 0; i < that.waitCallbacks.length; i++) {
             if (that.waitCallbacks[i] === callback) {
+                that.waitCallbacks.splice(i, 1);
                 callback(false);
-                that.waitCallbacks = that.waitCallbacks.splice(i, 1);
                 break;
             }
         }

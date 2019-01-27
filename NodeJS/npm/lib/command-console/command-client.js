@@ -7,6 +7,7 @@
 
 // Requires
 var CommandItem = require('./command-item');
+var UpdateStamp = require('./update-stamp')
 
 
 // --
@@ -19,7 +20,7 @@ function CommandClient(name, token, updateCallback) {
     this.name = name;
     this.commands = [];
     this.lastCheck = new Date().getTime();
-    this.lastUpdate = new Date().getTime();
+    this.lastUpdate = UpdateStamp.generateValue();
     this.updateCallback = updateCallback;
     this.waitCallbacks = [];
     this.updateCheck()
@@ -80,6 +81,7 @@ CommandClient.prototype.setAllCommandsReceived = function() {
     for (var i = 0; i < this.commands.length; i++) {
         this.commands[i].setReceived();
     }
+    this.updateCallback();
 }
 
 // Determine if commands were already received
@@ -136,12 +138,13 @@ CommandClient.prototype.toJson = function() {
 
 // Inform callback of the update
 CommandClient.prototype.setUpdated = function() {
-    this.lastUpdate = new Date().getTime();
-    this.updateCallback()
-    for (var i = 0; i < this.waitCallbacks.length; i++) {
-        this.waitCallbacks[i](true);
-    }
+    var executeCallbacks = this.waitCallbacks;
     this.waitCallbacks = [];
+    this.lastUpdate = UpdateStamp.generateValue();
+    this.updateCallback();
+    for (var i = 0; i < executeCallbacks.length; i++) {
+        executeCallbacks[i](true);
+    }
 }
 
 // Wait for an update
@@ -151,8 +154,8 @@ CommandClient.prototype.waitUpdate = function(callback, timeout) {
     setTimeout(function() {
         for (var i = 0; i < that.waitCallbacks.length; i++) {
             if (that.waitCallbacks[i] === callback) {
+                that.waitCallbacks.splice(i, 1);
                 callback(false);
-                that.waitCallbacks = that.waitCallbacks.splice(i, 1);
                 break;
             }
         }

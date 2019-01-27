@@ -54,7 +54,7 @@
       function getApi() {
         var url = window.location.href;
         var urlSplit = url.split('?');
-        return urlSplit[0].replace("/commands", "");
+        return urlSplit[0];
       }
 
       // Change selection state of an index item
@@ -194,7 +194,7 @@
       // Load data through API
       function loadData() {
         var request = new XMLHttpRequest();
-        request.open('GET', getApi() + '/commands?waitUpdate=' + lastUpdateTime, true);
+        request.open('GET', getApi() + '?waitUpdate=' + lastUpdateTime, true);
         request.onreadystatechange = function() {
           if (this.readyState == this.DONE) {
             if (this.status == 200) {
@@ -295,7 +295,7 @@
             commandInput.value = "";
             if (selectedIndex >= 0 && selectedIndex < clientList.clients.length) {
               var request = new XMLHttpRequest();
-              request.open('POST', getApi() + '/commands?token=' + clientList.clients[selectedIndex].token + "&command=" + encodeURIComponent(command), true);
+              request.open('POST', getApi() + '?token=' + clientList.clients[selectedIndex].token + "&command=" + encodeURIComponent(command), true);
               request.send();
             }
           }

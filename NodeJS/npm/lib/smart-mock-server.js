@@ -61,7 +61,14 @@ function SmartMockServer(serverDir, ip, port) {
                 correctHeader = req.headers["x-mock-secret"] == serverConfig.requiresSecret;
             }
             if (!foundHeader || !correctHeader) {
-                ResponseGenerators.secretTokenEntry(req, res, foundHeader);
+                var tokenError = foundHeader;
+                if (tokenError) {
+                    setTimeout(function() {
+                        ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                    }, 2000);
+                } else {
+                    ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                }
                 return;
             }
         }

@@ -74,6 +74,7 @@ The server can be configured, like starting with a custom port and IP address. B
 - **manualIp:** A string to manually configure a specific IP address (defaults to: empty)
 - **secureConnection:** Start an https server, needs certificates ssl.key and ssl.cert in the root path (defaults to: false)
 - **endPoints:** A relative path to the root path to locate the response endpoints (defaults to: empty)
+- **requiresSecret:** A string to protect the mock server, it requires an X-Mock-Secret header with this string to use it. Otherwise it will give an unauthorized error with an html page to enter the token 
 
 These can be specified by creating a **config.json** file within the root path. Additionally these can be overridden by using commandline parameters, like:
 	

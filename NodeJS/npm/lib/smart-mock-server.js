@@ -11,6 +11,7 @@ var fs = require('fs');
 // Other requires
 var EndPointFinder = require('./end-point-finder');
 var ResponseFinder = require('./response-finder');
+var ResponseGenerators = require('./response-generators');
 
 // Server configuration
 var serverConfig = {};
@@ -26,6 +27,52 @@ var cachedLocalIps = null;
 function SmartMockServer(serverDir, ip, port) {
     // Server request/response function
     var connectFunction = function(req, res) {
+        // Check server protection
+        if (serverConfig.requiresSecret) {
+            var foundHeader = false;
+            var correctHeader = false;
+            var cookies = req.headers["cookie"];
+            if (cookies) {
+                var parsedCookies = {};
+                var cookieStrings = cookies.split(";");
+                for (var i = 0; i < cookieStrings.length; i++) {
+                    var cookiePair = cookieStrings[i].split("=");
+                    if (cookiePair.length > 1) {
+                        parsedCookies[cookiePair[0].trim()] = cookiePair[1].trim();
+                    }
+                }
+                if (parsedCookies["x-mock-secret"]) {
+                    var rebuiltCookies = "";
+                    foundHeader = true;
+                    correctHeader = parsedCookies["x-mock-secret"] == serverConfig.requiresSecret;
+                    for (var key in parsedCookies) {
+                        if (key != "x-mock-secret") {
+                            if (rebuiltCookies.length > 0) {
+                                rebuiltCookies += "; ";
+                            }
+                            rebuiltCookies += key + "=" + parsedCookies[key];
+                        }
+                    }
+                    req.headers["cookie"] = rebuiltCookies;
+                }
+            }
+            if (req.headers["x-mock-secret"]) {
+                foundHeader = true;
+                correctHeader = req.headers["x-mock-secret"] == serverConfig.requiresSecret;
+            }
+            if (!foundHeader || !correctHeader) {
+                var tokenError = foundHeader;
+                if (tokenError) {
+                    setTimeout(function() {
+                        ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                    }, 2000);
+                } else {
+                    ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                }
+                return;
+            }
+        }
+
         // Fetch parameters from URL
         var paramMark = req.url.indexOf("?");
         var requestPath = req.url;

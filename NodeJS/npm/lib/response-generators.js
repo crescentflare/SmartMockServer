@@ -113,6 +113,24 @@ ResponseGenerators.dictionaryValueIgnoringCase = function(dict, key)
 
 
 //////////////////////////////////////////////////
+// Response generator: secret token entry (for protected servers)
+//////////////////////////////////////////////////
+
+ResponseGenerators.secretTokenEntry = function(req, res, showError) {
+    var path = __dirname + "/html-templates/secret-entry.html";
+    fs.readFile(path, function(error, data) {
+        if (data) {
+            res.writeHead(401, { "ContentType": "text/html; charset=utf-8" });
+            res.end(data.toString().replace("[Protected message]", showError ? "Incorrect secret, please try again" : "This server is protected, type the secret below"));
+        } else {
+            res.writeHead(401, { "ContentType": "text/plain; charset=utf-8" });
+            res.end("This server is protected, please set the secret header");
+        }
+    });
+}
+
+
+//////////////////////////////////////////////////
 // Response generator: index page
 //////////////////////////////////////////////////
 
@@ -415,7 +433,7 @@ ResponseGenerators.commandConsole = function(req, res, requestPath, filePath, ge
     var waitUpdate = Number(getParameters["waitUpdate"]);
     var name = getParameters["name"];
     if (getParameters["ui"]) {
-        var path = __dirname + "/command-console/ui-template.html";
+        var path = __dirname + "/html-templates/ui-template.html";
         fs.readFile(path, function(error, data) {
             if (data) {
                 res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });

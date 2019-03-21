@@ -85,11 +85,14 @@ function SmartMockServer(serverDir, ip, port) {
                         for (var i = 0; i < parameterStrings.length; i++) {
                             var parameterPair = parameterStrings[i].split("=");
                             if (parameterPair.length > 1 && parameterPair[0] == "secret") {
-                                var secretToken = parameterPair[1];
-                                foundHeader = true;
-                                correctHeader = secretToken == serverConfig.requiresSecret;
-                                if (correctHeader) {
-                                    res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly" + req.secure ? "; Secure" : "");
+                                var key = decodeURIComponent(parameterPair[0]);
+                                if (key == "secret") {
+                                    var secretToken = decodeURIComponent(parameterPair[1]);
+                                    foundHeader = true;
+                                    correctHeader = secretToken == serverConfig.requiresSecret;
+                                    if (correctHeader) {
+                                        res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly" + req.secure ? "; Secure" : "");
+                                    }
                                 }
                             }
                         }

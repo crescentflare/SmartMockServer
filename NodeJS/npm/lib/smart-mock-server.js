@@ -94,7 +94,7 @@ function SmartMockServer(serverDir, ip, port) {
         }
         
         // Read body and continue with request
-        var rawBody = new Buffer(0);
+        var rawBody = new Buffer.alloc(0);
         req.on('data', function(data) {
             rawBody = Buffer.concat([rawBody, data]);
             if (rawBody.length > 1e7) { //Too much POST data, kill the connection

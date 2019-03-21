@@ -35,6 +35,12 @@ function SmartMockServer(serverDir, ip, port) {
             }
         });
         req.on('end', function() {
+            // Override encryption check if forwarded
+            var schema = req.headers["x-forwarded-proto"];
+            if (schema === "https") {
+                req.connection.encrypted = true;
+            }
+
             // Add security headers
             res.setHeader('Referrer-Policy', 'no-referrer')
             res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'")
@@ -91,7 +97,7 @@ function SmartMockServer(serverDir, ip, port) {
                                     foundHeader = true;
                                     correctHeader = secretToken == serverConfig.requiresSecret;
                                     if (correctHeader) {
-                                        res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly");
+                                        res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly" + (req.connection.encrypted ? "; Secure" : ""));
                                     }
                                 }
                             }

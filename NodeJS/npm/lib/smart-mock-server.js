@@ -27,69 +27,7 @@ var cachedLocalIps = null;
 function SmartMockServer(serverDir, ip, port) {
     // Server request/response function
     var connectFunction = function(req, res) {
-        // Check server protection
-        if (serverConfig.requiresSecret) {
-            var foundHeader = false;
-            var correctHeader = false;
-            var cookies = req.headers["cookie"];
-            if (cookies) {
-                var parsedCookies = {};
-                var cookieStrings = cookies.split(";");
-                for (var i = 0; i < cookieStrings.length; i++) {
-                    var cookiePair = cookieStrings[i].split("=");
-                    if (cookiePair.length > 1) {
-                        parsedCookies[cookiePair[0].trim()] = cookiePair[1].trim();
-                    }
-                }
-                if (parsedCookies["x-mock-secret"]) {
-                    var rebuiltCookies = "";
-                    foundHeader = true;
-                    correctHeader = parsedCookies["x-mock-secret"] == serverConfig.requiresSecret;
-                    for (var key in parsedCookies) {
-                        if (key != "x-mock-secret") {
-                            if (rebuiltCookies.length > 0) {
-                                rebuiltCookies += "; ";
-                            }
-                            rebuiltCookies += key + "=" + parsedCookies[key];
-                        }
-                    }
-                    req.headers["cookie"] = rebuiltCookies;
-                }
-            }
-            if (req.headers["x-mock-secret"]) {
-                foundHeader = true;
-                correctHeader = req.headers["x-mock-secret"] == serverConfig.requiresSecret;
-            }
-            if (!foundHeader || !correctHeader) {
-                var tokenError = foundHeader;
-                if (tokenError) {
-                    setTimeout(function() {
-                        ResponseGenerators.secretTokenEntry(req, res, tokenError);
-                    }, 2000);
-                } else {
-                    ResponseGenerators.secretTokenEntry(req, res, tokenError);
-                }
-                return;
-            }
-        }
-
-        // Fetch parameters from URL
-        var paramMark = req.url.indexOf("?");
-        var requestPath = req.url;
-        var parameters = {};
-        if (paramMark >= 0) {
-            var parameterStrings = requestPath.substring(paramMark + 1).split("&");
-            for (var i = 0; i < parameterStrings.length; i++) {
-                var parameterPair = parameterStrings[i].split("=");
-                if (parameterPair.length > 1) {
-                    parameters[decodeURIComponent(parameterPair[0].trim())] = decodeURIComponent(parameterPair[1].trim());
-                }
-            }
-            requestPath = requestPath.substring(0, paramMark);
-        }
-        
-        // Read body and continue with request
-        var rawBody = new Buffer(0);
+        var rawBody = new Buffer.alloc(0);
         req.on('data', function(data) {
             rawBody = Buffer.concat([rawBody, data]);
             if (rawBody.length > 1e7) { //Too much POST data, kill the connection
@@ -97,6 +35,98 @@ function SmartMockServer(serverDir, ip, port) {
             }
         });
         req.on('end', function() {
+            // Add security headers
+            res.setHeader('Referrer-Policy', 'no-referrer')
+            res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'")
+            res.setHeader('X-Frame-Options', 'deny')
+
+            // Check server protection
+            if (serverConfig.requiresSecret) {
+                // Search for a cookie
+                var foundHeader = false;
+                var correctHeader = false;
+                var cookies = req.headers["cookie"];
+                if (cookies) {
+                    var parsedCookies = {};
+                    var cookieStrings = cookies.split(";");
+                    for (var i = 0; i < cookieStrings.length; i++) {
+                        var cookiePair = cookieStrings[i].split("=");
+                        if (cookiePair.length > 1) {
+                            parsedCookies[cookiePair[0].trim()] = cookiePair[1].trim();
+                        }
+                    }
+                    if (parsedCookies["x-mock-secret"]) {
+                        var rebuiltCookies = "";
+                        foundHeader = true;
+                        correctHeader = parsedCookies["x-mock-secret"] == serverConfig.requiresSecret;
+                        for (var key in parsedCookies) {
+                            if (key != "x-mock-secret") {
+                                if (rebuiltCookies.length > 0) {
+                                    rebuiltCookies += "; ";
+                                }
+                                rebuiltCookies += key + "=" + parsedCookies[key];
+                            }
+                        }
+                        req.headers["cookie"] = rebuiltCookies;
+                    }
+                }
+
+                // Search for secret header
+                if (req.headers["x-mock-secret"]) {
+                    foundHeader = true;
+                    correctHeader = req.headers["x-mock-secret"] == serverConfig.requiresSecret;
+                }
+
+                // Invalid access, first check for a form submission
+                if (!foundHeader || !correctHeader) {
+                    if (req.method == "POST" && req.url == "/") {
+                        var body = rawBody.toString();
+                        var parameterStrings = body.split("&");
+                        for (var i = 0; i < parameterStrings.length; i++) {
+                            var parameterPair = parameterStrings[i].split("=");
+                            if (parameterPair.length > 1 && parameterPair[0] == "secret") {
+                                var secretToken = parameterPair[1];
+                                foundHeader = true;
+                                correctHeader = secretToken == serverConfig.requiresSecret;
+                                if (correctHeader) {
+                                    res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly" + req.secure ? "; Secure" : "");
+                                }
+                            }
+                        }
+                        req.method = "GET";
+                    }
+                }
+
+                // Still invalid access, show form again with optional error message
+                if (!foundHeader || !correctHeader) {
+                    var tokenError = foundHeader;
+                    if (tokenError) {
+                        setTimeout(function() {
+                            ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                        }, 2000);
+                    } else {
+                        ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                    }
+                    return;
+                }
+            }
+
+            // Fetch parameters from URL
+            var paramMark = req.url.indexOf("?");
+            var requestPath = req.url;
+            var parameters = {};
+            if (paramMark >= 0) {
+                var parameterStrings = requestPath.substring(paramMark + 1).split("&");
+                for (var i = 0; i < parameterStrings.length; i++) {
+                    var parameterPair = parameterStrings[i].split("=");
+                    if (parameterPair.length > 1) {
+                        parameters[decodeURIComponent(parameterPair[0].trim())] = decodeURIComponent(parameterPair[1].trim());
+                    }
+                }
+                requestPath = requestPath.substring(0, paramMark);
+            }
+
+            // Continue with request
             EndPointFinder.findLocation(serverDir, serverConfig.endPoints || "", requestPath, function(path) {
                 if (path) {
                     ResponseFinder.generateResponse(req, res, requestPath, path, parameters, rawBody);

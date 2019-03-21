@@ -27,6 +27,11 @@ var cachedLocalIps = null;
 function SmartMockServer(serverDir, ip, port) {
     // Server request/response function
     var connectFunction = function(req, res) {
+        // Add security headers
+        res.setHeader('Referrer-Policy', 'no-referrer')
+        res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'")
+        res.setHeader('X-Frame-Options', 'deny')
+
         // Check server protection
         if (serverConfig.requiresSecret) {
             var foundHeader = false;

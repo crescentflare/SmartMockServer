@@ -91,7 +91,7 @@ function SmartMockServer(serverDir, ip, port) {
                                     foundHeader = true;
                                     correctHeader = secretToken == serverConfig.requiresSecret;
                                     if (correctHeader) {
-                                        res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly" + req.secure ? "; Secure" : "");
+                                        res.setHeader("Set-Cookie", "x-mock-secret=" + secretToken + "; HttpOnly");
                                     }
                                 }
                             }

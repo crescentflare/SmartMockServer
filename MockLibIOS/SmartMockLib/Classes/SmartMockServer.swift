@@ -47,7 +47,7 @@ public class SmartMockServer: UIViewController {
         
         // Fetch parameters from path
         var parameters: [String: String] = [:]
-        if let paramMark = path.index(of: "?") {
+        if let paramMark = path.firstIndex(of: "?") {
             let parameterStrings = path[path.index(paramMark, offsetBy: 1)...].split{ $0 == "&"}.map(String.init)
             for parameterString in parameterStrings {
                 let parameterPair = parameterString.split{ $0 == "=" }.map(String.init)

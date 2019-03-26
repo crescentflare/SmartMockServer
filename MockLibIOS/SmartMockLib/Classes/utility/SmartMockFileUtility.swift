@@ -108,20 +108,16 @@ class SmartMockFileUtility {
             }
             inputStream.close()
 
-            // Setup data variable to hold the MD5 hash
+            // Obtain the MD5 hash
             let data = inputData as Data
-            var digest = Data(count: Int(CC_MD5_DIGEST_LENGTH))
-
-            // Generate hash
-            _ = digest.withUnsafeMutableBytes { (digestBytes: UnsafeMutablePointer<UInt8>) in
-                data.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) in
-                    let length = CC_LONG(data.count)
-                    CC_MD5(messageBytes, length, digestBytes)
-                }
+            let hash = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> [UInt8] in
+                var hash = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
+                CC_MD5(bytes.baseAddress, CC_LONG(data.count), &hash)
+                return hash
             }
 
             // Return MD5 hash string formatted as hexadecimal
-            return digest.map { String(format: "%02hhx", $0) }.joined()
+            return hash.map { String(format: "%02hhx", $0) }.joined()
         }
         return ""
     }

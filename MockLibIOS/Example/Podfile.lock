@@ -1,19 +1,17 @@
 PODS:
-  - Alamofire (4.7.0)
-  - AlamofireImage (3.3.0):
-    - Alamofire (~> 4.5)
-  - AlamofireObjectMapper (5.1.0):
-    - Alamofire (~> 4.1)
-    - ObjectMapper (~> 3.3)
-  - CryptoSwift (0.9.0)
-  - ObjectMapper (3.3.0)
-  - SmartMockLib (1.0.1):
-    - CryptoSwift (~> 0.9.0)
+  - Alamofire (4.8.1)
+  - AlamofireImage (3.5.0):
+    - Alamofire (~> 4.8)
+  - AlamofireObjectMapper (5.2.0):
+    - Alamofire (~> 4.7)
+    - ObjectMapper (~> 3.4)
+  - ObjectMapper (3.4.2)
+  - SmartMockLib (1.1.5)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.7.0)
-  - AlamofireImage (~> 3.3.0)
-  - AlamofireObjectMapper (~> 5.1.0)
+  - Alamofire (~> 4.8.1)
+  - AlamofireImage (~> 3.5.0)
+  - AlamofireObjectMapper (~> 5.2.0)
   - SmartMockLib (from `../../`)
 
 SPEC REPOS:
@@ -21,7 +19,6 @@ SPEC REPOS:
     - Alamofire
     - AlamofireImage
     - AlamofireObjectMapper
-    - CryptoSwift
     - ObjectMapper
 
 EXTERNAL SOURCES:
@@ -29,13 +26,12 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
-  AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
-  AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
-  CryptoSwift: bca8c5b653dcc2d9734409242a070ff53bafac86
-  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
-  SmartMockLib: 144a2501545e10127addbfb44e8812ca2137b966
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  AlamofireImage: 1aea346f4dda2f6c67622fa5a89fcbb80d79cc16
+  AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
+  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
+  SmartMockLib: 4e9583edb5d0a270b535b6a78a33698a180b694c
 
-PODFILE CHECKSUM: 58c14f1fbef3642af52e1720f1d409d2eb92d760
+PODFILE CHECKSUM: f6f89e62d2c36f6293265a3802b480e340a691ae
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

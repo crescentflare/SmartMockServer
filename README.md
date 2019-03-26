@@ -53,10 +53,11 @@ Make sure that jcenter is added as a repository. The library integrates well wit
 The library is available through [CocoaPods](http://cocoapods.org). To install it, simply add one of the following lines to your Podfile:
 
 ```ruby
-pod "SmartMockLib", '~> 1.0.1'
+pod "SmartMockLib", '~> 1.1.5'
 ```
 
-The above version is for Swift 4.2. For older Swift versions use the following:
+The above version is for Swift 5.0. For older Swift versions use the following:
+- Swift 4.2: SmartMockLib 1.0.1
 - Swift 4.1: SmartMockLib 1.0.0
 - Swift 4.0: SmartMockLib 0.6.4
 - Swift 3: SmartMockLib 0.6.2

@@ -5,7 +5,7 @@
 //  Main library utility: easily access files with file:/// or bundle:/// or document:///
 //
 
-import CryptoSwift
+import CommonCrypto
 
 class SmartMockFileUtility {
     
@@ -99,21 +99,29 @@ class SmartMockFileUtility {
     
     static func obtainMD5(path: String) -> String {
         if let inputStream = open(path: path) {
-            var digest = MD5()
+            // Read stream into data
+            let inputData = NSMutableData()
             var buffer = [UInt8](repeating: 0, count: 4096)
             while inputStream.hasBytesAvailable {
                 let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
-                if bytesRead < buffer.count {
-                    let smallBuffer = Array(buffer[0..<bytesRead])
-                    _ = try? digest.update(withBytes: smallBuffer)
-                } else {
-                    _ = try? digest.update(withBytes: buffer)
-                }
+                inputData.append(buffer, length: bytesRead)
             }
             inputStream.close()
-            if let result = try? digest.finish() {
-                return result.toHexString()
+
+            // Setup data variable to hold the MD5 hash
+            let data = inputData as Data
+            var digest = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+
+            // Generate hash
+            _ = digest.withUnsafeMutableBytes { (digestBytes: UnsafeMutablePointer<UInt8>) in
+                data.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) in
+                    let length = CC_LONG(data.count)
+                    CC_MD5(messageBytes, length, digestBytes)
+                }
             }
+
+            // Return MD5 hash string formatted as hexadecimal
+            return digest.map { String(format: "%02hhx", $0) }.joined()
         }
         return ""
     }

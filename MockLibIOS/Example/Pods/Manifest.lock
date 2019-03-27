@@ -6,7 +6,7 @@ PODS:
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
   - ObjectMapper (3.4.2)
-  - SmartMockLib (1.1.5)
+  - SmartMockLib (1.1.6)
 
 DEPENDENCIES:
   - Alamofire (~> 4.8.1)
@@ -30,8 +30,8 @@ SPEC CHECKSUMS:
   AlamofireImage: 1aea346f4dda2f6c67622fa5a89fcbb80d79cc16
   AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
-  SmartMockLib: 4e9583edb5d0a270b535b6a78a33698a180b694c
+  SmartMockLib: 1da58a97e049ab51041665a0306f72ce02d1c826
 
 PODFILE CHECKSUM: f6f89e62d2c36f6293265a3802b480e340a691ae
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.0.beta.2

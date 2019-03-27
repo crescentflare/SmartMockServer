@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SmartMockLib'
-  s.version          = '1.1.5'
+  s.version          = '1.1.6'
   s.swift_version    = '5.0'
   s.summary          = 'All features of the smart mock server locally accessible.'
 

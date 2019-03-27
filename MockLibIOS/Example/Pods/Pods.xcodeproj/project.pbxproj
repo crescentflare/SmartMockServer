@@ -7,92 +7,92 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04BC79A2B3E93862AA9B00984AB70BC3 /* SmartMockResponseFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34DBBB00B3F7DAE1BD17EEB6ADD4F3B /* SmartMockResponseFinder.swift */; };
-		059603888075C317971A67A7C0FB2BDF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F21CF5B85328C2D94619BF78DFE50327 /* Alamofire.framework */; };
-		059D92B7BBFBEC53E9A3B6E11C5C3B3A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BCD18E86746EBC869649B1B3F51A82 /* Response.swift */; };
-		06D552553ABE2871514FB73C0506B331 /* SmartMockHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4637BCED6504C71ECD3CD13A464A38C8 /* SmartMockHeaders.swift */; };
-		0A39AF55285A3A4F7CBABB6D822FA4A3 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13940B8012101A5E13A5A1474AB56F72 /* Alamofire.swift */; };
-		112221EC76F1CE24FB384D2ADFD75C8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		115F8CA5507E76EEE4437E3CFA02F315 /* SmartMockServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71642D6D3239A635BB742A364BC332EA /* SmartMockServer.swift */; };
-		12DDF5D318C9D3751C849911AEC01252 /* DateFormatterTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = E863E411D2222E5A689B63A571A85A2F /* DateFormatterTransform.swift */; };
-		15515A42449C36D4FFD1D013E711CDBE /* SmartMockResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40ADFC6F7075647F8CD8D3CCCB45A6E0 /* SmartMockResponseBody.swift */; };
-		1D29D2ACADF961F69D32B06FA6A09E28 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E762F33550086F9E5C0535C131648BB4 /* Notifications.swift */; };
-		1FE848F3B55196B7E9AF9A0A60A8858D /* CodableTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678C43065935EFE3CE28C279E03468E0 /* CodableTransform.swift */; };
-		209FBDB1F01F9644545BB983525D0766 /* SmartMockProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AECFB386082F87833F3ECA83D3ECA /* SmartMockProperties.swift */; };
-		332AF7289CAF12314366955B9062CC0D /* SmartMockLib-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DE6F417C282C4B3819C0704FB64450 /* SmartMockLib-dummy.m */; };
-		33E1D1AABC1408623B60017EB8DA0A88 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7ECE368259BCA76F0DD07FA966F896 /* ObjectMapper.framework */; };
-		355C18EEC82624A06A6CC93965258E33 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4D64B72F52E8EBE001F74E96A547D3 /* Request.swift */; };
-		38DDED2026D7CCE463BD6AA84D5B57F3 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C419A526714DA425A822E01690283CA /* ImageCache.swift */; };
-		38E557B68266D46E019E2665C4253AD4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		3A525F61A4C4BD642BE116550E78FF50 /* SmartMockEndPointFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F77E2DF1DBF3FD9A9BA1DFB3D77376A /* SmartMockEndPointFinder.swift */; };
-		3AC31661CECD14792855AFC94025667B /* UIImage+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFCB30E6BAC63104BF979EBFEE8B0DA /* UIImage+AlamofireImage.swift */; };
-		3BD1DAFE1F3E6C9E4EB0F2099B6D6FA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		3E0749AF6C51BCF0E4A41CF1D6A76FED /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99155A8CD523179933222C7658ACB50 /* DispatchQueue+Alamofire.swift */; };
-		4185FE9A95B12CC0D37F69E0218B4430 /* TransformOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BC6F8DE0826FD19716B5647F7C9F47 /* TransformOperators.swift */; };
-		46D0C0F8B3A688251DCF84E8E42265A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		46D2B00CB67EFC58897132DDD7035FCF /* DataTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF4355453F86AE8DA7128E558C2999 /* DataTransform.swift */; };
-		5E37431509EAC62091AA9F42C338E6F3 /* AlamofireImage-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9026BD1E7E8DD345A28944E64452E4 /* AlamofireImage-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		60B6C2A003864AAD3A426448152F67BE /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80508347EE6208339C8AC841E4920315 /* Timeline.swift */; };
-		6747171D3A39E70D1C7A83325AAA0589 /* ISO8601DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAD51BFEC54E88790E0CE5C21BE2B6 /* ISO8601DateTransform.swift */; };
-		69D1F9F061D2CBCAB51E64BF8B0F3E46 /* Pods-SmartMockLib_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3392FA0691CBDCE1CF5CED914E58C95D /* Pods-SmartMockLib_Example-dummy.m */; };
-		6A3825FF4F36474EA479C99BADFD0468 /* SmartMockStringUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BCE9C06E0943E53905BB0CBD958150 /* SmartMockStringUtility.swift */; };
-		6EFD003458AE7F689DEA720A2030C261 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D6D46228758B77EB0D91D30DE484EE /* ResponseSerialization.swift */; };
-		700D3D95AF9520CB227846DFD943A2DA /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44951D27B3C87B05C74E3D920892976B /* ParameterEncoding.swift */; };
-		7379A39BC638AEA0AA074DCA25AA47FC /* AlamofireObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2484B7F4CF66B65FEF36350F69B729 /* AlamofireObjectMapper.swift */; };
-		73AB05789A4982944AF68DBD013E3EB7 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F436257711E5A590CD5A716F3C2374 /* NetworkReachabilityManager.swift */; };
-		7516F5DFED72A74CC3FA7D3822B14087 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC798FD97FBA8E9D20C8DCB339AD976 /* ImageDownloader.swift */; };
-		760AA26FB53D5C927B5C125845C50BB1 /* EnumOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F502FD54B57F865BE89E6AAEFFD720 /* EnumOperators.swift */; };
-		772911DA6E33D1CBBC30131B7C8BDBB3 /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B42ADEAF1533587FDBD394EC4E3F08 /* Alamofire-dummy.m */; };
-		77E8F0EB9FFBE2E3EB0C77095C644606 /* TaskDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3552E4E72AFB26E7E666F2C8D2497206 /* TaskDelegate.swift */; };
-		7821F62FC19A7473222E94291E43057F /* SmartMockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F5AFECC0313FD9C34905831E317E /* SmartMockResponse.swift */; };
-		79D809358C34FC323773E5F536C03D3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		7E3538A6992A38276764936A9733493D /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D058C9B93E13BDFDC6770F2A3FAE46 /* AFError.swift */; };
-		7F424C046646FE578B5BAA8AE3D30B37 /* ObjectMapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CC99481A3CA618BD58450BF4A77E72 /* ObjectMapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87646781F3CA197B0FADF65A73F36CDD /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8DEC8944B86EFCC1AEB34C68F44CF /* TransformOf.swift */; };
-		8CCDCE25A6246A1829FFC0745F48459F /* EnumTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2805F9834CD54E3522CB3E081BF7E948 /* EnumTransform.swift */; };
-		8D2A6A90A6DDAF75EA52D471258545CC /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C861AA29340A844447407FA1367EFE8 /* ServerTrustPolicy.swift */; };
-		8D77ADFD05F4FD7EE746BF44D4A44EA1 /* SmartMockLib-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 842ABC19094D6E70F5C3ECBECD520A4F /* SmartMockLib-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		912AA912DC5113A3F4C4DBDCBF2FC639 /* ToJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A0BA8C00B8404DB9FEB12A2C4C5595 /* ToJSON.swift */; };
-		991BD190737B8F4F6BA3EE4E1F79A050 /* CustomDateFormatTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F177361FEC748638091CFC0967B3445 /* CustomDateFormatTransform.swift */; };
-		9FDB93E1D2AB4FCC476B39B6C178CE6D /* AlamofireObjectMapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 38DD45A398FE438FD8C40A56DEECB8E7 /* AlamofireObjectMapper-dummy.m */; };
-		9FDF6B28893CB41784982FC35F7364DF /* Pods-SmartMockLib_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA9C624008111CB492AA72CBF4FB6A2 /* Pods-SmartMockLib_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A1EC41966B261DCE460BCDE5124A1DBE /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0288279E186167EA9135465D496D1 /* SessionDelegate.swift */; };
-		A1F0EC361B7E6719A92C899459A44D5A /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FE32EA8DCFBD8B834460EBEF9777C8 /* Mapper.swift */; };
-		A95420EE593BB623F3DF38F41B97464F /* SmartMockParamMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E66ADCE06D67AC895D013602CD361B /* SmartMockParamMatcher.swift */; };
-		AA56769D8733D3F3E7976742D5ABA998 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEFE36C832827E54F774FCEA6FC2175 /* Validation.swift */; };
-		AC8143A6AFC14DC3F0338EF36445BF38 /* NSDecimalNumberTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8378AF9C70EE299318BE5F1BA06429E /* NSDecimalNumberTransform.swift */; };
-		AEA829AB1A8AF2AD077A808AED6B178A /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA3CCC348B163D10F78ECD63D3D3968 /* MultipartFormData.swift */; };
-		B26DBECE911AB60775C6BE6FC6F7B5FE /* AlamofireObjectMapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B554405260E378B716B49CD1171DA657 /* AlamofireObjectMapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B32CB47DE31DC018BB85E55F57F8D29D /* ImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946E65300DDD741B03A94102A8B1A72A /* ImageFilter.swift */; };
-		B3CD844F6AB8701256B0931EAC4780DD /* ImmutableMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B76293ED4CA4DB3546EC2F25A8B3F /* ImmutableMappable.swift */; };
-		B6F6E4CC26451E91B59FAE0F6841DC1F /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BC82B8F2A9F5C3667D35E5CF741DF52B /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B9A824ECAED985A8B0CF992A80E81556 /* Pods-SmartMockLib_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 721793C4D80DDF5A7ABCA5B9B8C8153F /* Pods-SmartMockLib_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C39E172BE35D0A5BD8492203E2E74B34 /* AlamofireImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC25FBF93795FF153BA0E05FAE46673 /* AlamofireImage-dummy.m */; };
-		C522E5CCC21ED4B4E4DAFE0EF5976534 /* AFIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872E4E9A41CA8C011E7CBEBDF25BA703 /* AFIError.swift */; };
-		CCDF5D7BB881E430E714B75C7E8A3BF2 /* SmartMockFileUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4463A1A37C9E243A642B30B721DC20 /* SmartMockFileUtility.swift */; };
-		CEC9BB6496ACA4458CBDAC895780E692 /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D436C300545FEC1B88622A01568218 /* TransformType.swift */; };
-		D1EBE884C11FF785A91711AF378CAA16 /* MapError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E75CDC4846A972035CBE4FC39F38238 /* MapError.swift */; };
-		D331786C87892C26B432086A93BB6634 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA51B9FAAF495CACBD3E83D939490A /* DateTransform.swift */; };
-		D3FA0AA634AAEA99AB3FABC36BB4958C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF4D1A510D42958D9A8E56A5B320DA8 /* SessionManager.swift */; };
-		D9CB9F84E363221CB8B9F0E557787FB4 /* Pods-SmartMockLib_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F96D617E7BD0012B2F290BC0A9BD089 /* Pods-SmartMockLib_Tests-dummy.m */; };
-		DE55962F75288607CD2183F80A4D223B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		DF8309B711A4635FD438BF1F8C2D494B /* FromJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3BB0D24923C8FF9732DEF2E863E525 /* FromJSON.swift */; };
-		E303598CA94725108F75FBC0253E7C0E /* ObjectMapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B13EAC9B9E4933DE4E0D658C04D79458 /* ObjectMapper-dummy.m */; };
-		E4680D14A936256B4A766982B1C6A69D /* SmartMockPropertiesUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D12A882560D28DFF92F0CDC8492B819 /* SmartMockPropertiesUtility.swift */; };
-		E5E518708B710642CFCDC382913582FF /* Request+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C984B55B35CFF0D0F3205BBFC25AE81 /* Request+AlamofireImage.swift */; };
-		E6DE03E3E1E37473B26BDB3B302A0D2D /* DictionaryTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF298413D52AE851AF378785CCEEB0B /* DictionaryTransform.swift */; };
-		E94B35596FD766D72EECCF7909184FCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */; };
-		E9EEAA672984812FFBF3CBA15826BB6F /* HexColorTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC800ACDB8D0218D4D0E13EF7A6503FA /* HexColorTransform.swift */; };
-		EB0DD8CEA1A69867A30267439C970440 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA06397AF1FE8AD4C6E2BEFD57B426BC /* Result.swift */; };
-		EC3217AEA6906A7EC227471D29EE5093 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76FF4689FC6440F7C8C55EF74E4B3D8 /* Mappable.swift */; };
-		F043D9AC4BA20943367923DEEACAB6C2 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465C25B89B172F4FAF38D6432DD91951 /* Image.swift */; };
-		F098E5612199E74AC5E15612A67984A2 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F21CF5B85328C2D94619BF78DFE50327 /* Alamofire.framework */; };
-		F562EBBB71DFA269B42FD4D8E0BACC35 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55250398B94A82EB1F89D3CEE3FB754C /* Map.swift */; };
-		F853F6FCDDFB099744F56099ACA123DC /* UIButton+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05906CEFABF19C98DEB72C2E26C76B /* UIButton+AlamofireImage.swift */; };
-		FB2FF2FBF0AE83FF31DE1B6B6D08DF59 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FE92B3C585A6C2A562400490BDBA2E /* Operators.swift */; };
-		FD7578F183AA83B2949887C4C1EADF76 /* IntegerOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8FF847DCB8BFB37FA3C18DE1F94EA5 /* IntegerOperators.swift */; };
-		FDD25EFD99DD6732AE1BE5F3F0036505 /* URLTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30876F77BFFA55456A970EED3B2BD054 /* URLTransform.swift */; };
-		FFF18720349BC8631EF1A8881BB5CA40 /* UIImageView+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C46A2FB44B21C98E015FB90D72B756 /* UIImageView+AlamofireImage.swift */; };
+		013D5D39FF835E7DEE7B33B8A786E50A /* ImmutableMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B76293ED4CA4DB3546EC2F25A8B3F /* ImmutableMappable.swift */; };
+		045876B823347C7360FC35BCEA39D4F3 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC41AAE1081F3BB150A98A27A745E638 /* Alamofire.framework */; };
+		0708D6F45270547AD2A947E650709C1F /* SmartMockFileUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD86EA13F5558E563ABCDE9873FC6A2 /* SmartMockFileUtility.swift */; };
+		0D5FE00447ED519B6E4204BA2682D8A6 /* TransformOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE8DEC8944B86EFCC1AEB34C68F44CF /* TransformOf.swift */; };
+		0FE780D0A1F41F8E7403FD7D7436BB58 /* ImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946E65300DDD741B03A94102A8B1A72A /* ImageFilter.swift */; };
+		109AAB0CCFC4CFDA90F35D2E4E308648 /* URLTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30876F77BFFA55456A970EED3B2BD054 /* URLTransform.swift */; };
+		14ECF6E40B0356170FEDE170B2EB6F2F /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4D64B72F52E8EBE001F74E96A547D3 /* Request.swift */; };
+		181CF70DADAEE454572D9E4A363B76A4 /* DictionaryTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF298413D52AE851AF378785CCEEB0B /* DictionaryTransform.swift */; };
+		1C4409585945C7C53364A80D1548B698 /* ISO8601DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAD51BFEC54E88790E0CE5C21BE2B6 /* ISO8601DateTransform.swift */; };
+		257007A1C2D8E2F1D94DE86626401CAE /* SmartMockParamMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323C4A6950CEA9FA80BE7C2B1BB3B58 /* SmartMockParamMatcher.swift */; };
+		3854A155E64E1EA20C4D143685B572AC /* UIButton+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05906CEFABF19C98DEB72C2E26C76B /* UIButton+AlamofireImage.swift */; };
+		38E557B68266D46E019E2665C4253AD4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		3AFE2525580CB020587AE80CFF4236C1 /* AFIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872E4E9A41CA8C011E7CBEBDF25BA703 /* AFIError.swift */; };
+		3BD1DAFE1F3E6C9E4EB0F2099B6D6FA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		3EFAC3E8D9A1BFCFAE53BEEB61C4D997 /* SmartMockServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424A4E1FBA755F2B6B969FB363579B1C /* SmartMockServer.swift */; };
+		40D2DD68A4399444A92AC6116B84DFBF /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FE92B3C585A6C2A562400490BDBA2E /* Operators.swift */; };
+		4920AD2B3D668DB550BEDED6747F925B /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C861AA29340A844447407FA1367EFE8 /* ServerTrustPolicy.swift */; };
+		4BB21956317072BECD531450277B742F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465C25B89B172F4FAF38D6432DD91951 /* Image.swift */; };
+		4F3389ED189F911E1213B662AF06F8C7 /* HexColorTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC800ACDB8D0218D4D0E13EF7A6503FA /* HexColorTransform.swift */; };
+		505B75241DCEA8C1FBF9F479C2DDEF31 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80508347EE6208339C8AC841E4920315 /* Timeline.swift */; };
+		559368DD6966DB1193B3FD6E7CBF5FED /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A11FFA757C627113FF9D2C717507329 /* Alamofire-dummy.m */; };
+		582706691A5E492988AB4C4095E55B0B /* FromJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3BB0D24923C8FF9732DEF2E863E525 /* FromJSON.swift */; };
+		593F7312B343FD60BE74431F61172313 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55250398B94A82EB1F89D3CEE3FB754C /* Map.swift */; };
+		594494BAB3E029862D7009DE60FCC904 /* TaskDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3552E4E72AFB26E7E666F2C8D2497206 /* TaskDelegate.swift */; };
+		5AD886DEDB45BDC335F6B917855C1267 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC41AAE1081F3BB150A98A27A745E638 /* Alamofire.framework */; };
+		5B1086B0A866704A6CAF72B5A47582C6 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13940B8012101A5E13A5A1474AB56F72 /* Alamofire.swift */; };
+		5B3A9CCD5F18B1322B09592B917D9EC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		5C2F9E5485166B59DD032D7DF4C29CF0 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BCD18E86746EBC869649B1B3F51A82 /* Response.swift */; };
+		5E37431509EAC62091AA9F42C338E6F3 /* AlamofireImage-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F33E9BA2847909F4C911ED156DDABE36 /* AlamofireImage-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F28C2BB6EFEE11C8258A341D4898119 /* SmartMockResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43351A73E529A70C116184038C7A51E7 /* SmartMockResponseBody.swift */; };
+		637B17906992246EF35C564297F0231F /* SmartMockHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D9850CAB02CF5257259E5B74B7DF7 /* SmartMockHeaders.swift */; };
+		671320D6602F6410132B9272CD3F5586 /* AlamofireObjectMapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E196705DE3FCBFCC08C60F85240FCB /* AlamofireObjectMapper-dummy.m */; };
+		69D1F9F061D2CBCAB51E64BF8B0F3E46 /* Pods-SmartMockLib_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7A4186FEDD8CD6F7AFC42BD02AB4F7 /* Pods-SmartMockLib_Example-dummy.m */; };
+		6BE7E8725B70F78F01907A5E532B81A6 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC798FD97FBA8E9D20C8DCB339AD976 /* ImageDownloader.swift */; };
+		6F8520753B7643D7BA74BE6B1EF9A38D /* EnumOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F502FD54B57F865BE89E6AAEFFD720 /* EnumOperators.swift */; };
+		71650717E8AE81950F69E0B5C0FD8C18 /* UIImage+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFCB30E6BAC63104BF979EBFEE8B0DA /* UIImage+AlamofireImage.swift */; };
+		72C2F0877FAB758F102C1D5FB6641559 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F436257711E5A590CD5A716F3C2374 /* NetworkReachabilityManager.swift */; };
+		7328DBC4C8A7060629B2FB42A64EAB9C /* IntegerOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8FF847DCB8BFB37FA3C18DE1F94EA5 /* IntegerOperators.swift */; };
+		79D809358C34FC323773E5F536C03D3F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		7CFC832781AAF2C2410087E84A2230A0 /* DateTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA51B9FAAF495CACBD3E83D939490A /* DateTransform.swift */; };
+		7F424C046646FE578B5BAA8AE3D30B37 /* ObjectMapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 16C64C32CA558676065BA79E8E1CA3B7 /* ObjectMapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7FAE819EA82A494B8213D81E7B1DE893 /* SmartMockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63FE800A15C1F8C4D6EE2368192B16 /* SmartMockResponse.swift */; };
+		809B7F042392423E0E1B4CCF718E6532 /* CustomDateFormatTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F177361FEC748638091CFC0967B3445 /* CustomDateFormatTransform.swift */; };
+		8BBFF229F5633098C666B436C2BB1E30 /* SmartMockLib-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C01F612390B3826205CC52A3659433 /* SmartMockLib-dummy.m */; };
+		8EFADF3312CF5B65836757A402A8D3D8 /* TransformOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BC6F8DE0826FD19716B5647F7C9F47 /* TransformOperators.swift */; };
+		91E87EC78CC9D0805B66D3284F7E5061 /* SmartMockStringUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABBB1D95C8599FF28E6E52201F258CC /* SmartMockStringUtility.swift */; };
+		962054261F048CB650E718E7B34D007E /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C78020FD972EFE993A84EC1848AAED /* ObjectMapper.framework */; };
+		975434B39ACA74169EF673A763764E3D /* TransformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D436C300545FEC1B88622A01568218 /* TransformType.swift */; };
+		981225EA06381B30F8758E6E5BA03C57 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76FF4689FC6440F7C8C55EF74E4B3D8 /* Mappable.swift */; };
+		9FDF6B28893CB41784982FC35F7364DF /* Pods-SmartMockLib_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 977B789C6895C5F754C740271125050F /* Pods-SmartMockLib_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5ADEF55257E4C1A482BF072C205F388 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44951D27B3C87B05C74E3D920892976B /* ParameterEncoding.swift */; };
+		A5B11522D7E04AD877C35558905B95A6 /* Request+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C984B55B35CFF0D0F3205BBFC25AE81 /* Request+AlamofireImage.swift */; };
+		A8B901B34DFC56E5BCE08B7FE8918A9D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		ABAEB9DEE3CE05729A9442CFA1988407 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF4D1A510D42958D9A8E56A5B320DA8 /* SessionManager.swift */; };
+		ADB18D94C4F71AE2FCE388100D556B0F /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D6D46228758B77EB0D91D30DE484EE /* ResponseSerialization.swift */; };
+		AE67000C3AEC17F8EE53AC924C0A7518 /* ObjectMapper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3525413E1BF6049B7FA1172C0B6EE2B3 /* ObjectMapper-dummy.m */; };
+		AF655375E271E278071CB1A4295EFD61 /* SmartMockEndPointFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F329D8AC1EAE39618AF5CDF7675965 /* SmartMockEndPointFinder.swift */; };
+		B082FA7223428C8DE32F7DE7F5AF441C /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D058C9B93E13BDFDC6770F2A3FAE46 /* AFError.swift */; };
+		B26DBECE911AB60775C6BE6FC6F7B5FE /* AlamofireObjectMapper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B8DDFC049B73C088D3B7EAC7A633300 /* AlamofireObjectMapper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B275C48085F86B56E221C31B35FE1256 /* AlamofireObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2484B7F4CF66B65FEF36350F69B729 /* AlamofireObjectMapper.swift */; };
+		B2E54789768E4F4EE35F11E0034C7383 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E762F33550086F9E5C0535C131648BB4 /* Notifications.swift */; };
+		B6F6E4CC26451E91B59FAE0F6841DC1F /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E7C36ECAC498A7C32B232444D0004BA0 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B9A824ECAED985A8B0CF992A80E81556 /* Pods-SmartMockLib_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 340206A71679FEB1CA6984BEAE9F083C /* Pods-SmartMockLib_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC865722C1344A98762581101F2E4492 /* DateFormatterTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = E863E411D2222E5A689B63A571A85A2F /* DateFormatterTransform.swift */; };
+		C0A7357A4C21A5DBE9FE828E4937A8EE /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C419A526714DA425A822E01690283CA /* ImageCache.swift */; };
+		C2258E036CD9CB60694190731F73D85D /* SmartMockPropertiesUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412D3F7F93378190CE700E871084E937 /* SmartMockPropertiesUtility.swift */; };
+		C3D386EA9C084E96CDEFB21FBDC1646B /* NSDecimalNumberTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8378AF9C70EE299318BE5F1BA06429E /* NSDecimalNumberTransform.swift */; };
+		CFE21B0FF9E3B88B6A1C39E8FCDB5F49 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FE32EA8DCFBD8B834460EBEF9777C8 /* Mapper.swift */; };
+		D2B384893454A891D32CB20A53E4EDAF /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99155A8CD523179933222C7658ACB50 /* DispatchQueue+Alamofire.swift */; };
+		D529738D069394AD7A50D51E46D99882 /* UIImageView+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C46A2FB44B21C98E015FB90D72B756 /* UIImageView+AlamofireImage.swift */; };
+		D583829CA1D3C6B9B8F5C085B1D597EF /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEFE36C832827E54F774FCEA6FC2175 /* Validation.swift */; };
+		D77DF3CF6FCAAC8CF60B88C7BD3E6198 /* MapError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E75CDC4846A972035CBE4FC39F38238 /* MapError.swift */; };
+		D9CB9F84E363221CB8B9F0E557787FB4 /* Pods-SmartMockLib_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 790A27E4FB5B9091865C5A5916090D6D /* Pods-SmartMockLib_Tests-dummy.m */; };
+		DB166229B294CF5881D2587434E302A0 /* CodableTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678C43065935EFE3CE28C279E03468E0 /* CodableTransform.swift */; };
+		DE095403BAB3679A2C82D245039948D9 /* ToJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A0BA8C00B8404DB9FEB12A2C4C5595 /* ToJSON.swift */; };
+		DE9DA00F5D8534A293EA01CEBFC3E1EC /* AlamofireImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8018F343E1AB083C883620B5521197D6 /* AlamofireImage-dummy.m */; };
+		E2DF2B8A78AA1F112BFA7404C82E67E2 /* SmartMockLib-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F80FBC146E29507EEB4E4ADAE1652C15 /* SmartMockLib-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E3D04CBCC8E181BDABD58C5714FB5A96 /* SmartMockProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1276B9BBE635DC3C27438DDBCEAF81A /* SmartMockProperties.swift */; };
+		E7BA58DE1AA8F11BAA7E8817D8AB509C /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA06397AF1FE8AD4C6E2BEFD57B426BC /* Result.swift */; };
+		E94B35596FD766D72EECCF7909184FCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		EA8521E70DC610E842549F5A26CD891F /* SmartMockResponseFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2ACB878CEC844C5021D4D9DCDABB34 /* SmartMockResponseFinder.swift */; };
+		EAC5798E94E33424CEA2BC7E21E2E161 /* DataTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF4355453F86AE8DA7128E558C2999 /* DataTransform.swift */; };
+		EBB3AE5E9BDC9F4AB126C4C37E3D2E9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */; };
+		F4D82D78C14BF258042CDA3C1B15B7E1 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA3CCC348B163D10F78ECD63D3D3968 /* MultipartFormData.swift */; };
+		FF45E1D476D0A8EA1B772F44EFD2B3F5 /* EnumTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2805F9834CD54E3522CB3E081BF7E948 /* EnumTransform.swift */; };
+		FFB9BA683C701138C08A211F3E192F56 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0288279E186167EA9135465D496D1 /* SessionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,203 +100,194 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 743E4A349913BA26BF7AEE81D0D0DC34;
+			remoteGlobalIDString = 3F64080413BB03C0B16BFEB621E6E0F2;
 			remoteInfo = AlamofireObjectMapper;
 		};
 		734D5EE2C1DB3682CF220C3644C75AEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3383968E74B5371B20BB519B170DC7FD;
+			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
 			remoteInfo = Alamofire;
 		};
 		7B639CC513C6A85DC4703B47F7AE9340 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3383968E74B5371B20BB519B170DC7FD;
+			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
 			remoteInfo = Alamofire;
 		};
 		8493765FEC39FA36803476FACB4650EA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = E5DDE8474D9CCE9879FE29BFAD334EEB;
+			remoteGlobalIDString = EA7D517BBC86FD7D50079C63810DC868;
 			remoteInfo = SmartMockLib;
 		};
 		9F95E621710F4B7EBD56B83C134F6AD5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3383968E74B5371B20BB519B170DC7FD;
+			remoteGlobalIDString = EAAA1AD3A8A1B59AB91319EE40752C6D;
 			remoteInfo = Alamofire;
 		};
 		AB8016ED2F6738FFB615C0E0F796D5BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 88450F74F29E2EBCCBAADF080CEFDABC;
+			remoteGlobalIDString = 02FD7BF230D92400D29FA5E4D5DBC81D;
 			remoteInfo = "Pods-SmartMockLib_Example";
 		};
 		D7779FBC1CF9B5B620B1914B229C894F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0882708950626A3ECBCB6A065347330B;
+			remoteGlobalIDString = 162E649F50FEC62B61BDD87D1BD422B4;
 			remoteInfo = ObjectMapper;
 		};
 		E63485A32F51F54076553D54B3F94444 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0882708950626A3ECBCB6A065347330B;
+			remoteGlobalIDString = 162E649F50FEC62B61BDD87D1BD422B4;
 			remoteInfo = ObjectMapper;
 		};
 		FCB973C6082A1A8B3C047C52BE9E254B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AF0370AAF034BBD44060B90AAA8FD1CE;
+			remoteGlobalIDString = C9778AE8394BE451567650E0B239BA21;
 			remoteInfo = AlamofireImage;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02C01B004464C81FF738B7CE7C02E0C2 /* Pods-SmartMockLib_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		07D058C9B93E13BDFDC6770F2A3FAE46 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
-		0A0FBE73F18A8810BEF9F12BE0634AEF /* SmartMockLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SmartMockLib.framework; path = SmartMockLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		10FAFC71E7627DC5A1B8BE4DB1E33C2F /* AlamofireObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireObjectMapper.framework; path = AlamofireObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		10FE32EA8DCFBD8B834460EBEF9777C8 /* Mapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mapper.swift; path = Sources/Mapper.swift; sourceTree = "<group>"; };
+		119F421D78938F8EEB654BF267AA56B5 /* SmartMockLib.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SmartMockLib.modulemap; sourceTree = "<group>"; };
+		12CCA851D8995A70C1EFA4C44C3B9B05 /* Pods-SmartMockLib_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SmartMockLib_Example.modulemap"; sourceTree = "<group>"; };
 		13940B8012101A5E13A5A1474AB56F72 /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
-		13E66ADCE06D67AC895D013602CD361B /* SmartMockParamMatcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockParamMatcher.swift; sourceTree = "<group>"; };
+		13EF43982DC9AFAFF4E0B796048E7276 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		14BECB055C78DCFC02918CAAE1FD2B35 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		16C64C32CA558676065BA79E8E1CA3B7 /* ObjectMapper-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectMapper-umbrella.h"; sourceTree = "<group>"; };
 		18A0BA8C00B8404DB9FEB12A2C4C5595 /* ToJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToJSON.swift; path = Sources/ToJSON.swift; sourceTree = "<group>"; };
-		19528885973EE7AB2400CE1F152F7799 /* Pods-SmartMockLib_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Example-Info.plist"; sourceTree = "<group>"; };
-		1AC1CBD2110C5522C9D22B1E65526766 /* Pods_SmartMockLib_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SmartMockLib_Tests.framework; path = "Pods-SmartMockLib_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BB4DB5209C29B00C0B55A725F2756B9 /* SmartMockLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SmartMockLib.framework; path = SmartMockLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D8B76293ED4CA4DB3546EC2F25A8B3F /* ImmutableMappable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImmutableMappable.swift; path = Sources/ImmutableMappable.swift; sourceTree = "<group>"; };
-		238695BB1B9D5691D72EF40C9DECE41C /* ObjectMapper-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ObjectMapper-Info.plist"; sourceTree = "<group>"; };
+		1E46E7692DAF8B6F3209BFF81EFB193D /* AlamofireObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireObjectMapper.framework; path = AlamofireObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		222FACF34C17F0046503AA83DB28AF45 /* AlamofireImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AlamofireImage.modulemap; sourceTree = "<group>"; };
+		24E99196FC7207171E6C92445CABC036 /* Pods-SmartMockLib_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		24F436257711E5A590CD5A716F3C2374 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		2805F9834CD54E3522CB3E081BF7E948 /* EnumTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumTransform.swift; path = Sources/EnumTransform.swift; sourceTree = "<group>"; };
-		2B9626F000093C4A7996056EA0A9E276 /* Pods-SmartMockLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		2C05906CEFABF19C98DEB72C2E26C76B /* UIButton+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIButton+AlamofireImage.swift"; path = "Source/UIButton+AlamofireImage.swift"; sourceTree = "<group>"; };
 		2C861AA29340A844447407FA1367EFE8 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustPolicy.swift; path = Source/ServerTrustPolicy.swift; sourceTree = "<group>"; };
-		2E9026BD1E7E8DD345A28944E64452E4 /* AlamofireImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireImage-umbrella.h"; sourceTree = "<group>"; };
-		2F96D617E7BD0012B2F290BC0A9BD089 /* Pods-SmartMockLib_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SmartMockLib_Tests-dummy.m"; sourceTree = "<group>"; };
+		2E63FE800A15C1F8C4D6EE2368192B16 /* SmartMockResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponse.swift; sourceTree = "<group>"; };
 		30876F77BFFA55456A970EED3B2BD054 /* URLTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLTransform.swift; path = Sources/URLTransform.swift; sourceTree = "<group>"; };
-		3392FA0691CBDCE1CF5CED914E58C95D /* Pods-SmartMockLib_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SmartMockLib_Example-dummy.m"; sourceTree = "<group>"; };
+		32220B58D89BDF3343A2C00027ED2923 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Alamofire.modulemap; sourceTree = "<group>"; };
+		340206A71679FEB1CA6984BEAE9F083C /* Pods-SmartMockLib_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartMockLib_Example-umbrella.h"; sourceTree = "<group>"; };
+		3525413E1BF6049B7FA1172C0B6EE2B3 /* ObjectMapper-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ObjectMapper-dummy.m"; sourceTree = "<group>"; };
+		352A20BD462F8658550D6061F047EB55 /* Pods-SmartMockLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		3552E4E72AFB26E7E666F2C8D2497206 /* TaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TaskDelegate.swift; path = Source/TaskDelegate.swift; sourceTree = "<group>"; };
-		3824B98E6DDB98C66F38CD2756120C31 /* AlamofireObjectMapper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireObjectMapper-prefix.pch"; sourceTree = "<group>"; };
-		38929C38B694017D4785F58C6807FD2B /* AlamofireImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AlamofireImage.modulemap; sourceTree = "<group>"; };
-		38DD45A398FE438FD8C40A56DEECB8E7 /* AlamofireObjectMapper-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AlamofireObjectMapper-dummy.m"; sourceTree = "<group>"; };
+		3576CA0D4852C6C6310BC28CE77C8747 /* ObjectMapper.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ObjectMapper.modulemap; sourceTree = "<group>"; };
 		3C419A526714DA425A822E01690283CA /* ImageCache.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Source/ImageCache.swift; sourceTree = "<group>"; };
+		3C9FE0661D197804FFF354C1FF1B7733 /* AlamofireObjectMapper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AlamofireObjectMapper.xcconfig; sourceTree = "<group>"; };
 		3F177361FEC748638091CFC0967B3445 /* CustomDateFormatTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CustomDateFormatTransform.swift; path = Sources/CustomDateFormatTransform.swift; sourceTree = "<group>"; };
 		3F3BB0D24923C8FF9732DEF2E863E525 /* FromJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FromJSON.swift; path = Sources/FromJSON.swift; sourceTree = "<group>"; };
-		3F77E2DF1DBF3FD9A9BA1DFB3D77376A /* SmartMockEndPointFinder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockEndPointFinder.swift; sourceTree = "<group>"; };
-		4097AF49E75B410D7C44DA8B82999EAA /* ObjectMapper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectMapper-prefix.pch"; sourceTree = "<group>"; };
-		40ADFC6F7075647F8CD8D3CCCB45A6E0 /* SmartMockResponseBody.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponseBody.swift; sourceTree = "<group>"; };
-		43CC99481A3CA618BD58450BF4A77E72 /* ObjectMapper-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectMapper-umbrella.h"; sourceTree = "<group>"; };
+		412D3F7F93378190CE700E871084E937 /* SmartMockPropertiesUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockPropertiesUtility.swift; sourceTree = "<group>"; };
+		424A4E1FBA755F2B6B969FB363579B1C /* SmartMockServer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SmartMockServer.swift; path = MockLibIOS/SmartMockLib/Classes/SmartMockServer.swift; sourceTree = "<group>"; };
+		429D9850CAB02CF5257259E5B74B7DF7 /* SmartMockHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockHeaders.swift; sourceTree = "<group>"; };
+		43351A73E529A70C116184038C7A51E7 /* SmartMockResponseBody.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponseBody.swift; sourceTree = "<group>"; };
+		43805572970D09934CCAECEBCBC1602B /* AlamofireObjectMapper-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AlamofireObjectMapper-Info.plist"; sourceTree = "<group>"; };
+		44825011E1FEE1FD5C428C204D6A41D7 /* Alamofire-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Alamofire-Info.plist"; sourceTree = "<group>"; };
 		44951D27B3C87B05C74E3D920892976B /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
-		4637BCED6504C71ECD3CD13A464A38C8 /* SmartMockHeaders.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockHeaders.swift; sourceTree = "<group>"; };
 		465C25B89B172F4FAF38D6432DD91951 /* Image.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Image.swift; path = Source/Image.swift; sourceTree = "<group>"; };
-		47280C17E79ED9BB6774E030889879A0 /* AlamofireObjectMapper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AlamofireObjectMapper.xcconfig; sourceTree = "<group>"; };
-		4ADDF9C2F55C2815840CBF8225F82800 /* Pods-SmartMockLib_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		4B4463A1A37C9E243A642B30B721DC20 /* SmartMockFileUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockFileUtility.swift; sourceTree = "<group>"; };
-		4C10BDC80AC6E5A1B369D654AEC0F500 /* AlamofireImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AlamofireImage.xcconfig; sourceTree = "<group>"; };
+		4C6D4500401BD8ADECF21446680109A0 /* AlamofireObjectMapper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireObjectMapper-prefix.pch"; sourceTree = "<group>"; };
 		4C984B55B35CFF0D0F3205BBFC25AE81 /* Request+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Request+AlamofireImage.swift"; path = "Source/Request+AlamofireImage.swift"; sourceTree = "<group>"; };
-		4DC25FBF93795FF153BA0E05FAE46673 /* AlamofireImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AlamofireImage-dummy.m"; sourceTree = "<group>"; };
-		4FA9C624008111CB492AA72CBF4FB6A2 /* Pods-SmartMockLib_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartMockLib_Tests-umbrella.h"; sourceTree = "<group>"; };
+		4CF2BB812CD7906CA9C76634317F1F19 /* SmartMockLib.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SmartMockLib.xcconfig; sourceTree = "<group>"; };
+		4EB1DEE5D98479A1908FA65515C83184 /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
+		4F7A4186FEDD8CD6F7AFC42BD02AB4F7 /* Pods-SmartMockLib_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SmartMockLib_Example-dummy.m"; sourceTree = "<group>"; };
 		50D6D46228758B77EB0D91D30DE484EE /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
 		55250398B94A82EB1F89D3CEE3FB754C /* Map.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Map.swift; path = Sources/Map.swift; sourceTree = "<group>"; };
-		5610656D687F989DE80433196F654D44 /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
+		5726413ECEAA62D4F74BABD657260EB1 /* ObjectMapper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ObjectMapper.xcconfig; sourceTree = "<group>"; };
 		59FE92B3C585A6C2A562400490BDBA2E /* Operators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Operators.swift; path = Sources/Operators.swift; sourceTree = "<group>"; };
+		5A11FFA757C627113FF9D2C717507329 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		5DCAD51BFEC54E88790E0CE5C21BE2B6 /* ISO8601DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ISO8601DateTransform.swift; path = Sources/ISO8601DateTransform.swift; sourceTree = "<group>"; };
-		6284331A6C279C1D165F2E35353EFD6A /* SmartMockLib-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SmartMockLib-prefix.pch"; sourceTree = "<group>"; };
 		65F502FD54B57F865BE89E6AAEFFD720 /* EnumOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EnumOperators.swift; path = Sources/EnumOperators.swift; sourceTree = "<group>"; };
 		678C43065935EFE3CE28C279E03468E0 /* CodableTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CodableTransform.swift; path = Sources/CodableTransform.swift; sourceTree = "<group>"; };
-		688E915A0E5A6F2052F52BA7E7D3A160 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Alamofire.modulemap; sourceTree = "<group>"; };
-		690189B5104D0FD185D25DF71CF6ADE7 /* AlamofireImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireImage-prefix.pch"; sourceTree = "<group>"; };
+		690BDABA08B4C29F62701F63D14D0552 /* Pods-SmartMockLib_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SmartMockLib_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		690CBD7B7D25A158C9B97CD2C1670CA5 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireImage.framework; path = AlamofireImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69A0288279E186167EA9135465D496D1 /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
-		6B4785C5F93C3611BD6B41CBE05B62F6 /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
+		6BE0CECA7F07CCECE6AC7B29B00E4CEE /* Pods-SmartMockLib_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SmartMockLib_Tests.modulemap"; sourceTree = "<group>"; };
 		6CA3CCC348B163D10F78ECD63D3D3968 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
-		71642D6D3239A635BB742A364BC332EA /* SmartMockServer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SmartMockServer.swift; path = MockLibIOS/SmartMockLib/Classes/SmartMockServer.swift; sourceTree = "<group>"; };
 		71CF4355453F86AE8DA7128E558C2999 /* DataTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataTransform.swift; path = Sources/DataTransform.swift; sourceTree = "<group>"; };
-		721793C4D80DDF5A7ABCA5B9B8C8153F /* Pods-SmartMockLib_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartMockLib_Example-umbrella.h"; sourceTree = "<group>"; };
-		74B42ADEAF1533587FDBD394EC4E3F08 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
-		788DB9E2494DB8B359F5557755FBDD21 /* Pods_SmartMockLib_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SmartMockLib_Example.framework; path = "Pods-SmartMockLib_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		79D932609C4E3353B89B2A18E5B8159C /* Pods-SmartMockLib_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SmartMockLib_Example-frameworks.sh"; sourceTree = "<group>"; };
+		790A27E4FB5B9091865C5A5916090D6D /* Pods-SmartMockLib_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SmartMockLib_Tests-dummy.m"; sourceTree = "<group>"; };
+		7A74D46991C5AEA03C1FCC1395D80D2B /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ObjectMapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A8FF847DCB8BFB37FA3C18DE1F94EA5 /* IntegerOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IntegerOperators.swift; path = Sources/IntegerOperators.swift; sourceTree = "<group>"; };
+		7ABBB1D95C8599FF28E6E52201F258CC /* SmartMockStringUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockStringUtility.swift; sourceTree = "<group>"; };
+		8018F343E1AB083C883620B5521197D6 /* AlamofireImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AlamofireImage-dummy.m"; sourceTree = "<group>"; };
 		80508347EE6208339C8AC841E4920315 /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Timeline.swift; path = Source/Timeline.swift; sourceTree = "<group>"; };
 		80D436C300545FEC1B88622A01568218 /* TransformType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformType.swift; path = Sources/TransformType.swift; sourceTree = "<group>"; };
-		82AFA48523C8CF0BFD2DF8674E48A1C2 /* SmartMockLib.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SmartMockLib.modulemap; sourceTree = "<group>"; };
-		842ABC19094D6E70F5C3ECBECD520A4F /* SmartMockLib-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SmartMockLib-umbrella.h"; sourceTree = "<group>"; };
+		84FF7336DB7D19601734753C5AC0A660 /* Pods_SmartMockLib_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SmartMockLib_Example.framework; path = "Pods-SmartMockLib_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		85B226EEED9C121EB01895CFFD50A945 /* Pods-SmartMockLib_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		872E4E9A41CA8C011E7CBEBDF25BA703 /* AFIError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFIError.swift; path = Source/AFIError.swift; sourceTree = "<group>"; };
-		87D0F5AFECC0313FD9C34905831E317E /* SmartMockResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponse.swift; sourceTree = "<group>"; };
-		8D12A882560D28DFF92F0CDC8492B819 /* SmartMockPropertiesUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockPropertiesUtility.swift; sourceTree = "<group>"; };
 		8F2484B7F4CF66B65FEF36350F69B729 /* AlamofireObjectMapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlamofireObjectMapper.swift; path = AlamofireObjectMapper/AlamofireObjectMapper.swift; sourceTree = "<group>"; };
-		8FDDCAD408A801C9728DD7B82407F95F /* Pods-SmartMockLib_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Tests-Info.plist"; sourceTree = "<group>"; };
-		9183BC6BCC62A68ECC0F65AB652E4220 /* Pods-SmartMockLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		908785F4DA66CD92D04E601153CFFF32 /* AlamofireImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireImage-prefix.pch"; sourceTree = "<group>"; };
+		939672DBF9FA6EA6CCAC256036292FA6 /* ObjectMapper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectMapper-prefix.pch"; sourceTree = "<group>"; };
 		946E65300DDD741B03A94102A8B1A72A /* ImageFilter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageFilter.swift; path = Source/ImageFilter.swift; sourceTree = "<group>"; };
-		9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		95C01F612390B3826205CC52A3659433 /* SmartMockLib-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SmartMockLib-dummy.m"; sourceTree = "<group>"; };
+		977B789C6895C5F754C740271125050F /* Pods-SmartMockLib_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartMockLib_Tests-umbrella.h"; sourceTree = "<group>"; };
+		9A69CAD989AA2B53DAB53B0D4609CCCF /* AlamofireImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AlamofireImage.xcconfig; sourceTree = "<group>"; };
 		9AF298413D52AE851AF378785CCEEB0B /* DictionaryTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DictionaryTransform.swift; path = Sources/DictionaryTransform.swift; sourceTree = "<group>"; };
+		9B195CE17F6888B47AE1BBF81A40FC8F /* AlamofireObjectMapper.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AlamofireObjectMapper.modulemap; sourceTree = "<group>"; };
+		9B8DDFC049B73C088D3B7EAC7A633300 /* AlamofireObjectMapper-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireObjectMapper-umbrella.h"; sourceTree = "<group>"; };
+		9BD86EA13F5558E563ABCDE9873FC6A2 /* SmartMockFileUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockFileUtility.swift; sourceTree = "<group>"; };
 		9BFCB30E6BAC63104BF979EBFEE8B0DA /* UIImage+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+AlamofireImage.swift"; path = "Source/UIImage+AlamofireImage.swift"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E75CDC4846A972035CBE4FC39F38238 /* MapError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MapError.swift; path = Sources/MapError.swift; sourceTree = "<group>"; };
-		A3BCE9C06E0943E53905BB0CBD958150 /* SmartMockStringUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockStringUtility.swift; sourceTree = "<group>"; };
+		A1F2B5DCFA753EFED80F6E184D50969B /* Pods_SmartMockLib_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SmartMockLib_Tests.framework; path = "Pods-SmartMockLib_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7AB5081F237CA76526AF7C440577522 /* Pods-SmartMockLib_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SmartMockLib_Example-frameworks.sh"; sourceTree = "<group>"; };
 		A8378AF9C70EE299318BE5F1BA06429E /* NSDecimalNumberTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSDecimalNumberTransform.swift; path = Sources/NSDecimalNumberTransform.swift; sourceTree = "<group>"; };
-		A9B8F67D6CACCC5AF41BD6C77A954432 /* SmartMockLib.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SmartMockLib.xcconfig; sourceTree = "<group>"; };
 		AA06397AF1FE8AD4C6E2BEFD57B426BC /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
-		AC51448485ED035928A73978B697F3BA /* Pods-SmartMockLib_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SmartMockLib_Tests.modulemap"; sourceTree = "<group>"; };
-		ADD0703FFFEBE5E1D476FA5AF3B851A3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		AF3E78E5B65EE6910B2448D62DD7116F /* ObjectMapper.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ObjectMapper.modulemap; sourceTree = "<group>"; };
-		AFBE68107DD8B802904FA924D78BCEF7 /* AlamofireImage-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AlamofireImage-Info.plist"; sourceTree = "<group>"; };
 		AFEFE36C832827E54F774FCEA6FC2175 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
-		B13EAC9B9E4933DE4E0D658C04D79458 /* ObjectMapper-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ObjectMapper-dummy.m"; sourceTree = "<group>"; };
 		B1BC6F8DE0826FD19716B5647F7C9F47 /* TransformOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformOperators.swift; path = Sources/TransformOperators.swift; sourceTree = "<group>"; };
-		B34DBBB00B3F7DAE1BD17EEB6ADD4F3B /* SmartMockResponseFinder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponseFinder.swift; sourceTree = "<group>"; };
-		B554405260E378B716B49CD1171DA657 /* AlamofireObjectMapper-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireObjectMapper-umbrella.h"; sourceTree = "<group>"; };
-		B84341342FAA37B0C34890FFFC2BE9D7 /* Pods-SmartMockLib_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SmartMockLib_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		B9D7A52E30A5DE07C9B99FDCEBF7A753 /* Alamofire-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Alamofire-Info.plist"; sourceTree = "<group>"; };
-		BC82B8F2A9F5C3667D35E5CF741DF52B /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
+		B1F329D8AC1EAE39618AF5CDF7675965 /* SmartMockEndPointFinder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockEndPointFinder.swift; sourceTree = "<group>"; };
+		B6A329763784E0E9A1508F6EBEC8A84B /* Pods-SmartMockLib_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Tests-Info.plist"; sourceTree = "<group>"; };
 		BE4D64B72F52E8EBE001F74E96A547D3 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
+		C323C4A6950CEA9FA80BE7C2B1BB3B58 /* SmartMockParamMatcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockParamMatcher.swift; sourceTree = "<group>"; };
+		C3B7C52A3C62DC3915392FA549FB36FA /* SmartMockLib.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = SmartMockLib.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C4580CC84BE8F3BD17B2129B2C63DEE5 /* Pods-SmartMockLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		C499D278DD4B3D394558223D9206D9EA /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
 		C4BCD18E86746EBC869649B1B3F51A82 /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Source/Response.swift; sourceTree = "<group>"; };
-		C69FD39A92CBADB6A0EED3E1A6E8E9FA /* Pods-SmartMockLib_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SmartMockLib_Example.modulemap"; sourceTree = "<group>"; };
+		C6296082130CE46B045104BBA85002F9 /* SmartMockLib-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SmartMockLib-Info.plist"; sourceTree = "<group>"; };
 		C99155A8CD523179933222C7658ACB50 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
-		CA7ECE368259BCA76F0DD07FA966F896 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CABA7B59366503BADE067BE0C05E5C95 /* Pods-SmartMockLib_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Example.release.xcconfig"; sourceTree = "<group>"; };
-		CC1A85CB2705EE584855ADBEE3D6189B /* ObjectMapper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ObjectMapper.xcconfig; sourceTree = "<group>"; };
+		C9B9EB253BD52A984EE25647F8E07C4C /* AlamofireImage-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AlamofireImage-Info.plist"; sourceTree = "<group>"; };
+		C9C78020FD972EFE993A84EC1848AAED /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE2541718255AC0FEC908CCA16B0595 /* Pods-SmartMockLib_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartMockLib_Example.release.xcconfig"; sourceTree = "<group>"; };
+		CC41AAE1081F3BB150A98A27A745E638 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC800ACDB8D0218D4D0E13EF7A6503FA /* HexColorTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HexColorTransform.swift; path = Sources/HexColorTransform.swift; sourceTree = "<group>"; };
-		D46A0186B4CFE4A28AD1EAEEC349139D /* Pods-SmartMockLib_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SmartMockLib_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		D6A541668F68B88D9B8DB4DC691C399C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		D54DC35ABD1AADF250ABCF0F17E72136 /* Pods-SmartMockLib_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Example-Info.plist"; sourceTree = "<group>"; };
+		D6F2399233CB0D8B19AA9554ECF6A8B9 /* Pods-SmartMockLib_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SmartMockLib_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		D76FF4689FC6440F7C8C55EF74E4B3D8 /* Mappable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mappable.swift; path = Sources/Mappable.swift; sourceTree = "<group>"; };
-		D9EDC7CE8B2EE8F651BDAEE4BA6D5CFB /* AlamofireObjectMapper.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AlamofireObjectMapper.modulemap; sourceTree = "<group>"; };
 		DCC798FD97FBA8E9D20C8DCB339AD976 /* ImageDownloader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = Source/ImageDownloader.swift; sourceTree = "<group>"; };
 		DDF4D1A510D42958D9A8E56A5B320DA8 /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Source/SessionManager.swift; sourceTree = "<group>"; };
+		DE153444A3F027641415783F176A70CB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		E0C46A2FB44B21C98E015FB90D72B756 /* UIImageView+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImageView+AlamofireImage.swift"; path = "Source/UIImageView+AlamofireImage.swift"; sourceTree = "<group>"; };
-		E55AECFB386082F87833F3ECA83D3ECA /* SmartMockProperties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockProperties.swift; sourceTree = "<group>"; };
+		E2E196705DE3FCBFCC08C60F85240FCB /* AlamofireObjectMapper-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AlamofireObjectMapper-dummy.m"; sourceTree = "<group>"; };
 		E762F33550086F9E5C0535C131648BB4 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
+		E7C36ECAC498A7C32B232444D0004BA0 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		E863E411D2222E5A689B63A571A85A2F /* DateFormatterTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DateFormatterTransform.swift; path = Sources/DateFormatterTransform.swift; sourceTree = "<group>"; };
-		E8A7FB9B450C2411C1893C97D02F3C84 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireImage.framework; path = AlamofireImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8DE6F417C282C4B3819C0704FB64450 /* SmartMockLib-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SmartMockLib-dummy.m"; sourceTree = "<group>"; };
-		EADE05A0E2617F4F68A9CC430BF72FBF /* SmartMockLib-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SmartMockLib-Info.plist"; sourceTree = "<group>"; };
+		EA00D537825F0536EBE70DDC16F852E4 /* SmartMockLib-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SmartMockLib-prefix.pch"; sourceTree = "<group>"; };
 		EBE8DEC8944B86EFCC1AEB34C68F44CF /* TransformOf.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformOf.swift; path = Sources/TransformOf.swift; sourceTree = "<group>"; };
-		ECE9E4A586573E158F98976FFD7FDF64 /* SmartMockLib.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = SmartMockLib.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		EEFA51B9FAAF495CACBD3E83D939490A /* DateTransform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DateTransform.swift; path = Sources/DateTransform.swift; sourceTree = "<group>"; };
-		EFCCC0215BFFDEABBA9E295CA69FBD6D /* Pods-SmartMockLib_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		F21CF5B85328C2D94619BF78DFE50327 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3657021D661A86E6BB2D21B0F350E62 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ObjectMapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F796A2240CF71C51F91E3895AAB0C1F2 /* AlamofireObjectMapper-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AlamofireObjectMapper-Info.plist"; sourceTree = "<group>"; };
-		F8E388975C724A1AC0E45B0B33E578A3 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1276B9BBE635DC3C27438DDBCEAF81A /* SmartMockProperties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockProperties.swift; sourceTree = "<group>"; };
+		F33E9BA2847909F4C911ED156DDABE36 /* AlamofireImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireImage-umbrella.h"; sourceTree = "<group>"; };
+		F80FBC146E29507EEB4E4ADAE1652C15 /* SmartMockLib-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SmartMockLib-umbrella.h"; sourceTree = "<group>"; };
+		F9A25DCF97DADA2A47F130F6D7FD596A /* Pods-SmartMockLib_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartMockLib_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		FC2ACB878CEC844C5021D4D9DCDABB34 /* SmartMockResponseFinder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartMockResponseFinder.swift; sourceTree = "<group>"; };
+		FDD7AD772F2D405A4DE9A24CB147916C /* ObjectMapper-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ObjectMapper-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		13075BB1851FA3DC9FB90C94F4EA0CBB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F098E5612199E74AC5E15612A67984A2 /* Alamofire.framework in Frameworks */,
-				46D0C0F8B3A688251DCF84E8E42265A1 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		365737BB32E5A7F1D3B3E6594C87F0B1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,21 +304,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		45ED8B159A97749309D4BE4C9C29C665 /* Frameworks */ = {
+		6714A961E7835722D6D49ED4ACE2EBE4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				059603888075C317971A67A7C0FB2BDF /* Alamofire.framework in Frameworks */,
-				DE55962F75288607CD2183F80A4D223B /* Foundation.framework in Frameworks */,
-				33E1D1AABC1408623B60017EB8DA0A88 /* ObjectMapper.framework in Frameworks */,
+				EBB3AE5E9BDC9F4AB126C4C37E3D2E9C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		707522FC98350970BD7BD72911E5B5D4 /* Frameworks */ = {
+		B14FB2982AA01875DFF9CD5243FB3742 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				112221EC76F1CE24FB384D2ADFD75C8C /* Foundation.framework in Frameworks */,
+				045876B823347C7360FC35BCEA39D4F3 /* Alamofire.framework in Frameworks */,
+				5B3A9CCD5F18B1322B09592B917D9EC8 /* Foundation.framework in Frameworks */,
+				962054261F048CB650E718E7B34D007E /* ObjectMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +327,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				38E557B68266D46E019E2665C4253AD4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D82A3351E581CF1EA4E65E9C3736F1F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AD886DEDB45BDC335F6B917855C1267 /* Alamofire.framework in Frameworks */,
+				A8B901B34DFC56E5BCE08B7FE8918A9D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,48 +350,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00FEF3F44CA37C7888FB2A946398C200 /* Support Files */ = {
+		04AC142A754E2B17D7F93DB77E427DA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				82AFA48523C8CF0BFD2DF8674E48A1C2 /* SmartMockLib.modulemap */,
-				A9B8F67D6CACCC5AF41BD6C77A954432 /* SmartMockLib.xcconfig */,
-				E8DE6F417C282C4B3819C0704FB64450 /* SmartMockLib-dummy.m */,
-				EADE05A0E2617F4F68A9CC430BF72FBF /* SmartMockLib-Info.plist */,
-				6284331A6C279C1D165F2E35353EFD6A /* SmartMockLib-prefix.pch */,
-				842ABC19094D6E70F5C3ECBECD520A4F /* SmartMockLib-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "MockLibIOS/Example/Pods/Target Support Files/SmartMockLib";
-			sourceTree = "<group>";
-		};
-		03BB574D36E87959EFCAED7E9D13FF3B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F21CF5B85328C2D94619BF78DFE50327 /* Alamofire.framework */,
-				CA7ECE368259BCA76F0DD07FA966F896 /* ObjectMapper.framework */,
-				065CB34E3D047FCC9A2EFF556CC3ECCD /* iOS */,
+				CC41AAE1081F3BB150A98A27A745E638 /* Alamofire.framework */,
+				C9C78020FD972EFE993A84EC1848AAED /* ObjectMapper.framework */,
+				D7304DC00EAB8E606E3A1489DF859AC3 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		065CB34E3D047FCC9A2EFF556CC3ECCD /* iOS */ = {
+		14BD0595829CA7E2F9C8D64D70910B2F /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				9602663518F2A0B5273750F2DB969FFF /* Foundation.framework */,
+				3576CA0D4852C6C6310BC28CE77C8747 /* ObjectMapper.modulemap */,
+				5726413ECEAA62D4F74BABD657260EB1 /* ObjectMapper.xcconfig */,
+				3525413E1BF6049B7FA1172C0B6EE2B3 /* ObjectMapper-dummy.m */,
+				FDD7AD772F2D405A4DE9A24CB147916C /* ObjectMapper-Info.plist */,
+				939672DBF9FA6EA6CCAC256036292FA6 /* ObjectMapper-prefix.pch */,
+				16C64C32CA558676065BA79E8E1CA3B7 /* ObjectMapper-umbrella.h */,
 			);
-			name = iOS;
+			name = "Support Files";
+			path = "../Target Support Files/ObjectMapper";
 			sourceTree = "<group>";
 		};
-		13298F61B614E5D2D725A4E06E1CEF52 /* model */ = {
+		2046757CE7C40AB92EECDCC85C1B5BB8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4637BCED6504C71ECD3CD13A464A38C8 /* SmartMockHeaders.swift */,
-				E55AECFB386082F87833F3ECA83D3ECA /* SmartMockProperties.swift */,
-				87D0F5AFECC0313FD9C34905831E317E /* SmartMockResponse.swift */,
-				40ADFC6F7075647F8CD8D3CCCB45A6E0 /* SmartMockResponseBody.swift */,
+				14BECB055C78DCFC02918CAAE1FD2B35 /* Alamofire.framework */,
+				690CBD7B7D25A158C9B97CD2C1670CA5 /* AlamofireImage.framework */,
+				1E46E7692DAF8B6F3209BFF81EFB193D /* AlamofireObjectMapper.framework */,
+				7A74D46991C5AEA03C1FCC1395D80D2B /* ObjectMapper.framework */,
+				84FF7336DB7D19601734753C5AC0A660 /* Pods_SmartMockLib_Example.framework */,
+				A1F2B5DCFA753EFED80F6E184D50969B /* Pods_SmartMockLib_Tests.framework */,
+				1BB4DB5209C29B00C0B55A725F2756B9 /* SmartMockLib.framework */,
 			);
-			name = model;
-			path = MockLibIOS/SmartMockLib/Classes/model;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		21B5C7F50234A0C57D08A4028A89123A /* AlamofireImage */ = {
@@ -406,22 +400,10 @@
 				2C05906CEFABF19C98DEB72C2E26C76B /* UIButton+AlamofireImage.swift */,
 				9BFCB30E6BAC63104BF979EBFEE8B0DA /* UIImage+AlamofireImage.swift */,
 				E0C46A2FB44B21C98E015FB90D72B756 /* UIImageView+AlamofireImage.swift */,
-				CB6D0CCFC25F20705514314D1D135D82 /* Support Files */,
+				F2725082C9206DF6C43E55EC869DAA7B /* Support Files */,
 			);
 			name = AlamofireImage;
 			path = AlamofireImage;
-			sourceTree = "<group>";
-		};
-		2433C1D32218F2C6B0FDB35F65DEE3FE /* utility */ = {
-			isa = PBXGroup;
-			children = (
-				4B4463A1A37C9E243A642B30B721DC20 /* SmartMockFileUtility.swift */,
-				13E66ADCE06D67AC895D013602CD361B /* SmartMockParamMatcher.swift */,
-				8D12A882560D28DFF92F0CDC8492B819 /* SmartMockPropertiesUtility.swift */,
-				A3BCE9C06E0943E53905BB0CBD958150 /* SmartMockStringUtility.swift */,
-			);
-			name = utility;
-			path = MockLibIOS/SmartMockLib/Classes/utility;
 			sourceTree = "<group>";
 		};
 		36545E40DE1962BD88AF6BA4D7D9B575 /* ObjectMapper */ = {
@@ -451,10 +433,76 @@
 				B1BC6F8DE0826FD19716B5647F7C9F47 /* TransformOperators.swift */,
 				80D436C300545FEC1B88622A01568218 /* TransformType.swift */,
 				30876F77BFFA55456A970EED3B2BD054 /* URLTransform.swift */,
-				E9E941D32B613E097F462D9BFDF62945 /* Support Files */,
+				14BD0595829CA7E2F9C8D64D70910B2F /* Support Files */,
 			);
 			name = ObjectMapper;
 			path = ObjectMapper;
+			sourceTree = "<group>";
+		};
+		453443D6148777E92CF0080337266B0D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				119F421D78938F8EEB654BF267AA56B5 /* SmartMockLib.modulemap */,
+				4CF2BB812CD7906CA9C76634317F1F19 /* SmartMockLib.xcconfig */,
+				95C01F612390B3826205CC52A3659433 /* SmartMockLib-dummy.m */,
+				C6296082130CE46B045104BBA85002F9 /* SmartMockLib-Info.plist */,
+				EA00D537825F0536EBE70DDC16F852E4 /* SmartMockLib-prefix.pch */,
+				F80FBC146E29507EEB4E4ADAE1652C15 /* SmartMockLib-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "MockLibIOS/Example/Pods/Target Support Files/SmartMockLib";
+			sourceTree = "<group>";
+		};
+		50B6270EFE9F4ED5127029B36679F14C /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				9BD86EA13F5558E563ABCDE9873FC6A2 /* SmartMockFileUtility.swift */,
+				C323C4A6950CEA9FA80BE7C2B1BB3B58 /* SmartMockParamMatcher.swift */,
+				412D3F7F93378190CE700E871084E937 /* SmartMockPropertiesUtility.swift */,
+				7ABBB1D95C8599FF28E6E52201F258CC /* SmartMockStringUtility.swift */,
+			);
+			name = utility;
+			path = MockLibIOS/SmartMockLib/Classes/utility;
+			sourceTree = "<group>";
+		};
+		5150944616D9A771515B360D6E172586 /* Pods-SmartMockLib_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6BE0CECA7F07CCECE6AC7B29B00E4CEE /* Pods-SmartMockLib_Tests.modulemap */,
+				690BDABA08B4C29F62701F63D14D0552 /* Pods-SmartMockLib_Tests-acknowledgements.markdown */,
+				24E99196FC7207171E6C92445CABC036 /* Pods-SmartMockLib_Tests-acknowledgements.plist */,
+				790A27E4FB5B9091865C5A5916090D6D /* Pods-SmartMockLib_Tests-dummy.m */,
+				B6A329763784E0E9A1508F6EBEC8A84B /* Pods-SmartMockLib_Tests-Info.plist */,
+				977B789C6895C5F754C740271125050F /* Pods-SmartMockLib_Tests-umbrella.h */,
+				85B226EEED9C121EB01895CFFD50A945 /* Pods-SmartMockLib_Tests.debug.xcconfig */,
+				C4580CC84BE8F3BD17B2129B2C63DEE5 /* Pods-SmartMockLib_Tests.release.xcconfig */,
+			);
+			name = "Pods-SmartMockLib_Tests";
+			path = "Target Support Files/Pods-SmartMockLib_Tests";
+			sourceTree = "<group>";
+		};
+		580EF0829E7F79498F4FD35B8C64A7B2 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				13EF43982DC9AFAFF4E0B796048E7276 /* LICENSE */,
+				DE153444A3F027641415783F176A70CB /* README.md */,
+				C3B7C52A3C62DC3915392FA549FB36FA /* SmartMockLib.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		65084D28381916DEBDC9FD27301F8C92 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				32220B58D89BDF3343A2C00027ED2923 /* Alamofire.modulemap */,
+				C499D278DD4B3D394558223D9206D9EA /* Alamofire.xcconfig */,
+				5A11FFA757C627113FF9D2C717507329 /* Alamofire-dummy.m */,
+				44825011E1FEE1FD5C428C204D6A41D7 /* Alamofire-Info.plist */,
+				4EB1DEE5D98479A1908FA65515C83184 /* Alamofire-prefix.pch */,
+				E7C36ECAC498A7C32B232444D0004BA0 /* Alamofire-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Alamofire";
 			sourceTree = "<group>";
 		};
 		765181A81AC6D5DF652C1AF8767DFC57 /* Pods */ = {
@@ -468,81 +516,63 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		98F668C6945A9FDD5E5FB976BFF44C0B /* Targets Support Files */ = {
+		888B9F912068FF44F41B425EF4161CF3 /* SmartMockLib */ = {
 			isa = PBXGroup;
 			children = (
-				DD66A20B74F925666D54502EBC936005 /* Pods-SmartMockLib_Example */,
-				B8A064B287BBA8C82D4F0C465B495EF4 /* Pods-SmartMockLib_Tests */,
+				424A4E1FBA755F2B6B969FB363579B1C /* SmartMockServer.swift */,
+				BBEA9D2504D08FFF7C76DA3DE1B35DAE /* model */,
+				580EF0829E7F79498F4FD35B8C64A7B2 /* Pod */,
+				ADF181A44C173F46D9D127BD1A157143 /* responsegenerator */,
+				453443D6148777E92CF0080337266B0D /* Support Files */,
+				50B6270EFE9F4ED5127029B36679F14C /* utility */,
 			);
-			name = "Targets Support Files";
+			name = SmartMockLib;
+			path = ../../..;
 			sourceTree = "<group>";
 		};
-		9F1E9EA575D525F08CC92F99AC9FE718 /* Support Files */ = {
+		8CE262A18F4596809701DC1DCD718CB9 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				D9EDC7CE8B2EE8F651BDAEE4BA6D5CFB /* AlamofireObjectMapper.modulemap */,
-				47280C17E79ED9BB6774E030889879A0 /* AlamofireObjectMapper.xcconfig */,
-				38DD45A398FE438FD8C40A56DEECB8E7 /* AlamofireObjectMapper-dummy.m */,
-				F796A2240CF71C51F91E3895AAB0C1F2 /* AlamofireObjectMapper-Info.plist */,
-				3824B98E6DDB98C66F38CD2756120C31 /* AlamofireObjectMapper-prefix.pch */,
-				B554405260E378B716B49CD1171DA657 /* AlamofireObjectMapper-umbrella.h */,
+				9B195CE17F6888B47AE1BBF81A40FC8F /* AlamofireObjectMapper.modulemap */,
+				3C9FE0661D197804FFF354C1FF1B7733 /* AlamofireObjectMapper.xcconfig */,
+				E2E196705DE3FCBFCC08C60F85240FCB /* AlamofireObjectMapper-dummy.m */,
+				43805572970D09934CCAECEBCBC1602B /* AlamofireObjectMapper-Info.plist */,
+				4C6D4500401BD8ADECF21446680109A0 /* AlamofireObjectMapper-prefix.pch */,
+				9B8DDFC049B73C088D3B7EAC7A633300 /* AlamofireObjectMapper-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/AlamofireObjectMapper";
 			sourceTree = "<group>";
 		};
-		A2A7426B5A12AB29AEBA7D1587194A9C /* Pod */ = {
+		98F668C6945A9FDD5E5FB976BFF44C0B /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				D6A541668F68B88D9B8DB4DC691C399C /* LICENSE */,
-				ADD0703FFFEBE5E1D476FA5AF3B851A3 /* README.md */,
-				ECE9E4A586573E158F98976FFD7FDF64 /* SmartMockLib.podspec */,
+				C69DA0AE513D0F328040A57E58E1B796 /* Pods-SmartMockLib_Example */,
+				5150944616D9A771515B360D6E172586 /* Pods-SmartMockLib_Tests */,
 			);
-			name = Pod;
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		B8A064B287BBA8C82D4F0C465B495EF4 /* Pods-SmartMockLib_Tests */ = {
+		ADF181A44C173F46D9D127BD1A157143 /* responsegenerator */ = {
 			isa = PBXGroup;
 			children = (
-				AC51448485ED035928A73978B697F3BA /* Pods-SmartMockLib_Tests.modulemap */,
-				D46A0186B4CFE4A28AD1EAEEC349139D /* Pods-SmartMockLib_Tests-acknowledgements.markdown */,
-				EFCCC0215BFFDEABBA9E295CA69FBD6D /* Pods-SmartMockLib_Tests-acknowledgements.plist */,
-				2F96D617E7BD0012B2F290BC0A9BD089 /* Pods-SmartMockLib_Tests-dummy.m */,
-				8FDDCAD408A801C9728DD7B82407F95F /* Pods-SmartMockLib_Tests-Info.plist */,
-				4FA9C624008111CB492AA72CBF4FB6A2 /* Pods-SmartMockLib_Tests-umbrella.h */,
-				02C01B004464C81FF738B7CE7C02E0C2 /* Pods-SmartMockLib_Tests.debug.xcconfig */,
-				9183BC6BCC62A68ECC0F65AB652E4220 /* Pods-SmartMockLib_Tests.release.xcconfig */,
+				B1F329D8AC1EAE39618AF5CDF7675965 /* SmartMockEndPointFinder.swift */,
+				FC2ACB878CEC844C5021D4D9DCDABB34 /* SmartMockResponseFinder.swift */,
 			);
-			name = "Pods-SmartMockLib_Tests";
-			path = "Target Support Files/Pods-SmartMockLib_Tests";
+			name = responsegenerator;
+			path = MockLibIOS/SmartMockLib/Classes/responsegenerator;
 			sourceTree = "<group>";
 		};
-		BA689CA5582C1C344021279B91801641 /* Products */ = {
+		BBEA9D2504D08FFF7C76DA3DE1B35DAE /* model */ = {
 			isa = PBXGroup;
 			children = (
-				F8E388975C724A1AC0E45B0B33E578A3 /* Alamofire.framework */,
-				E8A7FB9B450C2411C1893C97D02F3C84 /* AlamofireImage.framework */,
-				10FAFC71E7627DC5A1B8BE4DB1E33C2F /* AlamofireObjectMapper.framework */,
-				F3657021D661A86E6BB2D21B0F350E62 /* ObjectMapper.framework */,
-				788DB9E2494DB8B359F5557755FBDD21 /* Pods_SmartMockLib_Example.framework */,
-				1AC1CBD2110C5522C9D22B1E65526766 /* Pods_SmartMockLib_Tests.framework */,
-				0A0FBE73F18A8810BEF9F12BE0634AEF /* SmartMockLib.framework */,
+				429D9850CAB02CF5257259E5B74B7DF7 /* SmartMockHeaders.swift */,
+				F1276B9BBE635DC3C27438DDBCEAF81A /* SmartMockProperties.swift */,
+				2E63FE800A15C1F8C4D6EE2368192B16 /* SmartMockResponse.swift */,
+				43351A73E529A70C116184038C7A51E7 /* SmartMockResponseBody.swift */,
 			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		BE0931B3C96A771FC7B22BAC3E7B5375 /* SmartMockLib */ = {
-			isa = PBXGroup;
-			children = (
-				71642D6D3239A635BB742A364BC332EA /* SmartMockServer.swift */,
-				13298F61B614E5D2D725A4E06E1CEF52 /* model */,
-				A2A7426B5A12AB29AEBA7D1587194A9C /* Pod */,
-				F8D338187D4D3128FCF5F4CE5D3ED39C /* responsegenerator */,
-				00FEF3F44CA37C7888FB2A946398C200 /* Support Files */,
-				2433C1D32218F2C6B0FDB35F65DEE3FE /* utility */,
-			);
-			name = SmartMockLib;
-			path = ../../..;
+			name = model;
+			path = MockLibIOS/SmartMockLib/Classes/model;
 			sourceTree = "<group>";
 		};
 		BFBE929E1149D1A86F58CB71DDCB3EB3 /* Alamofire */ = {
@@ -565,24 +595,27 @@
 				3552E4E72AFB26E7E666F2C8D2497206 /* TaskDelegate.swift */,
 				80508347EE6208339C8AC841E4920315 /* Timeline.swift */,
 				AFEFE36C832827E54F774FCEA6FC2175 /* Validation.swift */,
-				FAA9E8D5AE4C5952CF08631D2861A36A /* Support Files */,
+				65084D28381916DEBDC9FD27301F8C92 /* Support Files */,
 			);
 			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
-		CB6D0CCFC25F20705514314D1D135D82 /* Support Files */ = {
+		C69DA0AE513D0F328040A57E58E1B796 /* Pods-SmartMockLib_Example */ = {
 			isa = PBXGroup;
 			children = (
-				38929C38B694017D4785F58C6807FD2B /* AlamofireImage.modulemap */,
-				4C10BDC80AC6E5A1B369D654AEC0F500 /* AlamofireImage.xcconfig */,
-				4DC25FBF93795FF153BA0E05FAE46673 /* AlamofireImage-dummy.m */,
-				AFBE68107DD8B802904FA924D78BCEF7 /* AlamofireImage-Info.plist */,
-				690189B5104D0FD185D25DF71CF6ADE7 /* AlamofireImage-prefix.pch */,
-				2E9026BD1E7E8DD345A28944E64452E4 /* AlamofireImage-umbrella.h */,
+				12CCA851D8995A70C1EFA4C44C3B9B05 /* Pods-SmartMockLib_Example.modulemap */,
+				D6F2399233CB0D8B19AA9554ECF6A8B9 /* Pods-SmartMockLib_Example-acknowledgements.markdown */,
+				F9A25DCF97DADA2A47F130F6D7FD596A /* Pods-SmartMockLib_Example-acknowledgements.plist */,
+				4F7A4186FEDD8CD6F7AFC42BD02AB4F7 /* Pods-SmartMockLib_Example-dummy.m */,
+				A7AB5081F237CA76526AF7C440577522 /* Pods-SmartMockLib_Example-frameworks.sh */,
+				D54DC35ABD1AADF250ABCF0F17E72136 /* Pods-SmartMockLib_Example-Info.plist */,
+				340206A71679FEB1CA6984BEAE9F083C /* Pods-SmartMockLib_Example-umbrella.h */,
+				352A20BD462F8658550D6061F047EB55 /* Pods-SmartMockLib_Example.debug.xcconfig */,
+				CBE2541718255AC0FEC908CCA16B0595 /* Pods-SmartMockLib_Example.release.xcconfig */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/AlamofireImage";
+			name = "Pods-SmartMockLib_Example";
+			path = "Target Support Files/Pods-SmartMockLib_Example";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -590,48 +623,25 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				EFE7AFC45EBA6AC33FA93A1BF0FFF724 /* Development Pods */,
-				03BB574D36E87959EFCAED7E9D13FF3B /* Frameworks */,
+				04AC142A754E2B17D7F93DB77E427DA3 /* Frameworks */,
 				765181A81AC6D5DF652C1AF8767DFC57 /* Pods */,
-				BA689CA5582C1C344021279B91801641 /* Products */,
+				2046757CE7C40AB92EECDCC85C1B5BB8 /* Products */,
 				98F668C6945A9FDD5E5FB976BFF44C0B /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		DD66A20B74F925666D54502EBC936005 /* Pods-SmartMockLib_Example */ = {
+		D7304DC00EAB8E606E3A1489DF859AC3 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				C69FD39A92CBADB6A0EED3E1A6E8E9FA /* Pods-SmartMockLib_Example.modulemap */,
-				B84341342FAA37B0C34890FFFC2BE9D7 /* Pods-SmartMockLib_Example-acknowledgements.markdown */,
-				4ADDF9C2F55C2815840CBF8225F82800 /* Pods-SmartMockLib_Example-acknowledgements.plist */,
-				3392FA0691CBDCE1CF5CED914E58C95D /* Pods-SmartMockLib_Example-dummy.m */,
-				79D932609C4E3353B89B2A18E5B8159C /* Pods-SmartMockLib_Example-frameworks.sh */,
-				19528885973EE7AB2400CE1F152F7799 /* Pods-SmartMockLib_Example-Info.plist */,
-				721793C4D80DDF5A7ABCA5B9B8C8153F /* Pods-SmartMockLib_Example-umbrella.h */,
-				2B9626F000093C4A7996056EA0A9E276 /* Pods-SmartMockLib_Example.debug.xcconfig */,
-				CABA7B59366503BADE067BE0C05E5C95 /* Pods-SmartMockLib_Example.release.xcconfig */,
+				16314EC4660756A9126BFE5B81A0F71D /* Foundation.framework */,
 			);
-			name = "Pods-SmartMockLib_Example";
-			path = "Target Support Files/Pods-SmartMockLib_Example";
-			sourceTree = "<group>";
-		};
-		E9E941D32B613E097F462D9BFDF62945 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				AF3E78E5B65EE6910B2448D62DD7116F /* ObjectMapper.modulemap */,
-				CC1A85CB2705EE584855ADBEE3D6189B /* ObjectMapper.xcconfig */,
-				B13EAC9B9E4933DE4E0D658C04D79458 /* ObjectMapper-dummy.m */,
-				238695BB1B9D5691D72EF40C9DECE41C /* ObjectMapper-Info.plist */,
-				4097AF49E75B410D7C44DA8B82999EAA /* ObjectMapper-prefix.pch */,
-				43CC99481A3CA618BD58450BF4A77E72 /* ObjectMapper-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/ObjectMapper";
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		EFE7AFC45EBA6AC33FA93A1BF0FFF724 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BE0931B3C96A771FC7B22BAC3E7B5375 /* SmartMockLib */,
+				888B9F912068FF44F41B425EF4161CF3 /* SmartMockLib */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -640,34 +650,24 @@
 			isa = PBXGroup;
 			children = (
 				8F2484B7F4CF66B65FEF36350F69B729 /* AlamofireObjectMapper.swift */,
-				9F1E9EA575D525F08CC92F99AC9FE718 /* Support Files */,
+				8CE262A18F4596809701DC1DCD718CB9 /* Support Files */,
 			);
 			name = AlamofireObjectMapper;
 			path = AlamofireObjectMapper;
 			sourceTree = "<group>";
 		};
-		F8D338187D4D3128FCF5F4CE5D3ED39C /* responsegenerator */ = {
+		F2725082C9206DF6C43E55EC869DAA7B /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				3F77E2DF1DBF3FD9A9BA1DFB3D77376A /* SmartMockEndPointFinder.swift */,
-				B34DBBB00B3F7DAE1BD17EEB6ADD4F3B /* SmartMockResponseFinder.swift */,
-			);
-			name = responsegenerator;
-			path = MockLibIOS/SmartMockLib/Classes/responsegenerator;
-			sourceTree = "<group>";
-		};
-		FAA9E8D5AE4C5952CF08631D2861A36A /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				688E915A0E5A6F2052F52BA7E7D3A160 /* Alamofire.modulemap */,
-				6B4785C5F93C3611BD6B41CBE05B62F6 /* Alamofire.xcconfig */,
-				74B42ADEAF1533587FDBD394EC4E3F08 /* Alamofire-dummy.m */,
-				B9D7A52E30A5DE07C9B99FDCEBF7A753 /* Alamofire-Info.plist */,
-				5610656D687F989DE80433196F654D44 /* Alamofire-prefix.pch */,
-				BC82B8F2A9F5C3667D35E5CF741DF52B /* Alamofire-umbrella.h */,
+				222FACF34C17F0046503AA83DB28AF45 /* AlamofireImage.modulemap */,
+				9A69CAD989AA2B53DAB53B0D4609CCCF /* AlamofireImage.xcconfig */,
+				8018F343E1AB083C883620B5521197D6 /* AlamofireImage-dummy.m */,
+				C9B9EB253BD52A984EE25647F8E07C4C /* AlamofireImage-Info.plist */,
+				908785F4DA66CD92D04E601153CFFF32 /* AlamofireImage-prefix.pch */,
+				F33E9BA2847909F4C911ED156DDABE36 /* AlamofireImage-umbrella.h */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/Alamofire";
+			path = "../Target Support Files/AlamofireImage";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -705,19 +705,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9861FEAB7EA07ECD741303B18BBF13CA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2DF2B8A78AA1F112BFA7404C82E67E2 /* SmartMockLib-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C06C7EE22DF493D71ECAD634B8720CAD /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				B26DBECE911AB60775C6BE6FC6F7B5FE /* AlamofireObjectMapper-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D7C389354E27250D30E1169FEA86FEC2 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8D77ADFD05F4FD7EE746BF44D4A44EA1 /* SmartMockLib-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,82 +732,7 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0882708950626A3ECBCB6A065347330B /* ObjectMapper */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DC92ECEC653C3FB6B1248AA77F2EFE1F /* Build configuration list for PBXNativeTarget "ObjectMapper" */;
-			buildPhases = (
-				69D5C17A42F0DEBA97F93493F069DBB8 /* Headers */,
-				BADCAC58BB9E813BBAA077FA4F1FFD70 /* Sources */,
-				CF7B8B80CA837517DB32A5426DAEF79D /* Frameworks */,
-				E8CF32A8416A059F80976C71919B1CC2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ObjectMapper;
-			productName = ObjectMapper;
-			productReference = F3657021D661A86E6BB2D21B0F350E62 /* ObjectMapper.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		3383968E74B5371B20BB519B170DC7FD /* Alamofire */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E87124444A44B7DB55208E7FEC21D331 /* Build configuration list for PBXNativeTarget "Alamofire" */;
-			buildPhases = (
-				23D70D9651451F43E7E8CC1A87B4B7E9 /* Headers */,
-				A1C8B029F600160149A2404C342F6E50 /* Sources */,
-				F1626ADC3A7EC435D2722B3173355D36 /* Frameworks */,
-				28FF73341543B6F0A7DF3C20CFFEA0AA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Alamofire;
-			productName = Alamofire;
-			productReference = F8E388975C724A1AC0E45B0B33E578A3 /* Alamofire.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		3A3581757BE673296B739C0D86EB9D19 /* Pods-SmartMockLib_Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AE4876DCF0617095AC4CCC76D72ABB60 /* Build configuration list for PBXNativeTarget "Pods-SmartMockLib_Tests" */;
-			buildPhases = (
-				FB96AADD017916D0DBEF2BBE8D8687E0 /* Headers */,
-				C9FD0A2AF8353012A348E9189023E06B /* Sources */,
-				3DB1300364DD1EA9930F2EFC5B54CFC4 /* Frameworks */,
-				7AC80EC4672A63D549E891234D4B6F36 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E4D9BE6AA97A5155A0CD76713D99C5DB /* PBXTargetDependency */,
-			);
-			name = "Pods-SmartMockLib_Tests";
-			productName = "Pods-SmartMockLib_Tests";
-			productReference = 1AC1CBD2110C5522C9D22B1E65526766 /* Pods_SmartMockLib_Tests.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		743E4A349913BA26BF7AEE81D0D0DC34 /* AlamofireObjectMapper */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D5B09037E2CFCEEB926424362BEE6E38 /* Build configuration list for PBXNativeTarget "AlamofireObjectMapper" */;
-			buildPhases = (
-				C06C7EE22DF493D71ECAD634B8720CAD /* Headers */,
-				2BC98BF8C4E14B3FB83458135CCFCFF9 /* Sources */,
-				45ED8B159A97749309D4BE4C9C29C665 /* Frameworks */,
-				2509AD9B738598E845F816F9D7113C6F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3155D3CEB59D4A6B616692A447046BAF /* PBXTargetDependency */,
-				DA9C863ED9905AD7ACD4A26C10D28515 /* PBXTargetDependency */,
-			);
-			name = AlamofireObjectMapper;
-			productName = AlamofireObjectMapper;
-			productReference = 10FAFC71E7627DC5A1B8BE4DB1E33C2F /* AlamofireObjectMapper.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		88450F74F29E2EBCCBAADF080CEFDABC /* Pods-SmartMockLib_Example */ = {
+		02FD7BF230D92400D29FA5E4D5DBC81D /* Pods-SmartMockLib_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 20EF99973CB903BCC99FF74D5D324FE3 /* Build configuration list for PBXNativeTarget "Pods-SmartMockLib_Example" */;
 			buildPhases = (
@@ -827,16 +752,73 @@
 			);
 			name = "Pods-SmartMockLib_Example";
 			productName = "Pods-SmartMockLib_Example";
-			productReference = 788DB9E2494DB8B359F5557755FBDD21 /* Pods_SmartMockLib_Example.framework */;
+			productReference = 84FF7336DB7D19601734753C5AC0A660 /* Pods_SmartMockLib_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AF0370AAF034BBD44060B90AAA8FD1CE /* AlamofireImage */ = {
+		162E649F50FEC62B61BDD87D1BD422B4 /* ObjectMapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC92ECEC653C3FB6B1248AA77F2EFE1F /* Build configuration list for PBXNativeTarget "ObjectMapper" */;
+			buildPhases = (
+				69D5C17A42F0DEBA97F93493F069DBB8 /* Headers */,
+				810B07EE9D06978B2504388D6C8711C5 /* Sources */,
+				CF7B8B80CA837517DB32A5426DAEF79D /* Frameworks */,
+				E8CF32A8416A059F80976C71919B1CC2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ObjectMapper;
+			productName = ObjectMapper;
+			productReference = 7A74D46991C5AEA03C1FCC1395D80D2B /* ObjectMapper.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3F64080413BB03C0B16BFEB621E6E0F2 /* AlamofireObjectMapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5B09037E2CFCEEB926424362BEE6E38 /* Build configuration list for PBXNativeTarget "AlamofireObjectMapper" */;
+			buildPhases = (
+				C06C7EE22DF493D71ECAD634B8720CAD /* Headers */,
+				03D92DA8F207486C420571B9B1B9BC65 /* Sources */,
+				B14FB2982AA01875DFF9CD5243FB3742 /* Frameworks */,
+				2509AD9B738598E845F816F9D7113C6F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3155D3CEB59D4A6B616692A447046BAF /* PBXTargetDependency */,
+				DA9C863ED9905AD7ACD4A26C10D28515 /* PBXTargetDependency */,
+			);
+			name = AlamofireObjectMapper;
+			productName = AlamofireObjectMapper;
+			productReference = 1E46E7692DAF8B6F3209BFF81EFB193D /* AlamofireObjectMapper.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		85F47497FB24F750E3271C76D329CC0C /* Pods-SmartMockLib_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE4876DCF0617095AC4CCC76D72ABB60 /* Build configuration list for PBXNativeTarget "Pods-SmartMockLib_Tests" */;
+			buildPhases = (
+				FB96AADD017916D0DBEF2BBE8D8687E0 /* Headers */,
+				C9FD0A2AF8353012A348E9189023E06B /* Sources */,
+				3DB1300364DD1EA9930F2EFC5B54CFC4 /* Frameworks */,
+				7AC80EC4672A63D549E891234D4B6F36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E4D9BE6AA97A5155A0CD76713D99C5DB /* PBXTargetDependency */,
+			);
+			name = "Pods-SmartMockLib_Tests";
+			productName = "Pods-SmartMockLib_Tests";
+			productReference = A1F2B5DCFA753EFED80F6E184D50969B /* Pods_SmartMockLib_Tests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C9778AE8394BE451567650E0B239BA21 /* AlamofireImage */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F58DCC83C0D45673B602C886B82962EB /* Build configuration list for PBXNativeTarget "AlamofireImage" */;
 			buildPhases = (
 				756693EBF5AB5FCDAB4F2E042A18CCD0 /* Headers */,
-				1B10E8D1F6EEF1B1A6245858A1DC3952 /* Sources */,
-				13075BB1851FA3DC9FB90C94F4EA0CBB /* Frameworks */,
+				8B7049A2626640D47B1BD4502F93CE21 /* Sources */,
+				D82A3351E581CF1EA4E65E9C3736F1F1 /* Frameworks */,
 				51F112654DA8B7CD23EDDD5D123BB057 /* Resources */,
 			);
 			buildRules = (
@@ -846,17 +828,17 @@
 			);
 			name = AlamofireImage;
 			productName = AlamofireImage;
-			productReference = E8A7FB9B450C2411C1893C97D02F3C84 /* AlamofireImage.framework */;
+			productReference = 690CBD7B7D25A158C9B97CD2C1670CA5 /* AlamofireImage.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E5DDE8474D9CCE9879FE29BFAD334EEB /* SmartMockLib */ = {
+		EA7D517BBC86FD7D50079C63810DC868 /* SmartMockLib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CDE2E55DBA00C0DE81810872EAB1125D /* Build configuration list for PBXNativeTarget "SmartMockLib" */;
+			buildConfigurationList = 1435EBE52AE4773A92F63F064F945282 /* Build configuration list for PBXNativeTarget "SmartMockLib" */;
 			buildPhases = (
-				D7C389354E27250D30E1169FEA86FEC2 /* Headers */,
-				295E060E2BA9581B84A51955FFB7A439 /* Sources */,
-				707522FC98350970BD7BD72911E5B5D4 /* Frameworks */,
-				B0DBDA53E76D73828D579BE834D67170 /* Resources */,
+				9861FEAB7EA07ECD741303B18BBF13CA /* Headers */,
+				A0AC05CE01C025AEE4FB1695139249E3 /* Sources */,
+				6714A961E7835722D6D49ED4ACE2EBE4 /* Frameworks */,
+				117861EB3CAD1ADBD741F0DC2A5490FE /* Resources */,
 			);
 			buildRules = (
 			);
@@ -864,7 +846,25 @@
 			);
 			name = SmartMockLib;
 			productName = SmartMockLib;
-			productReference = 0A0FBE73F18A8810BEF9F12BE0634AEF /* SmartMockLib.framework */;
+			productReference = 1BB4DB5209C29B00C0B55A725F2756B9 /* SmartMockLib.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E87124444A44B7DB55208E7FEC21D331 /* Build configuration list for PBXNativeTarget "Alamofire" */;
+			buildPhases = (
+				23D70D9651451F43E7E8CC1A87B4B7E9 /* Headers */,
+				CFA11E47B3EB3A36AA49F6F7F060CB98 /* Sources */,
+				F1626ADC3A7EC435D2722B3173355D36 /* Frameworks */,
+				28FF73341543B6F0A7DF3C20CFFEA0AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Alamofire;
+			productName = Alamofire;
+			productReference = 14BECB055C78DCFC02918CAAE1FD2B35 /* Alamofire.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -884,22 +884,29 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = BA689CA5582C1C344021279B91801641 /* Products */;
+			productRefGroup = 2046757CE7C40AB92EECDCC85C1B5BB8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3383968E74B5371B20BB519B170DC7FD /* Alamofire */,
-				AF0370AAF034BBD44060B90AAA8FD1CE /* AlamofireImage */,
-				743E4A349913BA26BF7AEE81D0D0DC34 /* AlamofireObjectMapper */,
-				0882708950626A3ECBCB6A065347330B /* ObjectMapper */,
-				88450F74F29E2EBCCBAADF080CEFDABC /* Pods-SmartMockLib_Example */,
-				3A3581757BE673296B739C0D86EB9D19 /* Pods-SmartMockLib_Tests */,
-				E5DDE8474D9CCE9879FE29BFAD334EEB /* SmartMockLib */,
+				EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */,
+				C9778AE8394BE451567650E0B239BA21 /* AlamofireImage */,
+				3F64080413BB03C0B16BFEB621E6E0F2 /* AlamofireObjectMapper */,
+				162E649F50FEC62B61BDD87D1BD422B4 /* ObjectMapper */,
+				02FD7BF230D92400D29FA5E4D5DBC81D /* Pods-SmartMockLib_Example */,
+				85F47497FB24F750E3271C76D329CC0C /* Pods-SmartMockLib_Tests */,
+				EA7D517BBC86FD7D50079C63810DC868 /* SmartMockLib */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		117861EB3CAD1ADBD741F0DC2A5490FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2509AD9B738598E845F816F9D7113C6F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -935,13 +942,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B0DBDA53E76D73828D579BE834D67170 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E8CF32A8416A059F80976C71919B1CC2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -952,105 +952,80 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1B10E8D1F6EEF1B1A6245858A1DC3952 /* Sources */ = {
+		03D92DA8F207486C420571B9B1B9BC65 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C522E5CCC21ED4B4E4DAFE0EF5976534 /* AFIError.swift in Sources */,
-				C39E172BE35D0A5BD8492203E2E74B34 /* AlamofireImage-dummy.m in Sources */,
-				F043D9AC4BA20943367923DEEACAB6C2 /* Image.swift in Sources */,
-				38DDED2026D7CCE463BD6AA84D5B57F3 /* ImageCache.swift in Sources */,
-				7516F5DFED72A74CC3FA7D3822B14087 /* ImageDownloader.swift in Sources */,
-				B32CB47DE31DC018BB85E55F57F8D29D /* ImageFilter.swift in Sources */,
-				E5E518708B710642CFCDC382913582FF /* Request+AlamofireImage.swift in Sources */,
-				F853F6FCDDFB099744F56099ACA123DC /* UIButton+AlamofireImage.swift in Sources */,
-				3AC31661CECD14792855AFC94025667B /* UIImage+AlamofireImage.swift in Sources */,
-				FFF18720349BC8631EF1A8881BB5CA40 /* UIImageView+AlamofireImage.swift in Sources */,
+				671320D6602F6410132B9272CD3F5586 /* AlamofireObjectMapper-dummy.m in Sources */,
+				B275C48085F86B56E221C31B35FE1256 /* AlamofireObjectMapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		295E060E2BA9581B84A51955FFB7A439 /* Sources */ = {
+		810B07EE9D06978B2504388D6C8711C5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A525F61A4C4BD642BE116550E78FF50 /* SmartMockEndPointFinder.swift in Sources */,
-				CCDF5D7BB881E430E714B75C7E8A3BF2 /* SmartMockFileUtility.swift in Sources */,
-				06D552553ABE2871514FB73C0506B331 /* SmartMockHeaders.swift in Sources */,
-				332AF7289CAF12314366955B9062CC0D /* SmartMockLib-dummy.m in Sources */,
-				A95420EE593BB623F3DF38F41B97464F /* SmartMockParamMatcher.swift in Sources */,
-				209FBDB1F01F9644545BB983525D0766 /* SmartMockProperties.swift in Sources */,
-				E4680D14A936256B4A766982B1C6A69D /* SmartMockPropertiesUtility.swift in Sources */,
-				7821F62FC19A7473222E94291E43057F /* SmartMockResponse.swift in Sources */,
-				15515A42449C36D4FFD1D013E711CDBE /* SmartMockResponseBody.swift in Sources */,
-				04BC79A2B3E93862AA9B00984AB70BC3 /* SmartMockResponseFinder.swift in Sources */,
-				115F8CA5507E76EEE4437E3CFA02F315 /* SmartMockServer.swift in Sources */,
-				6A3825FF4F36474EA479C99BADFD0468 /* SmartMockStringUtility.swift in Sources */,
+				DB166229B294CF5881D2587434E302A0 /* CodableTransform.swift in Sources */,
+				809B7F042392423E0E1B4CCF718E6532 /* CustomDateFormatTransform.swift in Sources */,
+				EAC5798E94E33424CEA2BC7E21E2E161 /* DataTransform.swift in Sources */,
+				BC865722C1344A98762581101F2E4492 /* DateFormatterTransform.swift in Sources */,
+				7CFC832781AAF2C2410087E84A2230A0 /* DateTransform.swift in Sources */,
+				181CF70DADAEE454572D9E4A363B76A4 /* DictionaryTransform.swift in Sources */,
+				6F8520753B7643D7BA74BE6B1EF9A38D /* EnumOperators.swift in Sources */,
+				FF45E1D476D0A8EA1B772F44EFD2B3F5 /* EnumTransform.swift in Sources */,
+				582706691A5E492988AB4C4095E55B0B /* FromJSON.swift in Sources */,
+				4F3389ED189F911E1213B662AF06F8C7 /* HexColorTransform.swift in Sources */,
+				013D5D39FF835E7DEE7B33B8A786E50A /* ImmutableMappable.swift in Sources */,
+				7328DBC4C8A7060629B2FB42A64EAB9C /* IntegerOperators.swift in Sources */,
+				1C4409585945C7C53364A80D1548B698 /* ISO8601DateTransform.swift in Sources */,
+				593F7312B343FD60BE74431F61172313 /* Map.swift in Sources */,
+				D77DF3CF6FCAAC8CF60B88C7BD3E6198 /* MapError.swift in Sources */,
+				981225EA06381B30F8758E6E5BA03C57 /* Mappable.swift in Sources */,
+				CFE21B0FF9E3B88B6A1C39E8FCDB5F49 /* Mapper.swift in Sources */,
+				C3D386EA9C084E96CDEFB21FBDC1646B /* NSDecimalNumberTransform.swift in Sources */,
+				AE67000C3AEC17F8EE53AC924C0A7518 /* ObjectMapper-dummy.m in Sources */,
+				40D2DD68A4399444A92AC6116B84DFBF /* Operators.swift in Sources */,
+				DE095403BAB3679A2C82D245039948D9 /* ToJSON.swift in Sources */,
+				0D5FE00447ED519B6E4204BA2682D8A6 /* TransformOf.swift in Sources */,
+				8EFADF3312CF5B65836757A402A8D3D8 /* TransformOperators.swift in Sources */,
+				975434B39ACA74169EF673A763764E3D /* TransformType.swift in Sources */,
+				109AAB0CCFC4CFDA90F35D2E4E308648 /* URLTransform.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2BC98BF8C4E14B3FB83458135CCFCFF9 /* Sources */ = {
+		8B7049A2626640D47B1BD4502F93CE21 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FDB93E1D2AB4FCC476B39B6C178CE6D /* AlamofireObjectMapper-dummy.m in Sources */,
-				7379A39BC638AEA0AA074DCA25AA47FC /* AlamofireObjectMapper.swift in Sources */,
+				3AFE2525580CB020587AE80CFF4236C1 /* AFIError.swift in Sources */,
+				DE9DA00F5D8534A293EA01CEBFC3E1EC /* AlamofireImage-dummy.m in Sources */,
+				4BB21956317072BECD531450277B742F /* Image.swift in Sources */,
+				C0A7357A4C21A5DBE9FE828E4937A8EE /* ImageCache.swift in Sources */,
+				6BE7E8725B70F78F01907A5E532B81A6 /* ImageDownloader.swift in Sources */,
+				0FE780D0A1F41F8E7403FD7D7436BB58 /* ImageFilter.swift in Sources */,
+				A5B11522D7E04AD877C35558905B95A6 /* Request+AlamofireImage.swift in Sources */,
+				3854A155E64E1EA20C4D143685B572AC /* UIButton+AlamofireImage.swift in Sources */,
+				71650717E8AE81950F69E0B5C0FD8C18 /* UIImage+AlamofireImage.swift in Sources */,
+				D529738D069394AD7A50D51E46D99882 /* UIImageView+AlamofireImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A1C8B029F600160149A2404C342F6E50 /* Sources */ = {
+		A0AC05CE01C025AEE4FB1695139249E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E3538A6992A38276764936A9733493D /* AFError.swift in Sources */,
-				772911DA6E33D1CBBC30131B7C8BDBB3 /* Alamofire-dummy.m in Sources */,
-				0A39AF55285A3A4F7CBABB6D822FA4A3 /* Alamofire.swift in Sources */,
-				3E0749AF6C51BCF0E4A41CF1D6A76FED /* DispatchQueue+Alamofire.swift in Sources */,
-				AEA829AB1A8AF2AD077A808AED6B178A /* MultipartFormData.swift in Sources */,
-				73AB05789A4982944AF68DBD013E3EB7 /* NetworkReachabilityManager.swift in Sources */,
-				1D29D2ACADF961F69D32B06FA6A09E28 /* Notifications.swift in Sources */,
-				700D3D95AF9520CB227846DFD943A2DA /* ParameterEncoding.swift in Sources */,
-				355C18EEC82624A06A6CC93965258E33 /* Request.swift in Sources */,
-				059D92B7BBFBEC53E9A3B6E11C5C3B3A /* Response.swift in Sources */,
-				6EFD003458AE7F689DEA720A2030C261 /* ResponseSerialization.swift in Sources */,
-				EB0DD8CEA1A69867A30267439C970440 /* Result.swift in Sources */,
-				8D2A6A90A6DDAF75EA52D471258545CC /* ServerTrustPolicy.swift in Sources */,
-				A1EC41966B261DCE460BCDE5124A1DBE /* SessionDelegate.swift in Sources */,
-				D3FA0AA634AAEA99AB3FABC36BB4958C /* SessionManager.swift in Sources */,
-				77E8F0EB9FFBE2E3EB0C77095C644606 /* TaskDelegate.swift in Sources */,
-				60B6C2A003864AAD3A426448152F67BE /* Timeline.swift in Sources */,
-				AA56769D8733D3F3E7976742D5ABA998 /* Validation.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BADCAC58BB9E813BBAA077FA4F1FFD70 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1FE848F3B55196B7E9AF9A0A60A8858D /* CodableTransform.swift in Sources */,
-				991BD190737B8F4F6BA3EE4E1F79A050 /* CustomDateFormatTransform.swift in Sources */,
-				46D2B00CB67EFC58897132DDD7035FCF /* DataTransform.swift in Sources */,
-				12DDF5D318C9D3751C849911AEC01252 /* DateFormatterTransform.swift in Sources */,
-				D331786C87892C26B432086A93BB6634 /* DateTransform.swift in Sources */,
-				E6DE03E3E1E37473B26BDB3B302A0D2D /* DictionaryTransform.swift in Sources */,
-				760AA26FB53D5C927B5C125845C50BB1 /* EnumOperators.swift in Sources */,
-				8CCDCE25A6246A1829FFC0745F48459F /* EnumTransform.swift in Sources */,
-				DF8309B711A4635FD438BF1F8C2D494B /* FromJSON.swift in Sources */,
-				E9EEAA672984812FFBF3CBA15826BB6F /* HexColorTransform.swift in Sources */,
-				B3CD844F6AB8701256B0931EAC4780DD /* ImmutableMappable.swift in Sources */,
-				FD7578F183AA83B2949887C4C1EADF76 /* IntegerOperators.swift in Sources */,
-				6747171D3A39E70D1C7A83325AAA0589 /* ISO8601DateTransform.swift in Sources */,
-				F562EBBB71DFA269B42FD4D8E0BACC35 /* Map.swift in Sources */,
-				D1EBE884C11FF785A91711AF378CAA16 /* MapError.swift in Sources */,
-				EC3217AEA6906A7EC227471D29EE5093 /* Mappable.swift in Sources */,
-				A1F0EC361B7E6719A92C899459A44D5A /* Mapper.swift in Sources */,
-				AC8143A6AFC14DC3F0338EF36445BF38 /* NSDecimalNumberTransform.swift in Sources */,
-				E303598CA94725108F75FBC0253E7C0E /* ObjectMapper-dummy.m in Sources */,
-				FB2FF2FBF0AE83FF31DE1B6B6D08DF59 /* Operators.swift in Sources */,
-				912AA912DC5113A3F4C4DBDCBF2FC639 /* ToJSON.swift in Sources */,
-				87646781F3CA197B0FADF65A73F36CDD /* TransformOf.swift in Sources */,
-				4185FE9A95B12CC0D37F69E0218B4430 /* TransformOperators.swift in Sources */,
-				CEC9BB6496ACA4458CBDAC895780E692 /* TransformType.swift in Sources */,
-				FDD25EFD99DD6732AE1BE5F3F0036505 /* URLTransform.swift in Sources */,
+				AF655375E271E278071CB1A4295EFD61 /* SmartMockEndPointFinder.swift in Sources */,
+				0708D6F45270547AD2A947E650709C1F /* SmartMockFileUtility.swift in Sources */,
+				637B17906992246EF35C564297F0231F /* SmartMockHeaders.swift in Sources */,
+				8BBFF229F5633098C666B436C2BB1E30 /* SmartMockLib-dummy.m in Sources */,
+				257007A1C2D8E2F1D94DE86626401CAE /* SmartMockParamMatcher.swift in Sources */,
+				E3D04CBCC8E181BDABD58C5714FB5A96 /* SmartMockProperties.swift in Sources */,
+				C2258E036CD9CB60694190731F73D85D /* SmartMockPropertiesUtility.swift in Sources */,
+				7FAE819EA82A494B8213D81E7B1DE893 /* SmartMockResponse.swift in Sources */,
+				5F28C2BB6EFEE11C8258A341D4898119 /* SmartMockResponseBody.swift in Sources */,
+				EA8521E70DC610E842549F5A26CD891F /* SmartMockResponseFinder.swift in Sources */,
+				3EFAC3E8D9A1BFCFAE53BEEB61C4D997 /* SmartMockServer.swift in Sources */,
+				91E87EC78CC9D0805B66D3284F7E5061 /* SmartMockStringUtility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1034,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9CB9F84E363221CB8B9F0E557787FB4 /* Pods-SmartMockLib_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFA11E47B3EB3A36AA49F6F7F060CB98 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B082FA7223428C8DE32F7DE7F5AF441C /* AFError.swift in Sources */,
+				559368DD6966DB1193B3FD6E7CBF5FED /* Alamofire-dummy.m in Sources */,
+				5B1086B0A866704A6CAF72B5A47582C6 /* Alamofire.swift in Sources */,
+				D2B384893454A891D32CB20A53E4EDAF /* DispatchQueue+Alamofire.swift in Sources */,
+				F4D82D78C14BF258042CDA3C1B15B7E1 /* MultipartFormData.swift in Sources */,
+				72C2F0877FAB758F102C1D5FB6641559 /* NetworkReachabilityManager.swift in Sources */,
+				B2E54789768E4F4EE35F11E0034C7383 /* Notifications.swift in Sources */,
+				A5ADEF55257E4C1A482BF072C205F388 /* ParameterEncoding.swift in Sources */,
+				14ECF6E40B0356170FEDE170B2EB6F2F /* Request.swift in Sources */,
+				5C2F9E5485166B59DD032D7DF4C29CF0 /* Response.swift in Sources */,
+				ADB18D94C4F71AE2FCE388100D556B0F /* ResponseSerialization.swift in Sources */,
+				E7BA58DE1AA8F11BAA7E8817D8AB509C /* Result.swift in Sources */,
+				4920AD2B3D668DB550BEDED6747F925B /* ServerTrustPolicy.swift in Sources */,
+				FFB9BA683C701138C08A211F3E192F56 /* SessionDelegate.swift in Sources */,
+				ABAEB9DEE3CE05729A9442CFA1988407 /* SessionManager.swift in Sources */,
+				594494BAB3E029862D7009DE60FCC904 /* TaskDelegate.swift in Sources */,
+				505B75241DCEA8C1FBF9F479C2DDEF31 /* Timeline.swift in Sources */,
+				D583829CA1D3C6B9B8F5C085B1D597EF /* Validation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1076,55 +1076,55 @@
 		3155D3CEB59D4A6B616692A447046BAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Alamofire;
-			target = 3383968E74B5371B20BB519B170DC7FD /* Alamofire */;
+			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
 			targetProxy = 9F95E621710F4B7EBD56B83C134F6AD5 /* PBXContainerItemProxy */;
 		};
 		4F3CF0065AB7E9EC6951B13806795129 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AlamofireImage;
-			target = AF0370AAF034BBD44060B90AAA8FD1CE /* AlamofireImage */;
+			target = C9778AE8394BE451567650E0B239BA21 /* AlamofireImage */;
 			targetProxy = FCB973C6082A1A8B3C047C52BE9E254B /* PBXContainerItemProxy */;
 		};
 		5E55301DAE9FBAE7D22D1353F16BD720 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AlamofireObjectMapper;
-			target = 743E4A349913BA26BF7AEE81D0D0DC34 /* AlamofireObjectMapper */;
+			target = 3F64080413BB03C0B16BFEB621E6E0F2 /* AlamofireObjectMapper */;
 			targetProxy = 5007A916CE57164E3A814B073AAE55A0 /* PBXContainerItemProxy */;
 		};
 		7CC28F23F762A4A470F5563FD9E10FB2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Alamofire;
-			target = 3383968E74B5371B20BB519B170DC7FD /* Alamofire */;
+			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
 			targetProxy = 734D5EE2C1DB3682CF220C3644C75AEC /* PBXContainerItemProxy */;
 		};
 		96A9E85FADECA868D593834FF8D1E719 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Alamofire;
-			target = 3383968E74B5371B20BB519B170DC7FD /* Alamofire */;
+			target = EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */;
 			targetProxy = 7B639CC513C6A85DC4703B47F7AE9340 /* PBXContainerItemProxy */;
 		};
 		DA9C863ED9905AD7ACD4A26C10D28515 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ObjectMapper;
-			target = 0882708950626A3ECBCB6A065347330B /* ObjectMapper */;
+			target = 162E649F50FEC62B61BDD87D1BD422B4 /* ObjectMapper */;
 			targetProxy = E63485A32F51F54076553D54B3F94444 /* PBXContainerItemProxy */;
 		};
 		E4D9BE6AA97A5155A0CD76713D99C5DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-SmartMockLib_Example";
-			target = 88450F74F29E2EBCCBAADF080CEFDABC /* Pods-SmartMockLib_Example */;
+			target = 02FD7BF230D92400D29FA5E4D5DBC81D /* Pods-SmartMockLib_Example */;
 			targetProxy = AB8016ED2F6738FFB615C0E0F796D5BC /* PBXContainerItemProxy */;
 		};
 		EB8F1EAEE11CAB43563885AF7474911F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SmartMockLib;
-			target = E5DDE8474D9CCE9879FE29BFAD334EEB /* SmartMockLib */;
+			target = EA7D517BBC86FD7D50079C63810DC868 /* SmartMockLib */;
 			targetProxy = 8493765FEC39FA36803476FACB4650EA /* PBXContainerItemProxy */;
 		};
 		F7A455F9A8F63A1F4D1AB8C70BDA4B38 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ObjectMapper;
-			target = 0882708950626A3ECBCB6A065347330B /* ObjectMapper */;
+			target = 162E649F50FEC62B61BDD87D1BD422B4 /* ObjectMapper */;
 			targetProxy = D7779FBC1CF9B5B620B1914B229C894F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1192,7 +1192,7 @@
 		};
 		0661ADF27034244673BC9D454193698F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 47280C17E79ED9BB6774E030889879A0 /* AlamofireObjectMapper.xcconfig */;
+			baseConfigurationReference = 3C9FE0661D197804FFF354C1FF1B7733 /* AlamofireObjectMapper.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1224,7 +1224,7 @@
 		};
 		13BB9A7891F91D5286244FB4DDA4C7AC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CABA7B59366503BADE067BE0C05E5C95 /* Pods-SmartMockLib_Example.release.xcconfig */;
+			baseConfigurationReference = CBE2541718255AC0FEC908CCA16B0595 /* Pods-SmartMockLib_Example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1258,7 +1258,7 @@
 		};
 		1828B2CFA60046054C21FB9606384D45 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 47280C17E79ED9BB6774E030889879A0 /* AlamofireObjectMapper.xcconfig */;
+			baseConfigurationReference = 3C9FE0661D197804FFF354C1FF1B7733 /* AlamofireObjectMapper.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1289,7 +1289,7 @@
 		};
 		1D256AFAD8F18BF1F1E48B504377A4B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC1A85CB2705EE584855ADBEE3D6189B /* ObjectMapper.xcconfig */;
+			baseConfigurationReference = 5726413ECEAA62D4F74BABD657260EB1 /* ObjectMapper.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1319,41 +1319,9 @@
 			};
 			name = Release;
 		};
-		380FAD08F450F4C81C1763692CF30506 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9B8F67D6CACCC5AF41BD6C77A954432 /* SmartMockLib.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SmartMockLib/SmartMockLib-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SmartMockLib/SmartMockLib-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SmartMockLib/SmartMockLib.modulemap";
-				PRODUCT_MODULE_NAME = SmartMockLib;
-				PRODUCT_NAME = SmartMockLib;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		3FD328A7001459B929801B895BCA6C8B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 02C01B004464C81FF738B7CE7C02E0C2 /* Pods-SmartMockLib_Tests.debug.xcconfig */;
+			baseConfigurationReference = 85B226EEED9C121EB01895CFFD50A945 /* Pods-SmartMockLib_Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1450,7 +1418,7 @@
 		};
 		533220A7363132F85843031FA4F2AAAB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B4785C5F93C3611BD6B41CBE05B62F6 /* Alamofire.xcconfig */;
+			baseConfigurationReference = C499D278DD4B3D394558223D9206D9EA /* Alamofire.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1481,7 +1449,7 @@
 		};
 		53F579EB33F69E2357E748B5E9CF12D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC1A85CB2705EE584855ADBEE3D6189B /* ObjectMapper.xcconfig */;
+			baseConfigurationReference = 5726413ECEAA62D4F74BABD657260EB1 /* ObjectMapper.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1512,7 +1480,7 @@
 		};
 		6BA7DF0BA93988672A268953826E1BBB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C10BDC80AC6E5A1B369D654AEC0F500 /* AlamofireImage.xcconfig */;
+			baseConfigurationReference = 9A69CAD989AA2B53DAB53B0D4609CCCF /* AlamofireImage.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1543,7 +1511,7 @@
 		};
 		82F15669605C74B068A85723D569C923 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C10BDC80AC6E5A1B369D654AEC0F500 /* AlamofireImage.xcconfig */;
+			baseConfigurationReference = 9A69CAD989AA2B53DAB53B0D4609CCCF /* AlamofireImage.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1573,9 +1541,40 @@
 			};
 			name = Release;
 		};
+		9611C15A1E97BD46066470B39A35D8E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CF2BB812CD7906CA9C76634317F1F19 /* SmartMockLib.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SmartMockLib/SmartMockLib-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SmartMockLib/SmartMockLib-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SmartMockLib/SmartMockLib.modulemap";
+				PRODUCT_MODULE_NAME = SmartMockLib;
+				PRODUCT_NAME = SmartMockLib;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		9838C58BD1AA67DBD29475983CB12D4A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B4785C5F93C3611BD6B41CBE05B62F6 /* Alamofire.xcconfig */;
+			baseConfigurationReference = C499D278DD4B3D394558223D9206D9EA /* Alamofire.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1607,7 +1606,7 @@
 		};
 		CE024D084945E57AB9F8EB9984F57F86 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9183BC6BCC62A68ECC0F65AB652E4220 /* Pods-SmartMockLib_Tests.release.xcconfig */;
+			baseConfigurationReference = C4580CC84BE8F3BD17B2129B2C63DEE5 /* Pods-SmartMockLib_Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1639,9 +1638,9 @@
 			};
 			name = Release;
 		};
-		DCFB23AB23436830D16BAA70D404A395 /* Debug */ = {
+		D71A84355E8FF2301E1374CA42EA62AA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9B8F67D6CACCC5AF41BD6C77A954432 /* SmartMockLib.xcconfig */;
+			baseConfigurationReference = 4CF2BB812CD7906CA9C76634317F1F19 /* SmartMockLib.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1665,14 +1664,15 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 		F8CB192EF66DB1E31AC6341917A8A720 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B9626F000093C4A7996056EA0A9E276 /* Pods-SmartMockLib_Example.debug.xcconfig */;
+			baseConfigurationReference = 352A20BD462F8658550D6061F047EB55 /* Pods-SmartMockLib_Example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1706,6 +1706,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1435EBE52AE4773A92F63F064F945282 /* Build configuration list for PBXNativeTarget "SmartMockLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9611C15A1E97BD46066470B39A35D8E6 /* Debug */,
+				D71A84355E8FF2301E1374CA42EA62AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		20EF99973CB903BCC99FF74D5D324FE3 /* Build configuration list for PBXNativeTarget "Pods-SmartMockLib_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1729,15 +1738,6 @@
 			buildConfigurations = (
 				3FD328A7001459B929801B895BCA6C8B /* Debug */,
 				CE024D084945E57AB9F8EB9984F57F86 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CDE2E55DBA00C0DE81810872EAB1125D /* Build configuration list for PBXNativeTarget "SmartMockLib" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DCFB23AB23436830D16BAA70D404A395 /* Debug */,
-				380FAD08F450F4C81C1763692CF30506 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

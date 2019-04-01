@@ -324,7 +324,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
         // Skip properties.json
         if (requestFile == "properties.json") {
             res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("Unable to read file: " + requestFile);
+            res.end("Couldn't find: " + requestPath);
             return;
         }
 

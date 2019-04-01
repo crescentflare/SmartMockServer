@@ -27,7 +27,7 @@ var cachedLocalIps = null;
 function SmartMockServer(serverDir, ip, port) {
     // Server request/response function
     var connectFunction = function(req, res) {
-        var rawBody = new Buffer.alloc(0);
+        var rawBody = Buffer.alloc(0);
         req.on('data', function(data) {
             rawBody = Buffer.concat([rawBody, data]);
             if (rawBody.length > 1e7) { //Too much POST data, kill the connection

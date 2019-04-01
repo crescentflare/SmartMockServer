@@ -255,7 +255,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
         delete getParameters["methodOverride"];
     }
     if (getParameters["postBodyOverride"]) {
-        rawBody = new Buffer(getParameters["postBodyOverride"]);
+        rawBody = Buffer.from(getParameters["postBodyOverride"]);
         delete getParameters["postBodyOverride"];
     }
     if (getParameters["headerOverride"]) {
@@ -279,7 +279,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
                 body += encodeURIComponent(parameter) + "=" + encodeURIComponent(getParameters[parameter]);
             }
         }
-        rawBody = new Buffer(body);
+        rawBody = Buffer.from(body);
         getParameters = {};
     }
     req.method = req.method.toUpperCase();

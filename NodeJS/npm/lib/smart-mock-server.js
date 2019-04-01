@@ -12,6 +12,7 @@ var fs = require('fs');
 var EndPointFinder = require('./end-point-finder');
 var ResponseFinder = require('./response-finder');
 var ResponseGenerators = require('./response-generators');
+var SmartMockUtil = require('./smart-mock-util');
 
 // Server configuration
 var serverConfig = {};
@@ -91,9 +92,9 @@ function SmartMockServer(serverDir, ip, port) {
                         for (var i = 0; i < parameterStrings.length; i++) {
                             var parameterPair = parameterStrings[i].split("=");
                             if (parameterPair.length > 1 && parameterPair[0] == "secret") {
-                                var key = decodeURIComponent(parameterPair[0]);
+                                var key = SmartMockUtil.safeUrlDecode(parameterPair[0]);
                                 if (key == "secret") {
-                                    var secretToken = decodeURIComponent(parameterPair[1]);
+                                    var secretToken = SmartMockUtil.safeUrlDecode(parameterPair[1]);
                                     foundHeader = true;
                                     correctHeader = secretToken == serverConfig.requiresSecret;
                                     if (correctHeader) {
@@ -129,7 +130,7 @@ function SmartMockServer(serverDir, ip, port) {
                 for (var i = 0; i < parameterStrings.length; i++) {
                     var parameterPair = parameterStrings[i].split("=");
                     if (parameterPair.length > 1) {
-                        parameters[decodeURIComponent(parameterPair[0].trim())] = decodeURIComponent(parameterPair[1].trim());
+                        parameters[SmartMockUtil.safeUrlDecode(parameterPair[0].trim())] = SmartMockUtil.safeUrlDecode(parameterPair[1].trim());
                     }
                 }
                 requestPath = requestPath.substring(0, paramMark);

@@ -7,6 +7,9 @@
 // NodeJS requires
 var fs = require('fs');
 
+// Other requires
+var SmartMockUtil = require('./smart-mock-util');
+
 
 //////////////////////////////////////////////////
 // Request block component
@@ -46,8 +49,8 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
     }
     if (properties.getParameters) {
         for (var key in properties.getParameters) {
-            link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
-            showLink = this.concatLink(showLink, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+            link = this.concatLink(link, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.getParameters[key]));
+            showLink = this.concatLink(showLink, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.getParameters[key]));
         }
     }
     this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, showLink));
@@ -116,7 +119,7 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativ
         if (!properties.getParameters && properties.postParameters) {
             link = this.concatLink(link, "getAsPostParameters=1");
             for (var key in properties.postParameters) {
-                link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.postParameters[key]));
+                link = this.concatLink(link, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.postParameters[key]));
             }
         } else if (properties.postParameters) {
             var postList = "";
@@ -124,18 +127,18 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativ
                 if (postList.length > 0) {
                     postList += "&";
                 }
-                postList += encodeURIComponent(key) + "=" + encodeURIComponent(properties.postParameters[key]);
+                postList += SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.postParameters[key]);
             }
-            link = this.concatLink(link, "postBodyOverride=" + encodeURIComponent(postList));
+            link = this.concatLink(link, "postBodyOverride=" + SmartMockUtil.safeUrlEncode(postList));
         } else if (properties.postJson) {
-            link = this.concatLink(link, "postBodyOverride=" + encodeURIComponent(JSON.stringify(properties.postJson)));
+            link = this.concatLink(link, "postBodyOverride=" + SmartMockUtil.safeUrlEncode(JSON.stringify(properties.postJson)));
         }
         if (properties.checkHeaders) {
-            link = this.concatLink(link, "headerOverride=" + encodeURIComponent(JSON.stringify(properties.checkHeaders)));
+            link = this.concatLink(link, "headerOverride=" + SmartMockUtil.safeUrlEncode(JSON.stringify(properties.checkHeaders)));
         }
         if (properties.getParameters) {
             for (var key in properties.getParameters) {
-                link = this.concatLink(link, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+                link = this.concatLink(link, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.getParameters[key]));
             }
         }
         this.subComponents.push(new HtmlLink(null, insertPathExtra + link, name));
@@ -143,7 +146,7 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativ
     if (properties.getParameters && isAlternative) {
         var paramString = properties.path;
         for (var key in properties.getParameters) {
-            paramString = this.concatLink(paramString, encodeURIComponent(key) + "=" + encodeURIComponent(properties.getParameters[key]));
+            paramString = this.concatLink(paramString, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.getParameters[key]));
         }
         this.subComponents.push(new HtmlText(paramString));
     }

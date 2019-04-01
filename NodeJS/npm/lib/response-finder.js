@@ -11,6 +11,7 @@ var fs = require('fs');
 var ParamMatcher = require('./param-matcher');
 var ResponseGenerators = require('./response-generators');
 var ResponsePropertiesHelper = require('./response-properties-helper');
+var SmartMockUtil = require('./smart-mock-util');
 
 
 //////////////////////////////////////////////////
@@ -99,7 +100,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                 for (var j = 0; j < bodySplit.length; j++) {
                     var bodyParamSplit = bodySplit[j].split("=");
                     if (bodyParamSplit.length == 2) {
-                        postParameters[decodeURIComponent(bodyParamSplit[0].trim())] = decodeURIComponent(bodyParamSplit[1].trim());
+                        postParameters[SmartMockUtil.safeUrlDecode(bodyParamSplit[0].trim())] = SmartMockUtil.safeUrlDecode(bodyParamSplit[1].trim());
                     }
                 }
                 var foundAlternative = true;
@@ -276,7 +277,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
                 if (body.length > 0) {
                     body += "&";
                 }
-                body += encodeURIComponent(parameter) + "=" + encodeURIComponent(getParameters[parameter]);
+                body += SmartMockUtil.safeUrlEncode(parameter) + "=" + SmartMockUtil.safeUrlEncode(getParameters[parameter]);
             }
         }
         rawBody = Buffer.from(body);

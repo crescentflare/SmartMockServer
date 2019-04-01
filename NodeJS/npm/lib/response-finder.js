@@ -11,6 +11,7 @@ var fs = require('fs');
 var ParamMatcher = require('./param-matcher');
 var ResponseGenerators = require('./response-generators');
 var ResponsePropertiesHelper = require('./response-properties-helper');
+var SmartMockUtil = require('./smart-mock-util');
 
 
 //////////////////////////////////////////////////
@@ -99,7 +100,7 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
                 for (var j = 0; j < bodySplit.length; j++) {
                     var bodyParamSplit = bodySplit[j].split("=");
                     if (bodyParamSplit.length == 2) {
-                        postParameters[decodeURIComponent(bodyParamSplit[0].trim())] = decodeURIComponent(bodyParamSplit[1].trim());
+                        postParameters[SmartMockUtil.safeUrlDecode(bodyParamSplit[0].trim())] = SmartMockUtil.safeUrlDecode(bodyParamSplit[1].trim());
                     }
                 }
                 var foundAlternative = true;
@@ -172,6 +173,14 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
 
 // Output the response data based on the given properties
 ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, headers, properties) {
+    // Sanity check for a valid path
+    if (!SmartMockUtil.isValidPath(requestPath)) {
+        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+        res.end("Couldn't find: " + requestPath);
+        return false;
+    }
+    
+    // Continue on
     var arrayContains = function(array, element, alt1, alt2, alt3) {
         var checkOrderedArray = [element, alt1, alt2, alt3];
         for (var i = 0; i < checkOrderedArray.length; i++) {
@@ -220,8 +229,10 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         }
 
         // Nothing found, return a not supported message
-        res.writeHead(500, ResponseFinder.compileHeaders("text/plain", {}));
-        res.end("Couldn't find response. Only the following formats are supported: JSON, HTML, text and executable javascript code");
+        res.writeHead(404, ResponseFinder.compileHeaders("text/plain", {}));
+        res.end("Couldn't find: " + requestPath);
+        console.log("Tried to generate a response, but no matching file was found in the formats:", properties.responsePath + "Body.* or " + properties.responsePath + ".*");
+        console.log("Supported file extensions:", ".json,", ".html,", ".txt,", ".js");
     };
     fs.readdir(filePath, function(error, files) {
         files = files || [];
@@ -248,6 +259,13 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
 
 // Find the right response depending on the parameters and properties in the given folder
 ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getParameters, rawBody) {
+    // Sanity check for a valid path
+    if (!SmartMockUtil.isValidPath(requestPath)) {
+        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+        res.end("Couldn't find: " + requestPath);
+        return false;
+    }
+
     // Convert POST data or header overrides in get parameter list
     var headers = req.headers;
     if (getParameters["methodOverride"]) {
@@ -255,7 +273,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
         delete getParameters["methodOverride"];
     }
     if (getParameters["postBodyOverride"]) {
-        rawBody = new Buffer(getParameters["postBodyOverride"]);
+        rawBody = Buffer.from(getParameters["postBodyOverride"]);
         delete getParameters["postBodyOverride"];
     }
     if (getParameters["headerOverride"]) {
@@ -276,10 +294,10 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
                 if (body.length > 0) {
                     body += "&";
                 }
-                body += encodeURIComponent(parameter) + "=" + encodeURIComponent(getParameters[parameter]);
+                body += SmartMockUtil.safeUrlEncode(parameter) + "=" + SmartMockUtil.safeUrlEncode(getParameters[parameter]);
             }
         }
-        rawBody = new Buffer(body);
+        rawBody = Buffer.from(body);
         getParameters = {};
     }
     req.method = req.method.toUpperCase();
@@ -288,7 +306,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
     ResponsePropertiesHelper.readFile(requestPath, filePath, function(properties) {
         ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, headers, function(useProperties) {
             if (useProperties.method && req.method != useProperties.method.toUpperCase() && !ResponseGenerators.supportsMultipleMethods(useProperties.generates)) {
-                res.writeHead(409, ResponseFinder.compileHeaders("text/plain", {}));
+                res.writeHead(405, ResponseFinder.compileHeaders("text/plain", {}));
                 res.end("Requested method of " + req.method + " doesn't match required " + useProperties.method.toUpperCase());
                 return;
             }

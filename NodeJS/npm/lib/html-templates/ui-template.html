@@ -295,7 +295,7 @@
             commandInput.value = "";
             if (selectedIndex >= 0 && selectedIndex < clientList.clients.length) {
               var request = new XMLHttpRequest();
-              request.open('POST', getApi() + '?token=' + clientList.clients[selectedIndex].token + "&command=" + encodeURIComponent(command), true);
+              request.open('POST', getApi() + '?token=' + clientList.clients[selectedIndex].token + "&command=" + SmartMockUtil.safeUrlEncode(command), true);
               request.send();
             }
           }

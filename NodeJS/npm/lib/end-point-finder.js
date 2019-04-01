@@ -35,6 +35,8 @@ EndPointFinder.findFileServerPath = function(checkPath, callback) {
                             var json = JSON.parse(data);
                             if (json && json["generates"] == "fileList") {
                                 callback(subPath);
+                            } else {
+                                callback(null);
                             }
                         } catch (exception) {
                             traversePath(subPath, callback);

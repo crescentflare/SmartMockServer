@@ -207,12 +207,14 @@ ResponseGenerators.indexPage = function(req, res, requestPath, filePath, propert
                     res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties, insertPathExtra));
                 } else {
                     res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                    res.end("No index to generate, no valid endpoints at: " + filePath);
+                    res.end("No index to generate, no valid endpoints");
+                    console.log("Generated an index without valid endpoints, please check your files at: " + filePath);
                 }
             });
         } else {
             res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("No index to generate, no files at: " + filePath);
+            res.end("No index to generate, no files");
+            console.log("Generated index without valid files, please check your files at: " + filePath);
         }
     });
 }
@@ -321,6 +323,14 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
 
     // Serve a file when pointing to a file within the file server
     if (requestFile.length > 0) {
+        // Skip properties.json
+        if (requestFile == "properties.json") {
+            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+            res.end("Couldn't find: " + requestPath);
+            return;
+        }
+
+        // Continue with other files
         var serveFile = filePath + "/" + requestFile;
         fs.readFile(serveFile, function(error, data) {
             // Function to finalize serving data after all other checks are done

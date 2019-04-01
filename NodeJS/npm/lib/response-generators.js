@@ -321,6 +321,14 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
 
     // Serve a file when pointing to a file within the file server
     if (requestFile.length > 0) {
+        // Skip properties.json
+        if (requestFile == "properties.json") {
+            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+            res.end("Unable to read file: " + requestFile);
+            return;
+        }
+
+        // Continue with other files
         var serveFile = filePath + "/" + requestFile;
         fs.readFile(serveFile, function(error, data) {
             // Function to finalize serving data after all other checks are done

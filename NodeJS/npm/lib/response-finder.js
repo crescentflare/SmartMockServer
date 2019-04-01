@@ -229,8 +229,10 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         }
 
         // Nothing found, return a not supported message
-        res.writeHead(500, ResponseFinder.compileHeaders("text/plain", {}));
-        res.end("Couldn't find response. Only the following formats are supported: JSON, HTML, text and executable javascript code");
+        res.writeHead(404, ResponseFinder.compileHeaders("text/plain", {}));
+        res.end("Couldn't find: " + requestPath);
+        console.log("Tried to generate a response, but no matching file was found in the formats:", properties.responsePath + "Body.* or " + properties.responsePath + ".*");
+        console.log("Supported file extensions:", ".json,", ".html,", ".txt,", ".js");
     };
     fs.readdir(filePath, function(error, files) {
         files = files || [];

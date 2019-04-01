@@ -173,6 +173,14 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
 
 // Output the response data based on the given properties
 ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, headers, properties) {
+    // Sanity check for a valid path
+    if (!SmartMockUtil.isValidPath(requestPath)) {
+        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+        res.end("Couldn't find: " + requestPath);
+        return false;
+    }
+    
+    // Continue on
     var arrayContains = function(array, element, alt1, alt2, alt3) {
         var checkOrderedArray = [element, alt1, alt2, alt3];
         for (var i = 0; i < checkOrderedArray.length; i++) {
@@ -249,6 +257,13 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
 
 // Find the right response depending on the parameters and properties in the given folder
 ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getParameters, rawBody) {
+    // Sanity check for a valid path
+    if (!SmartMockUtil.isValidPath(requestPath)) {
+        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
+        res.end("Couldn't find: " + requestPath);
+        return false;
+    }
+
     // Convert POST data or header overrides in get parameter list
     var headers = req.headers;
     if (getParameters["methodOverride"]) {

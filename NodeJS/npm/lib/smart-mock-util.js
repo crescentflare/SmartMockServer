@@ -49,6 +49,30 @@ SmartMockUtil.safeUrlDecode = function(encodedItem) {
 
 
 // --
+// Path checker
+// --
+
+SmartMockUtil.isValidPath = function(path) {
+    if (path == null) {
+        return false;
+    }
+    var pathLevel = 0;
+    var pathComponents = path.split("/");
+    for (var i = 0; i < pathComponents.length; i++) {
+        if (pathComponents[i] == "..") {
+            pathLevel--;
+        } else if (pathComponents[i] != "." && pathComponents[i].length > 0) {
+            pathLevel++;
+        }
+        if (pathLevel < 0) {
+            return false;
+        }
+    }
+    return pathLevel >= 0;
+}
+
+
+// --
 // Export
 // --
 

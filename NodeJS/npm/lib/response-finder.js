@@ -304,7 +304,7 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
     ResponsePropertiesHelper.readFile(requestPath, filePath, function(properties) {
         ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, headers, function(useProperties) {
             if (useProperties.method && req.method != useProperties.method.toUpperCase() && !ResponseGenerators.supportsMultipleMethods(useProperties.generates)) {
-                res.writeHead(409, ResponseFinder.compileHeaders("text/plain", {}));
+                res.writeHead(405, ResponseFinder.compileHeaders("text/plain", {}));
                 res.end("Requested method of " + req.method + " doesn't match required " + useProperties.method.toUpperCase());
                 return;
             }

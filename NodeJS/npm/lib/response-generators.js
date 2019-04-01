@@ -207,12 +207,14 @@ ResponseGenerators.indexPage = function(req, res, requestPath, filePath, propert
                     res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties, insertPathExtra));
                 } else {
                     res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                    res.end("No index to generate, no valid endpoints at: " + filePath);
+                    res.end("No index to generate, no valid endpoints");
+                    console.log("Generated an index without valid endpoints, please check your files at: " + filePath);
                 }
             });
         } else {
             res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("No index to generate, no files at: " + filePath);
+            res.end("No index to generate, no files");
+            console.log("Generated index without valid files, please check your files at: " + filePath);
         }
     });
 }

@@ -325,16 +325,16 @@ class SmartMockResponseFinder {
         if properties.generatesJson || requestGetParameters["generatesJson"] != nil {
             if let files = SmartMockFileUtility.recursiveList(fromPath: filePath) {
                 let response = SmartMockResponse()
-                if properties.includeMD5 || requestGetParameters["includeMD5"] != nil {
+                if properties.includeSHA256 || requestGetParameters["includeSHA256"] != nil {
                     var jsonString = "{"
                     var firstFile = true
                     for file in files {
                         if file != "properties.json" {
-                            let md5 = SmartMockFileUtility.obtainMD5(path: filePath + "/" + file)
+                            let sha256 = SmartMockFileUtility.obtainSHA256(path: filePath + "/" + file)
                             if !firstFile {
                                 jsonString += ", "
                             }
-                            jsonString += "\"" + file + "\": \"" + md5 + "\""
+                            jsonString += "\"" + file + "\": \"" + sha256 + "\""
                             firstFile = false
                         }
                     }

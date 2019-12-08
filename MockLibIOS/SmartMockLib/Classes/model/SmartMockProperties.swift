@@ -24,7 +24,7 @@ class SmartMockProperties {
     var delay: Int = -1
     var responseCode: Int = -1
     var generatesJson = false
-    var includeMD5 = false
+    var includeSHA256 = false
 
     
     // --
@@ -57,7 +57,7 @@ class SmartMockProperties {
         delay = jsonDictionary["delay"] as? Int ?? -1
         responseCode = jsonDictionary["responseCode"] as? Int ?? -1
         generatesJson = jsonDictionary["generatesJson"] as? Bool ?? false
-        includeMD5 = jsonDictionary["includeMD5"] as? Bool ?? false
+        includeSHA256 = jsonDictionary["includeSHA256"] as? Bool ?? false
     }
     
     func fallbackTo(properties: SmartMockProperties) {
@@ -85,8 +85,8 @@ class SmartMockProperties {
         if !generatesJson {
             generatesJson = properties.generatesJson
         }
-        if !includeMD5 {
-            includeMD5 = properties.includeMD5
+        if !includeSHA256 {
+            includeSHA256 = properties.includeSHA256
         }
     }
     

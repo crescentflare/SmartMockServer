@@ -19,5 +19,6 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "MockLibIOS/SmartMockLib/Classes/**/*"
+  "source_files": "MockLibIOS/SmartMockLib/Classes/**/*",
+  "swift_version": "5.0"
 }

@@ -4,9 +4,9 @@ platform :ios, '8.0'
 
 target 'SmartMockLib_Example' do
   pod 'SmartMockLib', :path => '../../'
-  pod 'Alamofire', '~> 4.8.1'
-  pod 'AlamofireObjectMapper', '~> 5.2.0'
-  pod 'AlamofireImage', '~> 3.5.0'
+  pod 'Alamofire', '~> 4.9.1'
+  pod 'AlamofireObjectMapper', '~> 5.2.1'
+  pod 'AlamofireImage', '~> 3.6.0'
 
   target 'SmartMockLib_Tests' do
     inherit! :search_paths

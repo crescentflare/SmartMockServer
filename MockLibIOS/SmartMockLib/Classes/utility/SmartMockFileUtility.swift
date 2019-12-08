@@ -97,7 +97,7 @@ class SmartMockFileUtility {
         return result
     }
     
-    static func obtainMD5(path: String) -> String {
+    static func obtainSHA256(path: String) -> String {
         if let inputStream = open(path: path) {
             // Read stream into data
             let inputData = NSMutableData()
@@ -108,15 +108,15 @@ class SmartMockFileUtility {
             }
             inputStream.close()
 
-            // Obtain the MD5 hash
+            // Obtain the SHA256 hash
             let data = inputData as Data
             let hash = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> [UInt8] in
-                var hash = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
-                CC_MD5(bytes.baseAddress, CC_LONG(data.count), &hash)
+                var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+                CC_SHA256(bytes.baseAddress, CC_LONG(data.count), &hash)
                 return hash
             }
 
-            // Return MD5 hash string formatted as hexadecimal
+            // Return SHA256 hash string formatted as hexadecimal
             return hash.map { String(format: "%02hhx", $0) }.joined()
         }
         return ""

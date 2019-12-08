@@ -1,6 +1,6 @@
 {
   "name": "smart-mock-server",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "description": "Easily set up a mock server using NodeJS which is able to serve JSON (and several other) responses",
   "main": "index.js",
   "scripts": {

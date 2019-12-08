@@ -31,7 +31,7 @@ public class SmartMockProperties
     private int delay = -1;
     private int responseCode = -1;
     private boolean generatesJson = false;
-    private boolean includeMD5 = false;
+    private boolean includeSHA256 = false;
 
 
     /**
@@ -72,7 +72,7 @@ public class SmartMockProperties
         delay = jsonObject.optInt("delay", -1);
         responseCode = jsonObject.optInt("responseCode", -1);
         generatesJson = jsonObject.optBoolean("generatesJson", false);
-        includeMD5 = jsonObject.optBoolean("includeMD5", false);
+        includeSHA256 = jsonObject.optBoolean("includeSHA256", false);
     }
 
     public void fallbackToProperties(SmartMockProperties fallbackProperties)
@@ -134,9 +134,9 @@ public class SmartMockProperties
         {
             generatesJson = fallbackProperties.isGeneratesJson();
         }
-        if (!includeMD5)
+        if (!includeSHA256)
         {
-            includeMD5 = fallbackProperties.isIncludeMD5();
+            includeSHA256 = fallbackProperties.isIncludeSHA256();
         }
     }
 
@@ -303,14 +303,14 @@ public class SmartMockProperties
         this.generatesJson = generatesJson;
     }
 
-    public boolean isIncludeMD5()
+    public boolean isIncludeSHA256()
     {
-        return includeMD5;
+        return includeSHA256;
     }
 
-    public void setIncludeMD5(boolean includeMD5)
+    public void setIncludeSHA256(boolean includeSHA256)
     {
-        this.includeMD5 = includeMD5;
+        this.includeSHA256 = includeSHA256;
     }
 
     @Override
@@ -330,7 +330,7 @@ public class SmartMockProperties
                 ", delay=" + delay +
                 ", responseCode=" + responseCode +
                 ", generatesJson=" + generatesJson +
-                ", includeMD5=" + includeMD5 +
+                ", includeSHA256=" + includeSHA256 +
                 '}';
     }
 }

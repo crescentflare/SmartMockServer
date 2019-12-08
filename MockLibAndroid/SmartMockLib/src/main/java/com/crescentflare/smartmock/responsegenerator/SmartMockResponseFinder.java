@@ -513,7 +513,7 @@ public class SmartMockResponseFinder
                 return null;
             }
             SmartMockResponse response = new SmartMockResponse();
-            if (properties.isIncludeMD5() || getParameters.get("includeMD5") != null)
+            if (properties.isIncludeSHA256() || getParameters.get("includeSHA256") != null)
             {
                 String jsonString = "{";
                 boolean firstFile = true;
@@ -521,12 +521,12 @@ public class SmartMockResponseFinder
                 {
                     if (!file.equals("properties.json"))
                     {
-                        String md5 = SmartMockFileUtility.obtainMD5(context, filePath + "/" + file);
+                        String sha256 = SmartMockFileUtility.obtainSHA256(context, filePath + "/" + file);
                         if (!firstFile)
                         {
                             jsonString += ", ";
                         }
-                        jsonString += "\"" + file + "\": \"" + md5 + "\"";
+                        jsonString += "\"" + file + "\": \"" + sha256 + "\"";
                         firstFile = false;
                     }
                 }

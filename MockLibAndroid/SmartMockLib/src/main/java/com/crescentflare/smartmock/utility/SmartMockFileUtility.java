@@ -187,7 +187,7 @@ public class SmartMockFileUtility
         return result;
     }
 
-    public static String obtainMD5(Context context, String path)
+    public static String obtainSHA256(Context context, String path)
     {
         InputStream inputStream = open(context, path);
         if (inputStream != null)
@@ -196,7 +196,7 @@ public class SmartMockFileUtility
             MessageDigest digest;
             try
             {
-                digest = MessageDigest.getInstance("MD5");
+                digest = MessageDigest.getInstance("SHA256");
             }
             catch (NoSuchAlgorithmException exception)
             {
@@ -210,8 +210,8 @@ public class SmartMockFileUtility
                 {
                     digest.update(buffer, 0, read);
                 }
-                byte[] md5sum = digest.digest();
-                BigInteger bigInt = new BigInteger(1, md5sum);
+                byte[] sha256sum = digest.digest();
+                BigInteger bigInt = new BigInteger(1, sha256sum);
                 String output = bigInt.toString(16);
                 result = String.format("%32s", output).replace(' ', '0');
                 inputStream.close();

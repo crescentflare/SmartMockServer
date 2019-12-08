@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/crescentflare/SmartMockServer'
     gitUrl = 'https://github.com/crescentflare/SmartMockServer.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.2.0'
 
     developerId = 'crescentflare'
     developerName = 'Johan Bos'
@@ -25,14 +25,13 @@ ext {
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 22
+        minSdkVersion 14
+        targetSdkVersion 28
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,8 +48,8 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.json:org.json:2.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.json:org.json:2.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

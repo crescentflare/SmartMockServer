@@ -42,7 +42,7 @@ The \_\_dirname parameter is the directory in which the javascript file is locat
 When using gradle, the library can easily be imported into the build.gradle file of your project. Add the following dependency:
 
 ```
-compile 'com.crescentflare.smartmock:SmartMockLib:1.2.0'
+implementation 'com.crescentflare.smartmock:SmartMockLib:1.2.1'
 ```
 
 Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
@@ -59,7 +59,7 @@ compile 'com.crescentflare.smartmock:SmartMockLib:1.0.0'
 The library is available through [CocoaPods](http://cocoapods.org). To install it, simply add one of the following lines to your Podfile:
 
 ```ruby
-pod "SmartMockLib", '~> 1.2.0'
+pod "SmartMockLib", '~> 1.2.1'
 ```
 
 The above version is for Swift 5.0. For older Swift versions use the following:
@@ -105,6 +105,7 @@ Use **responseHeaders.json** to add specific response headers, each key/value in
 - **alternatives:** provide alternative responses when certain conditions are met (based on parameters), explained further in the chapter below
 - **generates:** use this to automatically set up things like an index page or a file server. Supported values: indexPage, fileList and commandConsole
 - **redirect:** a path to redirect to. Uses properties, responseBody and other files from the relative path specified by this property
+- **replaceToken:** replace all occurrences of this token in the output response. The replacement text can be specified using the X-Mock-Replace-Output header in the request 
 
 Extra settings for file servers (using fileList):
 

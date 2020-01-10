@@ -38,7 +38,7 @@ ResponseFinder.compileHeaders = function(contentType, headers) {
 }
 
 // End a request with the contents of the given file
-ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseCode, headers) {
+ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseCode, headers, replaceToken, replaceOutput) {
     fs.readFile(
         filePath,
         function(error, data) {
@@ -46,6 +46,10 @@ ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseC
                 res.writeHead(500, ResponseFinder.compileHeaders("text/plain", {}));
                 res.end("Couldn't read file: " + filePath);
                 return;
+            }
+            if (replaceToken && replaceOutput) {
+                var safeToken = replaceToken.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+                data = data.toString().replace(new RegExp(safeToken, 'g'), replaceOutput);
             }
             if (contentType == "application/json") {
                 try {
@@ -179,6 +183,10 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         res.end("Couldn't find: " + requestPath);
         return false;
     }
+
+    // Determine optional replace header and token
+    var replaceToken = properties["replaceToken"];
+    var replaceOutput = ResponseGenerators.dictionaryValueIgnoringCase(req.headers, 'X-Mock-Replace-Output')
     
     // Continue on
     var arrayContains = function(array, element, alt1, alt2, alt3) {
@@ -210,21 +218,21 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
         // Check for JSON
         var foundJsonFile = arrayContains(files, properties.responsePath + "Body.json", properties.responsePath + ".json", "responseBody.json", "response.json");
         if (foundJsonFile) {
-            ResponseFinder.sendFileResponse(res, "application/json", filePath + "/" + foundJsonFile, properties.responseCode, sendHeaders);
+            ResponseFinder.sendFileResponse(res, "application/json", filePath + "/" + foundJsonFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
             return;
         }
         
         // Check for HTML
         var foundHtmlFile = arrayContains(files, properties.responsePath + "Body.html", properties.responsePath + ".html", "responseBody.html", "response.html");
         if (foundHtmlFile) {
-            ResponseFinder.sendFileResponse(res, "text/html", filePath + "/" + foundHtmlFile, properties.responseCode, sendHeaders);
+            ResponseFinder.sendFileResponse(res, "text/html", filePath + "/" + foundHtmlFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
             return;
         }
         
         // Check for plain text
         var foundTextFile = arrayContains(files, properties.responsePath + "Body.txt", properties.responsePath + ".txt", "responseBody.txt", "response.txt");
         if (foundTextFile) {
-            ResponseFinder.sendFileResponse(res, "text/plain", filePath + "/" + foundTextFile, properties.responseCode, sendHeaders);
+            ResponseFinder.sendFileResponse(res, "text/plain", filePath + "/" + foundTextFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
             return;
         }
 

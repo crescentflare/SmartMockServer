@@ -127,10 +127,10 @@ public class SmartMockResponseFinder
             requestPath += "/" + properties.getRedirect();
             filePath += "/" + properties.getRedirect();
         }
-        return collectResponse(context, requestPath, filePath, getParameters, useProperties);
+        return collectResponse(context, requestPath, filePath, getParameters, headers, useProperties);
     }
 
-    private static SmartMockResponse collectResponse(Context context, String requestPath, String filePath, Map<String, String> getParameters, SmartMockProperties properties)
+    private static SmartMockResponse collectResponse(Context context, String requestPath, String filePath, Map<String, String> getParameters, SmartMockHeaders headers, SmartMockProperties properties)
     {
         // First collect headers to return
         SmartMockHeaders returnHeaders = SmartMockHeaders.create(null);
@@ -165,6 +165,10 @@ public class SmartMockResponseFinder
             }
         }
 
+        // Determine optional replace header and token
+        String replaceToken = properties.getReplaceToken();
+        String replaceOutput = headers.getHeaderValue("X-Mock-Replace-Output");
+
         // Check for response generators, they are not supported (except for a file within the file list)
         if (properties.getGenerates() != null && (properties.getGenerates().equals("indexPage") || properties.getGenerates().equals("fileList")))
         {
@@ -198,21 +202,21 @@ public class SmartMockResponseFinder
         String foundJsonFile = fileArraySearch(files, properties.getResponsePath() + "Body.json", properties.getResponsePath() + ".json", "responseBody.json", "response.json");
         if (foundJsonFile != null)
         {
-            return responseFromFile(context, "application/json", filePath + "/" + foundJsonFile, properties.getResponseCode(), returnHeaders);
+            return responseFromFile(context, "application/json", filePath + "/" + foundJsonFile, properties.getResponseCode(), returnHeaders, replaceToken, replaceOutput);
         }
 
         // Check for HTML
         String foundHtmlFile = fileArraySearch(files, properties.getResponsePath() + "Body.html", properties.getResponsePath() + ".html", "responseBody.html", "response.html");
         if (foundHtmlFile != null)
         {
-            return responseFromFile(context, "text/html", filePath + "/" + foundHtmlFile, properties.getResponseCode(), returnHeaders);
+            return responseFromFile(context, "text/html", filePath + "/" + foundHtmlFile, properties.getResponseCode(), returnHeaders, replaceToken, replaceOutput);
         }
 
         // Check for plain text
         String foundTextFile = fileArraySearch(files, properties.getResponsePath() + "Body.txt", properties.getResponsePath() + ".txt", "responseBody.txt", "response.txt");
         if (foundTextFile != null)
         {
-            return responseFromFile(context, "text/plain", filePath + "/" + foundTextFile, properties.getResponseCode(), returnHeaders);
+            return responseFromFile(context, "text/plain", filePath + "/" + foundTextFile, properties.getResponseCode(), returnHeaders, replaceToken, replaceOutput);
         }
 
         // Nothing found, return a not supported message
@@ -363,7 +367,7 @@ public class SmartMockResponseFinder
      * Helpers
      */
 
-    private static SmartMockResponse responseFromFile(Context context, String contentType, String filePath, int responseCode, SmartMockHeaders headers)
+    private static SmartMockResponse responseFromFile(Context context, String contentType, String filePath, int responseCode, SmartMockHeaders headers, String replaceToken, String replaceOutput)
     {
         long fileLength = SmartMockFileUtility.getLength(context, filePath);
         if (fileLength < 0)
@@ -385,6 +389,11 @@ public class SmartMockResponseFinder
                 if (result != null)
                 {
                     int exceptionCount = 0;
+                    if (replaceToken != null && replaceOutput != null)
+                    {
+                        String safeToken = replaceToken.replaceAll("([.*+?^=!:${}()|\\[\\]/\\\\])", "\\\\$0");
+                        result = result.replaceAll(safeToken, replaceOutput);
+                    }
                     try
                     {
                         new JSONObject(result);
@@ -433,6 +442,11 @@ public class SmartMockResponseFinder
         else
         {
             response.setBody(SmartMockResponseBody.createFromFile(SmartMockFileUtility.getRawPath(filePath), fileLength));
+        }
+        if (replaceToken != null && replaceOutput != null)
+        {
+            String safeToken = replaceToken.replaceAll("([.*+?^=!:${}()|\\[\\]/\\\\])", "\\\\$0");
+            response.setBody(SmartMockResponseBody.createFromString(response.getBody().getStringData().replaceAll(safeToken, replaceOutput)));
         }
         return response;
     }

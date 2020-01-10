@@ -28,6 +28,7 @@ public class SmartMockProperties
     private String responsePath = null;
     private String generates = null;
     private String redirect = null;
+    private String replaceToken = null;
     private int delay = -1;
     private int responseCode = -1;
     private boolean generatesJson = false;
@@ -69,6 +70,7 @@ public class SmartMockProperties
         responsePath = jsonObject.optString("responsePath", null);
         generates = jsonObject.optString("generates", null);
         redirect = jsonObject.optString("redirect", null);
+        replaceToken = jsonObject.optString("replaceToken", null);
         delay = jsonObject.optInt("delay", -1);
         responseCode = jsonObject.optInt("responseCode", -1);
         generatesJson = jsonObject.optBoolean("generatesJson", false);
@@ -121,6 +123,10 @@ public class SmartMockProperties
         if (redirect == null)
         {
             redirect = fallbackProperties.getRedirect();
+        }
+        if (replaceToken == null)
+        {
+            replaceToken = fallbackProperties.getReplaceToken();
         }
         if (delay < 0)
         {
@@ -273,6 +279,16 @@ public class SmartMockProperties
         this.redirect = redirect;
     }
 
+    public String getReplaceToken()
+    {
+        return replaceToken;
+    }
+
+    public void setReplaceToken(String replaceToken)
+    {
+        this.replaceToken = replaceToken;
+    }
+
     public int getDelay()
     {
         return delay;
@@ -327,6 +343,7 @@ public class SmartMockProperties
                 ", responsePath='" + responsePath + '\'' +
                 ", generates='" + generates + '\'' +
                 ", redirect='" + redirect + '\'' +
+                ", replaceToken='" + replaceToken + '\'' +
                 ", delay=" + delay +
                 ", responseCode=" + responseCode +
                 ", generatesJson=" + generatesJson +

@@ -21,6 +21,7 @@ class SmartMockProperties {
     var responsePath: String?
     var generates: String?
     var redirect: String?
+    var replaceToken: String?
     var delay: Int = -1
     var responseCode: Int = -1
     var generatesJson = false
@@ -54,6 +55,7 @@ class SmartMockProperties {
         responsePath = jsonDictionary["responsePath"] as? String
         generates = jsonDictionary["generates"] as? String
         redirect = jsonDictionary["redirect"] as? String
+        replaceToken = jsonDictionary["replaceToken"] as? String
         delay = jsonDictionary["delay"] as? Int ?? -1
         responseCode = jsonDictionary["responseCode"] as? Int ?? -1
         generatesJson = jsonDictionary["generatesJson"] as? Bool ?? false
@@ -76,6 +78,7 @@ class SmartMockProperties {
         responsePath = responsePath ?? properties.responsePath
         generates = generates ?? properties.generates
         redirect = redirect ?? properties.redirect
+        replaceToken = replaceToken ?? properties.replaceToken
         if delay < 0 {
             delay = properties.delay
         }

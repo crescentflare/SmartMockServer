@@ -102,6 +102,7 @@ Use **responseHeaders.json** to add specific response headers, each key/value in
 - **getParameters:** a dictionary of GET parameters, like "key": "value". These will be added to the URL
 - **postParameters:** same as getParameters, but then used for requests with a body (the parameters will be part of the request body)
 - **postJson:** a JSON structure for requests requiring JSON in the body data
+- **responseCode:** the HTTP result code, defaults to 200 (OK)
 - **alternatives:** provide alternative responses when certain conditions are met (based on parameters), explained further in the chapter below
 - **generates:** use this to automatically set up things like an index page or a file server. Supported values: indexPage, fileList and commandConsole
 - **redirect:** a path to redirect to. Uses properties, responseBody and other files from the relative path specified by this property

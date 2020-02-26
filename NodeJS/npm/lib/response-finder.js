@@ -62,7 +62,6 @@ ResponseFinder.injectSharedSchemasRecursive = function(schema, sharedPath, links
 
 // Load and inject shared schema references
 ResponseFinder.injectSharedSchemas = function(schema, sharedPath, links, callback) {
-    console.log(links);
     ResponseFinder.injectSharedSchemasRecursive(schema, sharedPath, links, 0, callback);
 }
 

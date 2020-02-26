@@ -1,23 +1,24 @@
-// Parameter matching
+//
+// ParamMatcher
 // Checks for matching parameters to determine if an alternative should be used
 // Supports wildcard matching
-//////////////////////////////////////////////////
+//
 
 'use strict';
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization
-//////////////////////////////////////////////////
+// --
 
 // ParamMatcher constructor
 function ParamMatcher() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Internal pattern matching
-//////////////////////////////////////////////////
+// --
 
 // Check if the pattern matches
 ParamMatcher.patternEquals = function(value, pattern) {
@@ -81,9 +82,9 @@ ParamMatcher.searchPatternSet = function(value, patternSet) {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // String or object matching
-//////////////////////////////////////////////////
+// --
 
 // Check if the parameter matches the required param (the required param can have wildcard symbols, like * and ?)
 ParamMatcher.paramEquals = function(requireParam, haveParam) {

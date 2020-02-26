@@ -1,6 +1,7 @@
-// HTML generator class
+//
+// HtmlGenerator
 // Create components and turn them into HTML for viewing
-//////////////////////////////////////////////////
+//
 
 'use strict';
 
@@ -11,9 +12,9 @@ var fs = require('fs');
 var SmartMockUtil = require('./smart-mock-util');
 
 
-//////////////////////////////////////////////////
+// --
 // Request block component
-//////////////////////////////////////////////////
+// --
 
 function HtmlRequestBlock(properties, identifier, insertPathExtra) {
     this.identifier = identifier;
@@ -44,8 +45,12 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
     }
     var link = properties.path;
     var showLink = properties.path;
+    var schemaLink;
     if (properties.method && properties.method.toUpperCase() != "GET") {
         link = this.concatLink(link, "methodOverride=" + properties.method);
+    }
+    if (properties.schema) {
+        schemaLink = properties.schema;
     }
     if (properties.getParameters) {
         for (var key in properties.getParameters) {
@@ -53,7 +58,7 @@ function HtmlRequestBlock(properties, identifier, insertPathExtra) {
             showLink = this.concatLink(showLink, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.getParameters[key]));
         }
     }
-    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, showLink));
+    this.subComponents.push(new HtmlLink(properties.method, insertPathExtra + link, showLink, schemaLink, "schema"));
 }
 
 HtmlRequestBlock.prototype.generateCommandConsoleComponents = function(properties, insertPathExtra) {
@@ -98,15 +103,16 @@ HtmlRequestBlock.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Parameter block component
-//////////////////////////////////////////////////
+// --
 
 function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativeMethod) {
     this.subComponents = [];
     if (isAlternative) {
         var name = "Alternative";
         var link = properties.path;
+        var schemaLink;
         if (properties.name) {
             name += ": " + properties.name;
         }
@@ -115,6 +121,9 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativ
         }
         if (properties.method && properties.method.toUpperCase() != "GET") {
             link = this.concatLink(link, "methodOverride=" + properties.method);
+        }
+        if (properties.schema) {
+            schemaLink = properties.schema;
         }
         if (!properties.getParameters && properties.postParameters) {
             link = this.concatLink(link, "getAsPostParameters=1");
@@ -141,7 +150,7 @@ function HtmlParamBlock(properties, isAlternative, insertPathExtra, isAlternativ
                 link = this.concatLink(link, SmartMockUtil.safeUrlEncode(key) + "=" + SmartMockUtil.safeUrlEncode(properties.getParameters[key]));
             }
         }
-        this.subComponents.push(new HtmlLink(null, insertPathExtra + link, name));
+        this.subComponents.push(new HtmlLink(null, insertPathExtra + link, name, schemaLink, "schema"));
     }
     if (properties.getParameters && isAlternative) {
         var paramString = properties.path;
@@ -184,9 +193,9 @@ HtmlParamBlock.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Files block component
-//////////////////////////////////////////////////
+// --
 
 function HtmlFilesBlock(files, insertPathExtra) {
     this.subComponents = [];
@@ -209,9 +218,9 @@ HtmlFilesBlock.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Heading component
-//////////////////////////////////////////////////
+// --
 
 function HtmlHeading(text) {
     this.text = text;
@@ -226,9 +235,9 @@ HtmlHeading.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Subheading component
-//////////////////////////////////////////////////
+// --
 
 function HtmlSubHeading(text, identifier) {
     this.identifier = identifier;
@@ -250,14 +259,16 @@ HtmlSubHeading.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Link component
-//////////////////////////////////////////////////
+// --
 
-function HtmlLink(method, link, text) {
+function HtmlLink(method, link, text, extraLink, extraLinkText) {
     this.method = method;
     this.link = link;
     this.text = text;
+    this.extraLink = extraLink;
+    this.extraLinkText = extraLinkText;
 }
 
 HtmlLink.prototype.render = function() {
@@ -267,14 +278,17 @@ HtmlLink.prototype.render = function() {
         renderText += this.method + " ";
     }
     renderText += '<a href="' + this.link + '">' + this.text + '</a>';
+    if (this.extraLink && this.extraLinkText) {
+        renderText += ' (<a href="' + this.extraLink + '">' + this.extraLinkText + '</a>)';
+    }
     renderText += '</div>';
     return renderText;
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Text component
-//////////////////////////////////////////////////
+// --
 
 function HtmlText(text, relativeSize, bold) {
     this.text = text;
@@ -314,9 +328,9 @@ HtmlText.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Expandable sub heading javascript component
-//////////////////////////////////////////////////
+// --
 
 function HtmlExpandableSubHeadingScript() {
 }
@@ -376,9 +390,9 @@ HtmlExpandableSubHeadingScript.prototype.render = function() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization and factory methods
-//////////////////////////////////////////////////
+// --
 
 // HtmlGenerator constructor
 function HtmlGenerator() {
@@ -401,9 +415,9 @@ HtmlGenerator.createSubHeading = function(text, identifier) {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Convert to html
-//////////////////////////////////////////////////
+// --
 
 // Read through a directory recursively
 HtmlGenerator.formatAsHtml = function(components, properties) {

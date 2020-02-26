@@ -1,5 +1,7 @@
-// Main server code
-//////////////////////////////////////////////////
+//
+// SmartMockServer
+// The main entry for running the server
+//
 
 'use strict';
 
@@ -20,33 +22,16 @@ var cachedExternalIps = null;
 var cachedLocalIps = null;
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization
-//////////////////////////////////////////////////
+// --
 
 // Server constructor
-function SmartMockServer(serverDir, ip, port) {
+function SmartMockServer(serverDir, ip, config) {
     // Server request/response function
     var connectFunction = function(req, res) {
-        var rawBody = Buffer.alloc(0);
-        req.on('data', function(data) {
-            rawBody = Buffer.concat([rawBody, data]);
-            if (rawBody.length > 1e7) { //Too much POST data, kill the connection
-                req.connection.destroy();
-            }
-        });
-        req.on('end', function() {
-            // Override encryption check if forwarded
-            var schema = req.headers["x-forwarded-proto"];
-            if (schema === "https") {
-                req.connection.encrypted = true;
-            }
-
-            // Add security headers
-            res.setHeader('Referrer-Policy', 'no-referrer')
-            res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'")
-            res.setHeader('X-Frame-Options', 'deny')
-
+        var handler = new SmartMockHandler(serverConfig, req, res);
+        handler.obtainRequestBody(function(rawBody) {
             // Check server protection
             if (serverConfig.requiresSecret) {
                 // Search for a cookie
@@ -112,37 +97,21 @@ function SmartMockServer(serverDir, ip, port) {
                     var tokenError = foundHeader;
                     if (tokenError) {
                         setTimeout(function() {
-                            ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                            ResponseGenerators.secretTokenEntry(handler, tokenError);
                         }, 2000);
                     } else {
-                        ResponseGenerators.secretTokenEntry(req, res, tokenError);
+                        ResponseGenerators.secretTokenEntry(handler, tokenError);
                     }
                     return;
                 }
             }
 
-            // Fetch parameters from URL
-            var paramMark = req.url.indexOf("?");
-            var requestPath = req.url;
-            var parameters = {};
-            if (paramMark >= 0) {
-                var parameterStrings = requestPath.substring(paramMark + 1).split("&");
-                for (var i = 0; i < parameterStrings.length; i++) {
-                    var parameterPair = parameterStrings[i].split("=");
-                    if (parameterPair.length > 1) {
-                        parameters[SmartMockUtil.safeUrlDecode(parameterPair[0].trim())] = SmartMockUtil.safeUrlDecode(parameterPair[1].trim());
-                    }
-                }
-                requestPath = requestPath.substring(0, paramMark);
-            }
-
             // Continue with request
-            EndPointFinder.findLocation(serverDir, serverConfig.endPoints || "", requestPath, function(path) {
+            EndPointFinder.findLocation(serverDir, serverConfig.endPoints || "", handler.requestPath, function(path) {
                 if (path) {
-                    ResponseFinder.generateResponse(req, res, requestPath, path, parameters, rawBody);
+                    ResponseFinder.generateResponse(handler, handler.requestPath, path, handler.getParameters, rawBody);
                 } else {
-                    res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                    res.end("Couldn't find: " + requestPath);
+                    handler.handleResponse(404, "Couldn't find: " + handler.requestPath, "text/plain");
                 }
             });
         });
@@ -154,9 +123,9 @@ function SmartMockServer(serverDir, ip, port) {
             key: fs.readFileSync(serverDir + "/ssl.key"),
             cert: fs.readFileSync(serverDir + "/ssl.cert")
         };
-        https.createServer(sslCertificate, connectFunction).listen(port, ip);
+        https.createServer(sslCertificate, connectFunction).listen(config.port, ip);
     } else {
-        http.createServer(connectFunction).listen(port, ip);
+        http.createServer(connectFunction).listen(config.port, ip);
     }
 }
 
@@ -190,6 +159,11 @@ SmartMockServer.start = function(serverDir) {
                 
             // Provide defaults if not given
             serverConfig.port = serverConfig.port || "2143";
+
+            // Enrich config
+            if (serverConfig.sharedJsonSchemas) {
+                serverConfig.sharedJsonSchemas = serverDir + "/" + serverConfig.sharedJsonSchemas;
+            }
                 
             // Start
             if (!serverConfig.manualIp) {
@@ -221,7 +195,7 @@ SmartMockServer.start = function(serverDir) {
                             }
                             console.log('Server running at:', showStartIp);
                             console.log('Connect to server in your browser and add the configured endpoints to view their responses');
-                            new SmartMockServer(serverDir, startIp, serverConfig.port);
+                            new SmartMockServer(serverDir, startIp, serverConfig);
                         } else if (runningIps.length > 0) {
                             var showStartIp = runningIps[0];
                             if (showStartIp == "127.0.0.1") {
@@ -237,7 +211,7 @@ SmartMockServer.start = function(serverDir) {
                                     console.log(runningIps[i] + ":" + serverConfig.port);
                                 }
                             }
-                            new SmartMockServer(serverDir, null, serverConfig.port);
+                            new SmartMockServer(serverDir, null, serverConfig);
                         }
                         if (error) {
                             console.log('IP address fetch error: ', error);
@@ -256,16 +230,16 @@ SmartMockServer.start = function(serverDir) {
                 }
                 console.log('Server running at:', showStartIp);
                 console.log('Connect to server in your browser and add the configured endpoints to view their responses');
-                new SmartMockServer(serverDir, startIp, serverConfig.port);
+                new SmartMockServer(serverDir, startIp, serverConfig);
             }
         }
     );
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Utility
-//////////////////////////////////////////////////
+// --
 
 // Utility to get network IP addresses (ignoring local host), to show user the IP it should connect to
 SmartMockServer.getNetworkIPs = function(callback, bypassCache, ipv6) {
@@ -322,6 +296,75 @@ SmartMockServer.getNetworkIPs = function(callback, bypassCache, ipv6) {
             callback(error, externalIps, internalIps);
          }
     );
+}
+
+
+// --
+// Server request/response utility
+// --
+
+// Server constructor
+function SmartMockHandler(config, req, res) {
+    // Store config and connection handlers
+    this.config = config;
+    this.req = req;
+    this.res = res;
+
+    // Override encryption check if forwarded
+    var schema = this.req.headers["x-forwarded-proto"];
+    if (schema === "https") {
+        this.req.connection.encrypted = true;
+    }
+
+    // Add security headers
+    this.res.setHeader('Referrer-Policy', 'no-referrer')
+    this.res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'")
+    this.res.setHeader('X-Frame-Options', 'deny')
+
+    // Store request path and get parameters
+    var paramMark = this.req.url.indexOf("?");
+    this.requestPath = this.req.url;
+    this.getParameters = {};
+    if (paramMark >= 0) {
+        var parameterStrings = this.requestPath.substring(paramMark + 1).split("&");
+        for (var i = 0; i < parameterStrings.length; i++) {
+            var parameterPair = parameterStrings[i].split("=");
+            if (parameterPair.length > 1) {
+                this.getParameters[SmartMockUtil.safeUrlDecode(parameterPair[0].trim())] = SmartMockUtil.safeUrlDecode(parameterPair[1].trim());
+            }
+        }
+        this.requestPath = this.requestPath.substring(0, paramMark);
+    }
+}
+
+// Get the raw request body buffer
+SmartMockHandler.prototype.obtainRequestBody = function(callback) {
+    var rawBody = Buffer.alloc(0);
+    this.req.on('data', function(data) {
+        rawBody = Buffer.concat([rawBody, data]);
+        if (rawBody.length > 1e7) { // Too much POST data, kill the connection
+            req.connection.destroy();
+        }
+    });
+    this.req.on('end', function() {
+        callback(rawBody);
+    });
+}
+
+// Close connection and send response
+SmartMockHandler.prototype.handleResponse = function(resultCode, data, contentType, extraHeaders) {
+    // Compile header list
+    var headerList = {};
+    headerList["Content-Type"] = contentType + "; charset=utf-8";
+    if (extraHeaders) {
+        for (var key in extraHeaders) {
+            headerList[key] = extraHeaders[key];
+        }
+    }
+
+    // End with response
+    this.res.writeHead(resultCode, headerList);
+    this.res.end(data);
 }
 
 // Export

@@ -1,6 +1,7 @@
-// Response properties helper class
+//
+// ResponsePropertiesHelper
 // Utilities to handle request properties easily
-//////////////////////////////////////////////////
+//
 
 'use strict';
 
@@ -8,18 +9,18 @@
 var fs = require('fs');
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization
-//////////////////////////////////////////////////
+// --
 
 // ResponseProperties constructor
 function ResponsePropertiesHelper() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Helper functions
-//////////////////////////////////////////////////
+// --
 
 //Sorting function for categories
 ResponsePropertiesHelper.getSortingResultForCategories = function(c1, c2) {
@@ -45,9 +46,9 @@ ResponsePropertiesHelper.getSortingResultForCategories = function(c1, c2) {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Property utilities
-//////////////////////////////////////////////////
+// --
 
 // Read the properties file based on the file path, fall back to defaults if not found
 ResponsePropertiesHelper.readFile = function(requestPath, filePath, callback) {

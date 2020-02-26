@@ -1,7 +1,8 @@
-// Response generators class
+//
+// ResponseGenerators
 // Generates special kind of responses, like the index page
 // Defined with the 'generates' value within the endpoint properties
-//////////////////////////////////////////////////
+//
 
 'use strict';
 
@@ -13,23 +14,24 @@ var crypto = require('crypto');
 var ResponsePropertiesHelper = require('./response-properties-helper');
 var HtmlGenerator = require('./html-generator');
 var CommandClientList = require('./command-console/command-client-list');
+var SmartMockUtil = require('./smart-mock-util');
 
 // Connected clients to the command console
 var commandClients = new CommandClientList()
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization
-//////////////////////////////////////////////////
+// --
 
 // ResponseGenerators constructor
 function ResponseGenerators() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Utility
-//////////////////////////////////////////////////
+// --
 
 // Read through a directory (and split between files/directories)
 ResponseGenerators.readDir = function(startDir, dir, callback) {
@@ -112,44 +114,29 @@ ResponseGenerators.dictionaryValueIgnoringCase = function(dict, key)
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Response generator: secret token entry (for protected servers)
-//////////////////////////////////////////////////
+// --
 
-ResponseGenerators.secretTokenEntry = function(req, res, showError) {
+ResponseGenerators.secretTokenEntry = function(handler, showError) {
     var path = __dirname + "/html-templates/secret-entry.html";
     fs.readFile(path, function(error, data) {
         if (data) {
-            res.writeHead(401, { "ContentType": "text/html; charset=utf-8" });
-            res.end(data.toString().replace("[Protected message]", showError ? "Incorrect secret, please try again" : "This server is protected, type the secret below"));
+            handler.handleResponse(401, data.toString().replace("[Protected message]", showError ? "Incorrect secret, please try again" : "This server is protected, type the secret below"), "text/html");
         } else {
-            res.writeHead(401, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("This server is protected, please set the secret header");
+            handler.handleResponse(401, "This server is protected, please set the secret header", "text/plain");
         }
     });
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Response generator: index page
-//////////////////////////////////////////////////
+// --
 
 // Recursive function to find requests and properties
 ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, dirs, index, foundProperties, callback)
 {
-    var arrayContains = function(array, element, alt1, alt2, alt3) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] == element) {
-                return element;
-            } else if (alt1 && array[i] == alt1) {
-                return alt1;
-            } else if (alt2 && array[i] == alt2) {
-                return alt2;
-            } else if (alt3 && array[i] == alt3) {
-                return alt3;
-            }
-        }
-    };
     if (index < dirs.length) {
         ResponsePropertiesHelper.readFile(dirs[index], rootPath + '/' + dirs[index], function(properties, error) {
             if (!error) {
@@ -158,9 +145,9 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
                 ResponseGenerators.indexPageRecursiveReadProperties(rootPath, files, dirs, index + 1, foundProperties, callback);
                 return;
             }
-            var foundItem = arrayContains(files, dirs[index] + '/' + 'responseBody.json', dirs[index] + '/' + 'responseBody.html', dirs[index] + '/' + 'responseBody.txt', dirs[index] + '/' + 'responseBody.js');
+            var foundItem = SmartMockUtil.arrayContains(files, dirs[index] + '/' + 'responseBody.json', dirs[index] + '/' + 'responseBody.html', dirs[index] + '/' + 'responseBody.txt', dirs[index] + '/' + 'responseBody.js');
             if (!foundItem) {
-                foundItem = arrayContains(files, dirs[index] + '/' + 'response.json', dirs[index] + '/' + 'response.html', dirs[index] + '/' + 'response.txt', dirs[index] + '/' + 'response.js');
+                foundItem = SmartMockUtil.arrayContains(files, dirs[index] + '/' + 'response.json', dirs[index] + '/' + 'response.html', dirs[index] + '/' + 'response.txt', dirs[index] + '/' + 'response.js');
             }
             if (foundItem) {
                 foundProperties.push({ "path": dirs[index], "category": "Undocumented" });
@@ -183,6 +170,40 @@ ResponseGenerators.indexPageRecursiveReadProperties = function(rootPath, files, 
     callback(foundProperties);
 }
 
+// Search for available schemas and link them to the properties
+ResponseGenerators.indexPageMatchPropertySchema = function(properties, files, isAlternative, path) {
+    var searchFile;
+    if (properties.responsePath) {
+        searchFile = path + "/" + properties.responsePath + "Schema.json";
+    } else if (isAlternative) {
+        searchFile = path + "/alternative" + properties.name + "Schema.json";
+    }
+    for (var i = 0; i < files.length; i++) {
+        if (files[i] == searchFile) {
+            return files[i];
+        }
+    }
+    return null;
+}
+
+// Search for available schemas and link them to the properties
+ResponseGenerators.indexPageSearchSchemas = function(foundProperties, files) {
+    for (var i = 0; i < foundProperties.length; i++) {
+        var foundItem = ResponseGenerators.indexPageMatchPropertySchema(foundProperties[i], files, false, foundProperties[i].path);
+        if (foundItem) {
+            foundProperties[i]["schema"] = foundItem;
+        }
+        if (foundProperties[i].alternatives) {
+            for (var j = 0; j < foundProperties[i].alternatives.length; j++) {
+                foundItem = ResponseGenerators.indexPageMatchPropertySchema(foundProperties[i].alternatives[j], files, true, foundProperties[i].path);
+                if (foundItem) {
+                    foundProperties[i].alternatives[j]["schema"] = foundItem;
+                }
+            }
+        }
+    }
+}
+
 // Convert all found properties into HTML
 ResponseGenerators.indexPageToHtml = function(categories, properties, insertPathExtra) {
     var components = [];
@@ -198,31 +219,29 @@ ResponseGenerators.indexPageToHtml = function(categories, properties, insertPath
 }
 
 // Generates an html index page of all endpoints
-ResponseGenerators.indexPage = function(req, res, requestPath, filePath, properties, insertPathExtra) {
+ResponseGenerators.indexPage = function(handler, requestPath, filePath, properties, insertPathExtra) {
     ResponseGenerators.readDirRecursive(filePath, filePath, function(error, files, dirs) {
         if (dirs) {
             ResponseGenerators.indexPageRecursiveReadProperties(filePath, files, dirs, 0, [], function(foundProperties) {
                 if (foundProperties.length > 0) {
-                    res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-                    res.end(ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties, insertPathExtra));
+                    ResponseGenerators.indexPageSearchSchemas(foundProperties, files);
+                    handler.handleResponse(200, ResponseGenerators.indexPageToHtml(ResponsePropertiesHelper.groupedCategories(foundProperties), properties, insertPathExtra), "text/html");
                 } else {
-                    res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                    res.end("No index to generate, no valid endpoints");
+                    handler.handleResponse(404, "No index to generate, no valid endpoints", "text/plain");
                     console.log("Generated an index without valid endpoints, please check your files at: " + filePath);
                 }
             });
         } else {
-            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("No index to generate, no files");
+            handler.handleResponse(404, "No index to generate, no files", "text/plain");
             console.log("Generated index without valid files, please check your files at: " + filePath);
         }
     });
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Response generator: file list or a single file
-//////////////////////////////////////////////////
+// --
 
 // Convert all found files into HTML
 ResponseGenerators.fileListToHtml = function(files, properties, insertPathExtra) {
@@ -233,7 +252,7 @@ ResponseGenerators.fileListToHtml = function(files, properties, insertPathExtra)
 }
 
 // Convert all found files into JSON
-ResponseGenerators.endWithFileListJson = function(res, files, properties, insertPathExtra, getParameters) {
+ResponseGenerators.endWithFileListJson = function(handler, files, properties, insertPathExtra, getParameters) {
     // Function to traverse files and get their SHA256 hash
     var traverseFiles = function(fileList, files, index, callback) {
         if (index >= files.length) {
@@ -258,7 +277,7 @@ ResponseGenerators.endWithFileListJson = function(res, files, properties, insert
     // Process file list and convert to JSON
     if (properties["includeSHA256"] || getParameters["includeSHA256"]) {
         traverseFiles({}, files, 0, function(fileList) {
-            res.end(JSON.stringify(fileList, null, "  "));
+            handler.handleResponse(200, JSON.stringify(fileList, null, "  "), "application/json");
         });
     } else {
         var fileList = [];
@@ -268,7 +287,7 @@ ResponseGenerators.endWithFileListJson = function(res, files, properties, insert
             }
             fileList.push(files[i]);
         }
-        res.end(JSON.stringify(fileList, null, "  "));
+        handler.handleResponse(200, JSON.stringify(fileList, null, "  "), "application/json");
     }
 }
 
@@ -296,11 +315,10 @@ ResponseGenerators.fileListGetMimeType = function(filename) {
 }
 
 // Serve the contents of a file
-ResponseGenerators.fileListServeFile = function(req, res, requestPath, filePath, requestFile, headers, properties) {
+ResponseGenerators.fileListServeFile = function(handler, requestPath, filePath, requestFile, headers, properties) {
     // Block properties.json
     if (requestFile == "properties.json") {
-        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-        res.end("Couldn't find: " + requestPath);
+        handler.handleResponse(404, "Couldn't find: " + requestPath, "text/plain");
         return;
     }
 
@@ -313,13 +331,11 @@ ResponseGenerators.fileListServeFile = function(req, res, requestPath, filePath,
             if (data) {
                 response = data;
             } else {
-                res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                res.end("Unable to read file: " + requestFile);
+                handler.handleResponse(404, "Unable to read file: " + requestFile, "text/plain");
                 return;
             }
             setTimeout(function() {
-                res.writeHead(properties.responseCode, { "ContentType": ResponseGenerators.fileListGetMimeType(serveFile) + "; charset=utf-8", "X-Mock-File-Hash": dataSHA256 });
-                res.end(response);
+                handler.handleResponse(properties.responseCode, response, ResponseGenerators.fileListGetMimeType(serveFile), { "X-Mock-File-Hash": dataSHA256 } );
             }, properties["delay"] || 0);
         };
 
@@ -392,12 +408,12 @@ ResponseGenerators.fileListServeFile = function(req, res, requestPath, filePath,
 }
 
 // Serve a file
-ResponseGenerators.file = function(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
-    ResponseGenerators.fileListServeFile(req, res, requestPath, filePath, properties["filename"] || "", headers, properties);
+ResponseGenerators.file = function(handler, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
+    ResponseGenerators.fileListServeFile(handler, requestPath, filePath, properties["filename"] || "", headers, properties);
 }
 
 // Generates an html index page of all files found within the folder or serve a file directly
-ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
+ResponseGenerators.fileList = function(handler, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
     // Check if the request path points to a file deeper in the tree of the file path
     var requestPathComponents = requestPath.startsWith("/") ? requestPath.substring(1).split("/") : requestPath.split("/");
     var filePathComponents = filePath.split("/");
@@ -424,7 +440,7 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
 
     // Serve a file when pointing to a file within the file server
     if (requestFile.length > 0) {
-        ResponseGenerators.fileListServeFile(req, res, requestPath, filePath, requestFile, headers, properties);
+        ResponseGenerators.fileListServeFile(handler, requestPath, filePath, requestFile, headers, properties);
         return;
     }
 
@@ -433,54 +449,46 @@ ResponseGenerators.fileList = function(req, res, requestPath, filePath, getParam
         files = files || []
         if (files.length > 0) {
             if (properties["generatesJson"] || getParameters["generatesJson"]) {
-                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-                ResponseGenerators.endWithFileListJson(res, files, properties, filePath, getParameters);
+                ResponseGenerators.endWithFileListJson(handler, files, properties, filePath, getParameters);
             } else {
-                res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-                res.end(ResponseGenerators.fileListToHtml(files, properties, insertPathExtra));
+                handler.handleResponse(200, ResponseGenerators.fileListToHtml(files, properties, insertPathExtra), "text/html");
             }
         } else {
-            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("No index to generate, no files at: " + filePath);
+            handler.handleResponse(404, "No index to generate, no files at: " + filePath, "text/plain");
         }
     });
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Response generator: command console
-//////////////////////////////////////////////////
+// --
 
-ResponseGenerators.commandConsole = function(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
+ResponseGenerators.commandConsole = function(handler, requestPath, filePath, getParameters, headers, properties, insertPathExtra) {
     var waitUpdate = Number(getParameters["waitUpdate"]);
     var name = getParameters["name"];
     if (getParameters["ui"]) {
         var path = __dirname + "/html-templates/ui-template.html";
         fs.readFile(path, function(error, data) {
             if (data) {
-                res.writeHead(200, { "ContentType": "text/html; charset=utf-8" });
-                res.end(data);
+                handler.handleResponse(200, data, "text/html");
             } else {
-                res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-                res.end("Could not read file: " + path);
+                handler.handleResponse(404, "Could not read file: " + path, "text/plain");
             }
         });
-    } else if (req.method == "POST") {
+    } else if (handler.req.method == "POST") {
         var token = getParameters["token"] || "";
         var client = commandClients.findClient(token)
         if (client) {
             var commandString = getParameters["command"];
             if (commandString == null || commandString.length == 0) {
-                res.writeHead(400, { "ContentType": "text/plain; charset=utf-8" });
-                res.end("Missing parameter: command");
+                handler.handleResponse(400, "Missing parameter: command", "text/plain");
             } else {
                 var command = client.addCommand(getParameters["command"]);
-                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-                res.end(JSON.stringify(command.toJson()));
+                handler.handleResponse(200, JSON.stringify(command.toJson()), "application/json");
             }
         } else {
-            res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-            res.end("Client with token " + token + " not found");
+            handler.handleResponse(404, "Client with token " + token + " not found", "text/plain");
         }
     } else if (name) {
         var token = getParameters["token"] || "";
@@ -496,32 +504,28 @@ ResponseGenerators.commandConsole = function(req, res, requestPath, filePath, ge
             client.waitUpdate(function(success) {
                 var clientJson = client.toJson();
                 client.setAllCommandsReceived();
-                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-                res.end(JSON.stringify(clientJson));
+                handler.handleResponse(200, JSON.stringify(clientJson), "application/json");
             }, 10000)
         } else {
             var clientJson = client.toJson();
             client.setAllCommandsReceived();
-            res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-            res.end(JSON.stringify(clientJson));
+            handler.handleResponse(200, JSON.stringify(clientJson), "application/json");
         }
     } else {
         if (waitUpdate && commandClients.getLastUpdate() <= waitUpdate) {
             commandClients.waitUpdate(function(success) {
-                res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-                res.end(JSON.stringify(commandClients.toJson()));
+                handler.handleResponse(200, JSON.stringify(commandClients.toJson()), "application/json");
             }, 10000)
         } else {
-            res.writeHead(200, { "ContentType": "application/json; charset=utf-8" });
-            res.end(JSON.stringify(commandClients.toJson()));
+            handler.handleResponse(200, JSON.stringify(commandClients.toJson()), "application/json");
         }
     }
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Check for supported response generators
-//////////////////////////////////////////////////
+// --
 
 // Returns whether the generator supports multiple methods like GET and POST
 ResponseGenerators.supportsMultipleMethods = function(generator) {
@@ -529,26 +533,26 @@ ResponseGenerators.supportsMultipleMethods = function(generator) {
 }
 
 // Generates a custom page based on the supported generators
-ResponseGenerators.generatesPage = function(req, res, requestPath, filePath, getParameters, generator, headers, properties) {
+ResponseGenerators.generatesPage = function(handler, requestPath, filePath, getParameters, generator, headers, properties) {
     var lastSlashIndex = requestPath.lastIndexOf('/');
     var insertPathExtra = "";
     if (lastSlashIndex >= 0 && lastSlashIndex < requestPath.length - 1 && requestPath.length > 1) {
         insertPathExtra = requestPath.substring(lastSlashIndex + 1) + "/";
     }
     if (generator == "indexPage") {
-        ResponseGenerators.indexPage(req, res, requestPath, filePath, properties, insertPathExtra);
+        ResponseGenerators.indexPage(handler, requestPath, filePath, properties, insertPathExtra);
         return true;
     }
     if (generator == "fileList") {
-        ResponseGenerators.fileList(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
+        ResponseGenerators.fileList(handler, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
         return true;
     }
     if (generator == "file") {
-        ResponseGenerators.file(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
+        ResponseGenerators.file(handler, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
         return true;
     }
     if (generator == "commandConsole") {
-        ResponseGenerators.commandConsole(req, res, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
+        ResponseGenerators.commandConsole(handler, requestPath, filePath, getParameters, headers, properties, insertPathExtra);
         return true;
     }
     return false;

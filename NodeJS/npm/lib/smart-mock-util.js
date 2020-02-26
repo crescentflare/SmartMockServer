@@ -73,6 +73,37 @@ SmartMockUtil.isValidPath = function(path) {
 
 
 // --
+// Others
+// --
+
+SmartMockUtil.arrayContains = function(array, element, alt1, alt2, alt3) {
+    var checkOrderedArray = [];
+    if (element) {
+        checkOrderedArray.push(element);
+    }
+    if (alt1) {
+        checkOrderedArray.push(alt1);
+    }
+    if (alt2) {
+        checkOrderedArray.push(alt2);
+    }
+    if (alt3) {
+        checkOrderedArray.push(alt3);
+    }
+    for (var i = 0; i < checkOrderedArray.length; i++) {
+        if (checkOrderedArray[i]) {
+            for (var j = 0; j < array.length; j++) {
+                if (checkOrderedArray[i] == array[j]) {
+                    return checkOrderedArray[i];
+                }
+            }
+        }
+    }
+    return null;
+};
+
+
+// --
 // Export
 // --
 

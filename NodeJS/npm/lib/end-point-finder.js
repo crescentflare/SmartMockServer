@@ -1,6 +1,7 @@
-// End point finder class
+//
+// EndPointFinder
 // Locate and find the correct end point location
-//////////////////////////////////////////////////
+//
 
 'use strict';
 
@@ -8,20 +9,20 @@
 var fs = require('fs');
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization
-//////////////////////////////////////////////////
+// --
 
 // EndPointFinder constructor
 function EndPointFinder() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Path checking
-//////////////////////////////////////////////////
+// --
 
-// Find the file server path for a file path
+// Find the endpoint for a path to a direct file (used with file servers or schemas)
 EndPointFinder.findFileServerPath = function(checkPath, callback) {
     var traversePath = function(path, callback) {
         var slashPos = path.lastIndexOf("/");
@@ -33,8 +34,15 @@ EndPointFinder.findFileServerPath = function(checkPath, callback) {
                     if (data) {
                         try {
                             var json = JSON.parse(data);
-                            if (json && json["generates"] == "fileList") {
-                                callback(subPath);
+                            if (json) {
+                                if (json["generates"] == "fileList") {
+                                    callback(subPath);
+                                } else {
+                                    var endPath = path.substring(slashPos + 1)
+                                    if (endPath.indexOf("/") < 0 && endPath.endsWith("Schema.json")) {
+                                        callback(subPath);
+                                    }
+                                }
                             } else {
                                 callback(null);
                             }

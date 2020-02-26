@@ -1,31 +1,32 @@
-// Response finder class
+//
+// ResponseFinder
 // Find the correct response matching path and parameters
-//////////////////////////////////////////////////
+//
 
 'use strict';
 
 // NodeJS requires
 var fs = require('fs');
 
-//Other requires
+// Other requires
 var ParamMatcher = require('./param-matcher');
 var ResponseGenerators = require('./response-generators');
 var ResponsePropertiesHelper = require('./response-properties-helper');
 var SmartMockUtil = require('./smart-mock-util');
 
 
-//////////////////////////////////////////////////
+// --
 // Initialization
-//////////////////////////////////////////////////
+// --
 
 // ResponseFinder constructor
 function ResponseFinder() {
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Output helpers
-//////////////////////////////////////////////////
+// --
 
 // Generate headers based on content type and an additional (custom) header list
 ResponseFinder.compileHeaders = function(contentType, headers) {
@@ -37,14 +38,41 @@ ResponseFinder.compileHeaders = function(contentType, headers) {
     return headerList;
 }
 
+// Load and inject shared schema references (recursive method)
+ResponseFinder.injectSharedSchemasRecursive = function(schema, sharedPath, links, index, callback) {
+    if (index >= links.length) {
+        callback(schema);
+        return;
+    }
+    fs.readFile(
+        sharedPath + "/" + links[index].link,
+        function(error, data) {
+            if (data) {
+                try {
+                    var sharedSchema = JSON.parse(data);
+                    delete sharedSchema["$schema"];
+                    schema.definitions[links[index].key] = sharedSchema;
+                } catch (ignored) {
+                }
+            }
+            ResponseFinder.injectSharedSchemasRecursive(schema, sharedPath, links, index + 1, callback);
+        }
+    );
+}
+
+// Load and inject shared schema references
+ResponseFinder.injectSharedSchemas = function(schema, sharedPath, links, callback) {
+    console.log(links);
+    ResponseFinder.injectSharedSchemasRecursive(schema, sharedPath, links, 0, callback);
+}
+
 // End a request with the contents of the given file
-ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseCode, headers, replaceToken, replaceOutput) {
+ResponseFinder.sendFileResponse = function(handler, contentType, filePath, responseCode, headers, replaceToken, replaceOutput) {
     fs.readFile(
         filePath,
         function(error, data) {
             if (error || !data) {
-                res.writeHead(500, ResponseFinder.compileHeaders("text/plain", {}));
-                res.end("Couldn't read file: " + filePath);
+                handler.handleResponse(500, "Couldn't read file: " + filePath, "text/plain");
                 return;
             }
             if (replaceToken && replaceOutput) {
@@ -55,21 +83,64 @@ ResponseFinder.sendFileResponse = function(res, contentType, filePath, responseC
                 try {
                     var tmp = JSON.parse(data);
                 } catch (exception) {
-                    res.writeHead(500, ResponseFinder.compileHeaders("text/plain", {}));
-                    res.end("Couldn't parse JSON of file: " + filePath);
+                    handler.handleResponse(500, "Couldn't parse JSON of file: " + filePath, "text/plain");
                     return;
                 }
             }
-            res.writeHead(responseCode, ResponseFinder.compileHeaders(contentType, headers));
-            res.end(data);
+            handler.handleResponse(responseCode, data, contentType, headers);
+        }
+    );
+}
+
+// End a request with the contents of the given schema
+ResponseFinder.sendSchemaResponse = function(handler, contentType, requestPath, filePath) {
+    fs.readFile(
+        filePath,
+        function(error, data) {
+            if (error || !data) {
+                handler.handleResponse(500, "Couldn't read file: " + requestPath, "text/plain");
+                return;
+            }
+            if (contentType == "application/json") {
+                try {
+                    // Parse and add id to the schema
+                    var schema = JSON.parse(data);
+                    schema["$id"] = requestPath;
+
+                    // Inject shared schemas
+                    var injectSchemaLinks = [];
+                    if (schema["definitions"]) {
+                        for (var key in schema["definitions"]) {
+                            var injectLink = schema["definitions"][key]["$injectSharedSchema"];
+                            if (injectLink) {
+                                schema["definitions"][key] = {};
+                                injectSchemaLinks.push({ "key": key, "link": injectLink });
+                            }
+                        }
+                    }
+
+                    // Inject shared schemas and send result
+                    if (handler.config.sharedJsonSchemas) {
+                        ResponseFinder.injectSharedSchemas(schema, handler.config.sharedJsonSchemas, injectSchemaLinks, function(schema) {
+                            handler.handleResponse(200, JSON.stringify(schema, null, 2), contentType);
+                        });
+                    } else {
+                        handler.handleResponse(200, JSON.stringify(schema, null, 2), contentType);
+                    }
+                } catch (exception) {
+                    handler.handleResponse(500, "Couldn't parse JSON of file: " + requestPath, "text/plain");
+                }
+                return;
+            }
+            handler.handleResponse(500, "Unknown schema file: " + requestPath, "text/plain");
         }
     );
 }
 
 
-//////////////////////////////////////////////////
+// --
 // Search request properties
-//////////////////////////////////////////////////
+// --
 
 // Try to find an alternative match within the properties (or fall back to the main properties)
 ResponseFinder.matchAlternativeProperties = function(properties, method, getParameters, rawBody, headers, callback) {
@@ -171,80 +242,65 @@ ResponseFinder.matchAlternativeProperties = function(properties, method, getPara
 }
 
 
-//////////////////////////////////////////////////
+// --
 // High-level generate response code
-//////////////////////////////////////////////////
+// --
 
 // Output the response data based on the given properties
-ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getParameters, rawBody, headers, properties) {
+ResponseFinder.outputResponse = function(handler, requestPath, filePath, getParameters, rawBody, headers, properties) {
     // Sanity check for a valid path
     if (!SmartMockUtil.isValidPath(requestPath)) {
-        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-        res.end("Couldn't find: " + requestPath);
+        handler.handleResponse(404, "Couldn't find: " + requestPath, "text/plain");
         return false;
     }
 
     // Determine optional replace header and token
     var replaceToken = properties["replaceToken"];
-    var replaceOutput = ResponseGenerators.dictionaryValueIgnoringCase(req.headers, 'X-Mock-Replace-Output')
+    var replaceOutput = ResponseGenerators.dictionaryValueIgnoringCase(handler.req.headers, 'X-Mock-Replace-Output')
     
     // Continue on
-    var arrayContains = function(array, element, alt1, alt2, alt3) {
-        var checkOrderedArray = [element, alt1, alt2, alt3];
-        for (var i = 0; i < checkOrderedArray.length; i++) {
-            if (checkOrderedArray[i]) {
-                for (var j = 0; j < array.length; j++) {
-                    if (checkOrderedArray[i] == array[j]) {
-                        return checkOrderedArray[i];
-                    }
-                }
-            }
-        }
-        return null;
-    };
     var continueWithResponse = function(files, sendHeaders) {
         // Check for response generators
-        if (ResponseGenerators.generatesPage(req, res, requestPath, filePath, getParameters, properties.generates, headers, properties)) {
+        if (ResponseGenerators.generatesPage(handler, requestPath, filePath, getParameters, properties.generates, headers, properties)) {
             return;
         }
         
         // Check for executable javascript
-        var foundJavascriptFile = arrayContains(files, properties.responsePath + "Body.js", properties.responsePath + ".js", "responseBody.js", "response.js");
+        var foundJavascriptFile = SmartMockUtil.arrayContains(files, properties.responsePath + "Body.js", properties.responsePath + ".js", "responseBody.js", "response.js");
         if (foundJavascriptFile) {
-            require(filePath + "/" + foundJavascriptFile).handleResponse(req, res, requestPath, filePath, getParameters, rawBody, properties, sendHeaders);
+            require(filePath + "/" + foundJavascriptFile).handleResponse(handler.req, handler.res, requestPath, filePath, getParameters, rawBody, properties, sendHeaders);
             return;
         }
 
         // Check for JSON
-        var foundJsonFile = arrayContains(files, properties.responsePath + "Body.json", properties.responsePath + ".json", "responseBody.json", "response.json");
+        var foundJsonFile = SmartMockUtil.arrayContains(files, properties.responsePath + "Body.json", properties.responsePath + ".json", "responseBody.json", "response.json");
         if (foundJsonFile) {
-            ResponseFinder.sendFileResponse(res, "application/json", filePath + "/" + foundJsonFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
+            ResponseFinder.sendFileResponse(handler, "application/json", filePath + "/" + foundJsonFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
             return;
         }
         
         // Check for HTML
-        var foundHtmlFile = arrayContains(files, properties.responsePath + "Body.html", properties.responsePath + ".html", "responseBody.html", "response.html");
+        var foundHtmlFile = SmartMockUtil.arrayContains(files, properties.responsePath + "Body.html", properties.responsePath + ".html", "responseBody.html", "response.html");
         if (foundHtmlFile) {
-            ResponseFinder.sendFileResponse(res, "text/html", filePath + "/" + foundHtmlFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
+            ResponseFinder.sendFileResponse(handler, "text/html", filePath + "/" + foundHtmlFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
             return;
         }
         
         // Check for plain text
-        var foundTextFile = arrayContains(files, properties.responsePath + "Body.txt", properties.responsePath + ".txt", "responseBody.txt", "response.txt");
+        var foundTextFile = SmartMockUtil.arrayContains(files, properties.responsePath + "Body.txt", properties.responsePath + ".txt", "responseBody.txt", "response.txt");
         if (foundTextFile) {
-            ResponseFinder.sendFileResponse(res, "text/plain", filePath + "/" + foundTextFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
+            ResponseFinder.sendFileResponse(handler, "text/plain", filePath + "/" + foundTextFile, properties.responseCode, sendHeaders, replaceToken, replaceOutput);
             return;
         }
 
         // Nothing found, return a not supported message
-        res.writeHead(404, ResponseFinder.compileHeaders("text/plain", {}));
-        res.end("Couldn't find: " + requestPath);
+        handler.handleResponse(404, "Couldn't find: " + requestPath, "text/plain");
         console.log("Tried to generate a response, but no matching file was found in the formats:", properties.responsePath + "Body.* or " + properties.responsePath + ".*");
         console.log("Supported file extensions:", ".json,", ".html,", ".txt,", ".js");
     };
     fs.readdir(filePath, function(error, files) {
         files = files || [];
-        var foundFile = arrayContains(files, properties.responsePath + "Headers.json", "responseHeaders.json");
+        var foundFile = SmartMockUtil.arrayContains(files, properties.responsePath + "Headers.json", "responseHeaders.json");
         if (foundFile) {
             fs.readFile(
                 filePath + "/" + foundFile,
@@ -265,19 +321,45 @@ ResponseFinder.outputResponse = function(req, res, requestPath, filePath, getPar
     });
 }
 
-// Find the right response depending on the parameters and properties in the given folder
-ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getParameters, rawBody) {
+// Output the response data based on the given properties
+ResponseFinder.outputSchema = function(handler, requestPath, filePath, getParameters, rawBody, headers, properties) {
     // Sanity check for a valid path
     if (!SmartMockUtil.isValidPath(requestPath)) {
-        res.writeHead(404, { "ContentType": "text/plain; charset=utf-8" });
-        res.end("Couldn't find: " + requestPath);
+        handler.handleResponse(404, "Couldn't find: " + requestPath, "text/plain");
+        return false;
+    }
+
+    // Continue on
+    var continueWithResponse = function(files) {
+        // Check for JSON
+        var foundJsonFile = SmartMockUtil.arrayContains(files, properties.responsePath + "Schema.json", "responseSchema.json");
+        if (foundJsonFile) {
+            ResponseFinder.sendSchemaResponse(handler, "application/json", requestPath, filePath + "/" + foundJsonFile);
+            return;
+        }
+        
+        // Nothing found, return a not supported message
+        handler.handleResponse(404, "Couldn't find: " + requestPath, "text/plain");
+        console.log("Tried to generate a response, but no matching file was found in the formats:", properties.responsePath + "Schema.json or responseSchema.json");
+    };
+    fs.readdir(filePath, function(error, files) {
+        files = files || [];
+        continueWithResponse(files);
+    });
+}
+
+// Find the right response depending on the parameters and properties in the given folder
+ResponseFinder.generateResponse = function(handler, requestPath, filePath, getParameters, rawBody) {
+    // Sanity check for a valid path
+    if (!SmartMockUtil.isValidPath(requestPath)) {
+        handler.handleResponse(404, "Couldn't find: " + requestPath, "text/plain");
         return false;
     }
 
     // Convert POST data or header overrides in get parameter list
-    var headers = req.headers;
+    var headers = handler.req.headers;
     if (getParameters["methodOverride"]) {
-        req.method = getParameters["methodOverride"];
+        handler.req.method = getParameters["methodOverride"];
         delete getParameters["methodOverride"];
     }
     if (getParameters["postBodyOverride"]) {
@@ -308,26 +390,33 @@ ResponseFinder.generateResponse = function(req, res, requestPath, filePath, getP
         rawBody = Buffer.from(body);
         getParameters = {};
     }
-    req.method = req.method.toUpperCase();
+    handler.req.method = handler.req.method.toUpperCase();
     
     // Obtain properties and continue
     ResponsePropertiesHelper.readFile(requestPath, filePath, function(properties) {
-        ResponseFinder.matchAlternativeProperties(properties, req.method, getParameters, rawBody, headers, function(useProperties) {
-            if (useProperties.method && req.method != useProperties.method.toUpperCase() && !ResponseGenerators.supportsMultipleMethods(useProperties.generates)) {
-                res.writeHead(405, ResponseFinder.compileHeaders("text/plain", {}));
-                res.end("Requested method of " + req.method + " doesn't match required " + useProperties.method.toUpperCase());
-                return;
+        ResponseFinder.matchAlternativeProperties(properties, handler.req.method, getParameters, rawBody, headers, function(useProperties) {
+            if (properties.generates != "file" && properties.generates != "fileList" && requestPath.endsWith("Schema.json")) {
+                if (properties.redirect) {
+                    requestPath += "/" + properties.redirect;
+                    filePath += "/" + properties.redirect;
+                }
+                ResponseFinder.outputSchema(handler, requestPath, filePath, getParameters, rawBody, headers, useProperties);
+            } else {
+                if (useProperties.method && handler.req.method != useProperties.method.toUpperCase() && !ResponseGenerators.supportsMultipleMethods(useProperties.generates)) {
+                    handler.handleResponse(405, "Requested method of " + handler.req.method + " doesn't match required " + useProperties.method.toUpperCase(), "text/plain");
+                    return;
+                }
+                setTimeout(
+                    function() {
+                        if (properties.redirect) {
+                            requestPath += "/" + properties.redirect;
+                            filePath += "/" + properties.redirect;
+                        }
+                        ResponseFinder.outputResponse(handler, requestPath, filePath, getParameters, rawBody, headers, useProperties);
+                    },
+                    useProperties.delay || 0
+                );
             }
-            setTimeout(
-                function() {
-                    if (properties.redirect) {
-                        requestPath += "/" + properties.redirect;
-                        filePath += "/" + properties.redirect;
-                    }
-                    ResponseFinder.outputResponse(req, res, requestPath, filePath, getParameters, rawBody, headers, useProperties);
-                },
-                useProperties.delay || 0
-            );
         });
     });
 }

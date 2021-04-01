@@ -4,7 +4,8 @@
 [![License](https://img.shields.io/cocoapods/l/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
 [![Version](https://img.shields.io/npm/v/smart-mock-server.svg?style=flat)](https://www.npmjs.com/package/smart-mock-server)
 [![Version](https://img.shields.io/cocoapods/v/SmartMockLib.svg?style=flat)](http://cocoapods.org/pods/SmartMockLib)
-[![Version](https://img.shields.io/bintray/v/crescentflare/maven/SmartMockLib.svg?style=flat)](https://bintray.com/crescentflare/maven/SmartMockLib)
+[![Version](https://img.shields.io/maven-central/v/com.crescentflare.smartmock/SmartMockLib.svg?style=flat)](https://repo1.maven.org/maven2/com/crescentflare/smartmock/SmartMockLib)
+
 
 Easily set up a mock server, either by running NodeJS, or by using an internal mock library within iOS or Android. Serve JSON (and several other) responses including features to make the mock server more flexible. For example, having multiple responses on the same endpoint depending on the post body.
 
@@ -45,7 +46,7 @@ When using gradle, the library can easily be imported into the build.gradle file
 implementation 'com.crescentflare.smartmock:SmartMockLib:1.2.1'
 ```
 
-Make sure that jcenter is added as a repository. The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
+The library integrates well with retrofit 2+, but can also be used standalone. An example is included on how to use it.
 
 The above library has a minimum deployment target of Android API level 14. Below is an old version which supports Android API level 9 and may rely on an old gradle plugin.
 
